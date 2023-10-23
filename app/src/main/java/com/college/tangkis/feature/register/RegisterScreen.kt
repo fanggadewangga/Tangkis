@@ -24,7 +24,6 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
 import coil.compose.AsyncImage
 import com.college.tangkis.R
-import com.college.tangkis.feature.login.student.LoginViewModel
 import com.college.tangkis.feature.main.components.AppButton
 import com.college.tangkis.feature.main.components.AppText
 import com.college.tangkis.feature.main.components.AppTextField
@@ -67,13 +66,33 @@ fun RegisterScreen(navController: NavController) {
                 textStyle = Typography.titleLarge(),
                 modifier = Modifier.align(Alignment.Start)
             )
-            AppText(
-                text = "Silahkan daftar dan lengkapi informasi kamu!",
-                textStyle = Typography.bodyMedium(),
-                color = Color.Gray,
-                modifier = Modifier.align(Alignment.Start)
+            AsyncImage(
+                model = R.drawable.iv_register_alert,
+                contentDescription = "Registration alert",
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(top = 12.dp)
             )
             Spacer(modifier = Modifier.height(16.dp))
+
+            AppTextField(
+                placeHolder = "Nama Lengkap",
+                value = viewModel.nameState.value,
+                onValueChange = {
+                    viewModel.apply {
+                        isNameFieldClicked.value = true
+                        nameState.value = it
+                    }
+                },
+                keyboardOptions = KeyboardOptions(
+                    keyboardType = KeyboardType.Number,
+                    imeAction = ImeAction.Next
+                ),
+                shape = RoundedCornerShape(4.dp),
+                isError = viewModel.isValidName.value,
+                showWarningMessage = viewModel.isValidName.value,
+                modifier = Modifier.fillMaxWidth()
+            )
 
             AppTextField(
                 placeHolder = "Nomor Induk Mahasiswa",
@@ -86,26 +105,6 @@ fun RegisterScreen(navController: NavController) {
                 },
                 keyboardOptions = KeyboardOptions(
                     keyboardType = KeyboardType.Number,
-                    imeAction = ImeAction.Next
-                ),
-                shape = RoundedCornerShape(4.dp),
-                isError = viewModel.isValidStudentNumber.value,
-                showWarningMessage = viewModel.isValidStudentNumber.value,
-                modifier = Modifier.fillMaxWidth()
-            )
-
-            Spacer(modifier = Modifier.height(4.dp))
-            AppTextField(
-                placeHolder = "Nomor Whatsapp",
-                value = viewModel.whatsappState.value,
-                onValueChange = {
-                    viewModel.apply {
-                        isWhatsappFieldClicked.value = true
-                        whatsappState.value = it
-                    }
-                },
-                keyboardOptions = KeyboardOptions(
-                    keyboardType = KeyboardType.Phone,
                     imeAction = ImeAction.Next
                 ),
                 shape = RoundedCornerShape(4.dp),
@@ -133,25 +132,6 @@ fun RegisterScreen(navController: NavController) {
                 modifier = Modifier.fillMaxWidth()
             )
 
-            Spacer(modifier = Modifier.height(4.dp))
-            AppTextField(
-                isPassword = true,
-                placeHolder = "Konfirmasi Kata Sandi",
-                value = viewModel.passwordConfirmState.value,
-                onValueChange = {
-                    viewModel.passwordConfirmState.value = it
-                },
-                keyboardOptions = KeyboardOptions(
-                    autoCorrect = false,
-                    imeAction = ImeAction.Done
-                ),
-                shape = RoundedCornerShape(4.dp),
-                isError = viewModel.isValidConfirmPasswordState.value,
-                showWarningMessage = viewModel.isValidConfirmPasswordState.value,
-                warningMessage = "Password tidak sesuai!",
-                modifier = Modifier.fillMaxWidth()
-            )
-
             // Button
             Spacer(modifier = Modifier.height(48.dp))
             AppButton(
@@ -168,10 +148,10 @@ fun RegisterScreen(navController: NavController) {
                 AppText(text = "Sudah punya akun?", textStyle = Typography.bodyMedium())
                 AppText(
                     text = " Masuk",
-                    textStyle = Typography.bodyMedium(),
+                    textStyle = Typography.labelLarge(),
                     color = md_theme_light_primary,
                     modifier = Modifier.clickable {
-                        navController.navigate(Screen.Login.route)
+                        navController.navigate(Screen.Home.route)
                     }
                 )
             }

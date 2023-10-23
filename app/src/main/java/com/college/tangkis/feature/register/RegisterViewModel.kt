@@ -15,9 +15,9 @@ class RegisterViewModel @Inject constructor(private val repository: UserReposito
         studentNumberState.value.isEmpty() && isStudentNumberFieldClicked.value
     }
 
-    val whatsappState = mutableStateOf("")
-    val isWhatsappFieldClicked = mutableStateOf(false)
-    val isValidWhatsappNumber = derivedStateOf {
+    val nameState = mutableStateOf("")
+    val isNameFieldClicked = mutableStateOf(false)
+    val isValidName = derivedStateOf {
         studentNumberState.value.isEmpty() && isStudentNumberFieldClicked.value
     }
 

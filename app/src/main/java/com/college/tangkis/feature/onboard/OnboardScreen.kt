@@ -68,7 +68,7 @@ fun OnboardScreen(navController: NavController) {
                         coroutineScope.launch {
                             viewModel.savePassedOnboardStatus()
                         }
-                        navController.navigate(Screen.StudentRoute.route)
+                        navController.navigate(Screen.Home.route)
                     }
                 )
 
@@ -84,7 +84,7 @@ fun OnboardScreen(navController: NavController) {
                             coroutineScope.launch {
                                 viewModel.savePassedOnboardStatus()
                             }
-                            navController.navigate(Screen.StudentRoute.route)
+                            navController.navigate(Screen.Login.route)
                         }
                     },
                     modifier = Modifier.width(96.dp)

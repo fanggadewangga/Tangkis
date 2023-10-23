@@ -1,4 +1,4 @@
-package com.college.tangkis.feature.login.student
+package com.college.tangkis.feature.login
 
 import androidx.compose.runtime.derivedStateOf
 import androidx.compose.runtime.mutableStateOf

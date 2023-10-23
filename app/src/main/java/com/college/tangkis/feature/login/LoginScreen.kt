@@ -1,4 +1,4 @@
-package com.college.tangkis.feature.login.student
+package com.college.tangkis.feature.login
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
@@ -69,10 +69,12 @@ fun LoginScreen(navController: NavController) {
                 modifier = Modifier.align(Start)
             )
             AppText(
-                text = "Silahkan masukkan NIM dan password kamu!",
+                text = "Silahkan masukkan NIM dan password SIAM kamu!",
                 textStyle = Typography.bodyMedium(),
                 color = Color.Gray,
-                modifier = Modifier.align(Start)
+                modifier = Modifier
+                    .align(Start)
+                    .padding(top = 8.dp)
             )
             Spacer(modifier = Modifier.height(16.dp))
 
@@ -116,16 +118,15 @@ fun LoginScreen(navController: NavController) {
             Spacer(modifier = Modifier.height(48.dp))
             AppButton(
                 content = { AppText(text = "Masuk", color = Color.White) },
-                onClick = {},
+                onClick = {navController.navigate(Screen.Home.route)},
                 modifier = Modifier.fillMaxWidth()
             )
-
 
             Spacer(modifier = Modifier.height(16.dp))
             Row(
                 verticalAlignment = Alignment.CenterVertically,
             ) {
-                AppText(text = "Belum punya akun?", textStyle = Typography.bodyMedium())
+                AppText(text = "Belum punya akun?", textStyle = Typography.labelLarge())
                 AppText(
                     text = " Daftar",
                     textStyle = Typography.bodyMedium(),
@@ -135,7 +136,6 @@ fun LoginScreen(navController: NavController) {
                     }
                 )
             }
-
         }
     }
 }

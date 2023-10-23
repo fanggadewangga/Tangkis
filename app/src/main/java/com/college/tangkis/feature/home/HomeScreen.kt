@@ -1,0 +1,230 @@
+package com.college.tangkis.feature.home
+
+import androidx.compose.foundation.background
+import androidx.compose.foundation.clickable
+import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.lazy.LazyRow
+import androidx.compose.foundation.shape.CircleShape
+import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.material.FabPosition
+import androidx.compose.material.Scaffold
+import androidx.compose.material3.BottomAppBar
+import androidx.compose.material3.FloatingActionButton
+import androidx.compose.material3.Surface
+import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.ui.Alignment
+import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.ColorFilter
+import androidx.compose.ui.platform.LocalConfiguration
+import androidx.compose.ui.text.style.TextOverflow
+import androidx.compose.ui.unit.dp
+import androidx.hilt.navigation.compose.hiltViewModel
+import androidx.navigation.NavController
+import coil.compose.AsyncImage
+import com.college.tangkis.R
+import com.college.tangkis.feature.main.components.AppText
+import com.college.tangkis.feature.main.components.EmergencyContactItem
+import com.college.tangkis.feature.main.components.HomeArticleItem
+import com.college.tangkis.feature.main.navigation.BottomNavigationBar
+import com.college.tangkis.feature.main.route.Screen
+import com.college.tangkis.theme.Typography
+import com.college.tangkis.theme.md_theme_light_primary
+import com.college.tangkis.theme.md_theme_light_secondary
+import com.google.accompanist.systemuicontroller.rememberSystemUiController
+
+@Composable
+fun HomeScreen(navController: NavController) {
+
+    val viewModel = hiltViewModel<HomeViewModel>()
+    val screenHeight = LocalConfiguration.current.screenHeightDp
+    val systemUiController = rememberSystemUiController()
+    
+    LaunchedEffect(true) {
+        systemUiController.setStatusBarColor(color = md_theme_light_primary)
+    }
+
+    Scaffold(
+        floatingActionButton = {
+            FloatingActionButton(
+                onClick = { /*TODO*/ },
+                shape = CircleShape,
+                containerColor = md_theme_light_secondary,
+                modifier = Modifier.size(80.dp)
+            ) {
+                AsyncImage(
+                    model = R.drawable.ic_sos,
+                    contentDescription = "SOS",
+                    modifier = Modifier.size(42.dp)
+                )
+            }
+        },
+        bottomBar = {
+            BottomAppBar(
+                tonalElevation = 8.dp,
+                containerColor = Color.White
+            ) {
+                BottomNavigationBar(navController = navController)
+            }
+        },
+        floatingActionButtonPosition = FabPosition.Center,
+        isFloatingActionButtonDocked = true
+    ) {
+        val bottomPadding = it.calculateBottomPadding()
+
+        Surface(
+            color = md_theme_light_primary,
+            modifier = Modifier
+                .fillMaxSize()
+        ) {
+
+            Column(
+                modifier = Modifier
+                    .fillMaxSize()
+                    .padding(bottom = bottomPadding)
+            ) {
+
+                // Top section
+                Row(
+                    verticalAlignment = Alignment.CenterVertically,
+                    horizontalArrangement = Arrangement.spacedBy(16.dp),
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .padding(top = 32.dp, start = 16.dp, end = 16.dp, bottom = 32.dp)
+                ) {
+                    AsyncImage(
+                        model = R.drawable.iv_avatar,
+                        contentDescription = "Avatar",
+                        modifier = Modifier.size(60.dp)
+                    )
+                    Column(
+                        verticalArrangement = Arrangement.spacedBy(4.dp)
+                    ) {
+
+                        // username
+                        AppText(
+                            text = "Hallo, 215150200111033",
+                            textStyle = Typography.titleMedium(),
+                            color = Color.White,
+                            maxLine = 1,
+                            overflow = TextOverflow.Ellipsis
+                        )
+
+                        // location
+                        Row(
+                            horizontalArrangement = Arrangement.spacedBy(4.dp),
+                            verticalAlignment = Alignment.CenterVertically
+                        ) {
+                            AsyncImage(
+                                model = R.drawable.ic_location_marker,
+                                contentDescription = "Location marker",
+                                colorFilter = ColorFilter.tint(color = Color.White),
+                                modifier = Modifier.size(21.dp)
+                            )
+                            AppText(
+                                text = "Gedung F, Fakultas Ilmu Komputer UB",
+                                textStyle = Typography.bodyMedium(),
+                                color = Color.White,
+                                maxLine = 1,
+                                overflow = TextOverflow.Ellipsis
+                            )
+                        }
+                    }
+                }
+
+                // White card section
+                Column(
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .height((screenHeight * 0.8).dp)
+                        .background(
+                            color = Color.White,
+                            shape = RoundedCornerShape(topStart = 24.dp, topEnd = 24.dp)
+                        )
+                        .padding(top = 16.dp, start = 16.dp, end = 16.dp)
+                ) {
+
+                    Row(
+                        horizontalArrangement = Arrangement.SpaceBetween,
+                        verticalAlignment = Alignment.CenterVertically,
+                        modifier = Modifier.fillMaxWidth()
+                    ) {
+                        AppText(text = "Kontak Darurat", textStyle = Typography.titleLarge())
+                        AppText(
+                            text = "Lihat semua",
+                            color = md_theme_light_secondary,
+                            textStyle = Typography.labelLarge(),
+                            modifier = Modifier.clickable {
+                                navController.navigate(Screen.Contact.route)
+                            }
+                        )
+                    }
+
+                    Spacer(modifier = Modifier.height(8.dp))
+                    AppText(
+                        text = "Lorem ipsum",
+                        textStyle = Typography.bodyMedium(),
+                        color = Color.Gray
+                    )
+
+                    Spacer(modifier = Modifier.height(16.dp))
+                    repeat(3) {
+                        EmergencyContactItem(
+                            name = "Evan TIF 21",
+                            number = "+62 81234567890",
+                            onClick = {},
+                            isDeletable = false,
+                            modifier = Modifier
+                                .fillMaxWidth()
+                                .padding(bottom = 8.dp)
+                        )
+                    }
+
+                    Spacer(modifier = Modifier.height(24.dp))
+                    Row(
+                        horizontalArrangement = Arrangement.SpaceBetween,
+                        verticalAlignment = Alignment.CenterVertically,
+                        modifier = Modifier.fillMaxWidth()
+                    ) {
+                        AppText(text = "Artikel Informasi", textStyle = Typography.titleLarge())
+                        AppText(
+                            text = "Lihat semua",
+                            color = md_theme_light_secondary,
+                            textStyle = Typography.labelLarge(),
+                            modifier = Modifier.clickable {
+                                navController.navigate(Screen.Article.route)
+                            }
+                        )
+                    }
+                    Spacer(modifier = Modifier.height(8.dp))
+                    AppText(
+                        text = "Lorem ipsum",
+                        textStyle = Typography.bodyMedium(),
+                        color = Color.Gray
+                    )
+
+                    Spacer(modifier = Modifier.height(8.dp))
+                    LazyRow {
+                        items(count = 3) {
+                            HomeArticleItem(
+                                title = "Panduan Penggunaan Fitur SOS",
+                                description = "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vivamus in ante semper ...",
+                                onClick = {},
+                                modifier = Modifier.padding(end = 8.dp)
+                            )
+                        }
+                    }
+                }
+            }
+        }
+    }
+}
