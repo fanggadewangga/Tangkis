@@ -9,6 +9,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import coil.compose.AsyncImage
 import com.college.tangkis.R
@@ -33,7 +34,8 @@ fun ErrorLayout(
         AppText(
             text = message,
             textStyle = Typography.titleLarge(),
-            color = Color.Gray
+            color = Color.Gray,
+            textAlign = TextAlign.Center
         )
     }
 }

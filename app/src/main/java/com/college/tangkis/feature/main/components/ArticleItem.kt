@@ -41,7 +41,7 @@ fun HomeArticleItem(
         shape = RoundedCornerShape(16.dp),
         modifier = modifier
             .width(280.dp)
-            .height(190.dp)
+            .height(180.dp)
             .clickable { onClick() }
     ) {
         Column(
