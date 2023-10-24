@@ -26,7 +26,7 @@ fun EmergencyContactItem(
     name: String,
     number: String,
     isDeletable: Boolean = false,
-    onClick: () -> Unit,
+    onDeleteClicked: (String) -> Unit
 ) {
     Card(
         colors = CardDefaults.cardColors(containerColor = Color.White),
@@ -39,7 +39,7 @@ fun EmergencyContactItem(
             verticalAlignment = Alignment.CenterVertically,
             modifier = Modifier
                 .fillMaxWidth()
-                .padding(horizontal = 24.dp, vertical = 16.dp)
+                .padding(horizontal = 16.dp, vertical = 16.dp)
         ) {
 
             // Left section
@@ -61,13 +61,16 @@ fun EmergencyContactItem(
             }
 
             // Delete button
-            AsyncImage(
-                model = R.drawable.ic_delete,
-                contentDescription = "Delete icon",
-                modifier = Modifier
-                    .size(32.dp)
-                    .clickable { }
-            )
+            if (isDeletable)
+                AsyncImage(
+                    model = R.drawable.ic_delete,
+                    contentDescription = "Delete icon",
+                    modifier = Modifier
+                        .size(32.dp)
+                        .clickable {
+                            onDeleteClicked.invoke(name)
+                        }
+                )
         }
     }
 }
