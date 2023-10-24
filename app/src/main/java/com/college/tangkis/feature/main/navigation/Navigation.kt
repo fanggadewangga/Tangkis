@@ -11,6 +11,7 @@ import com.college.tangkis.feature.home.HomeScreen
 import com.college.tangkis.feature.login.LoginScreen
 import com.college.tangkis.feature.main.route.Screen
 import com.college.tangkis.feature.onboard.OnboardScreen
+import com.college.tangkis.feature.profile.ProfileScreen
 import com.college.tangkis.feature.register.RegisterScreen
 import com.college.tangkis.feature.splash.SplashScreen
 
@@ -50,6 +51,10 @@ fun Navigation() {
         
         composable(route = Screen.ArticleDetail.route) {
             ArticleDetailScreen(navController = navController)
+        }
+
+        composable(route = Screen.Profile.route) {
+            ProfileScreen(navController = navController)
         }
     }
 }
