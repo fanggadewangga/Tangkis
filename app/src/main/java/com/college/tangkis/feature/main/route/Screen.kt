@@ -10,4 +10,6 @@ sealed class Screen(val route: String) {
     data object Article: Screen("article")
     data object ArticleDetail: Screen("article/{articleId}")
     data object Profile: Screen("profile")
+    data object SOS: Screen("sos")
+    data object SosSent: Screen("sos-sent")
 }

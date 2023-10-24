@@ -58,7 +58,7 @@ fun HomeScreen(navController: NavController) {
     Scaffold(
         floatingActionButton = {
             FloatingActionButton(
-                onClick = { /*TODO*/ },
+                onClick = { navController.navigate(Screen.SOS.route) },
                 shape = CircleShape,
                 containerColor = md_theme_light_secondary,
                 modifier = Modifier.size(80.dp)

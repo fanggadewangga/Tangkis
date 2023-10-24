@@ -1,6 +1,5 @@
 package com.college.tangkis.feature.profile
 
-import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Box
@@ -17,7 +16,6 @@ import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.FabPosition
 import androidx.compose.material.Scaffold
-import androidx.compose.material.icons.Icons
 import androidx.compose.material3.BottomAppBar
 import androidx.compose.material3.Card
 import androidx.compose.material3.FloatingActionButton
@@ -26,7 +24,6 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Alignment.Companion.Center
 import androidx.compose.ui.Alignment.Companion.CenterHorizontally
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.draw.shadow
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalConfiguration
 import androidx.compose.ui.unit.dp
@@ -37,6 +34,7 @@ import com.college.tangkis.R
 import com.college.tangkis.feature.main.components.AppText
 import com.college.tangkis.feature.main.components.ErrorLayout
 import com.college.tangkis.feature.main.navigation.BottomNavigationBar
+import com.college.tangkis.feature.main.route.Screen
 import com.college.tangkis.theme.Typography
 import com.college.tangkis.theme.md_theme_light_primaryContainer
 import com.college.tangkis.theme.md_theme_light_secondary
@@ -50,7 +48,7 @@ fun ProfileScreen(navController: NavController) {
     Scaffold(
         floatingActionButton = {
             FloatingActionButton(
-                onClick = { /*TODO*/ },
+                onClick = { navController.navigate(Screen.SOS.route) },
                 shape = CircleShape,
                 containerColor = md_theme_light_secondary,
                 modifier = Modifier.size(80.dp)
@@ -98,8 +96,7 @@ fun ProfileScreen(navController: NavController) {
                         message = "Profil Gagal Ditampilkan",
                         modifier = Modifier.align(CenterHorizontally)
                     )
-                }
-                else {
+                } else {
                     // Image
                     AsyncImage(
                         model = R.drawable.iv_profile,

@@ -38,7 +38,7 @@ object Typography {
     )
 
     fun headlineSmall() = TextStyle(
-        fontFamily = FontFamily(Font(R.font.roboto_regular)),
+        fontFamily = FontFamily(Font(R.font.roboto_black)),
         fontSize = 24.sp,
         lineHeight = 32.sp
     )
