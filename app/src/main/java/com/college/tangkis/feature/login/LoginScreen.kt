@@ -99,7 +99,7 @@ fun LoginScreen(navController: NavController) {
             Spacer(modifier = Modifier.height(4.dp))
             AppTextField(
                 isPassword = true,
-                placeHolder = "Kata Sandi",
+                placeHolder = "Password",
                 value = viewModel.passwordState.value,
                 onValueChange = {
                     viewModel.passwordState.value = it
@@ -121,21 +121,6 @@ fun LoginScreen(navController: NavController) {
                 onClick = {navController.navigate(Screen.Home.route)},
                 modifier = Modifier.fillMaxWidth()
             )
-
-            Spacer(modifier = Modifier.height(16.dp))
-            Row(
-                verticalAlignment = Alignment.CenterVertically,
-            ) {
-                AppText(text = "Belum punya akun?", textStyle = Typography.labelLarge())
-                AppText(
-                    text = " Daftar",
-                    textStyle = Typography.bodyMedium(),
-                    color = md_theme_light_primary,
-                    modifier = Modifier.clickable {
-                        navController.navigate(Screen.Register.route)
-                    }
-                )
-            }
         }
     }
 }

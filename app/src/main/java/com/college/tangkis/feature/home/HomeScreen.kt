@@ -12,8 +12,10 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.lazy.LazyRow
+import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.FabPosition
 import androidx.compose.material.Scaffold
 import androidx.compose.material3.BottomAppBar
@@ -48,7 +50,7 @@ fun HomeScreen(navController: NavController) {
     val viewModel = hiltViewModel<HomeViewModel>()
     val screenHeight = LocalConfiguration.current.screenHeightDp
     val systemUiController = rememberSystemUiController()
-    
+
     LaunchedEffect(true) {
         systemUiController.setStatusBarColor(color = md_theme_light_primary)
     }
@@ -71,7 +73,7 @@ fun HomeScreen(navController: NavController) {
         bottomBar = {
             BottomAppBar(
                 tonalElevation = 8.dp,
-                containerColor = Color.White
+                containerColor = Color.White,
             ) {
                 BottomNavigationBar(navController = navController)
             }
@@ -101,11 +103,6 @@ fun HomeScreen(navController: NavController) {
                         .fillMaxWidth()
                         .padding(top = 32.dp, start = 16.dp, end = 16.dp, bottom = 32.dp)
                 ) {
-                    AsyncImage(
-                        model = R.drawable.iv_avatar,
-                        contentDescription = "Avatar",
-                        modifier = Modifier.size(60.dp)
-                    )
                     Column(
                         verticalArrangement = Arrangement.spacedBy(4.dp)
                     ) {
@@ -151,6 +148,7 @@ fun HomeScreen(navController: NavController) {
                             shape = RoundedCornerShape(topStart = 24.dp, topEnd = 24.dp)
                         )
                         .padding(top = 16.dp, start = 16.dp, end = 16.dp)
+                        .verticalScroll(rememberScrollState())
                 ) {
 
                     Row(
@@ -171,7 +169,7 @@ fun HomeScreen(navController: NavController) {
 
                     Spacer(modifier = Modifier.height(8.dp))
                     AppText(
-                        text = "Lorem ipsum",
+                        text = "Tambahkan kontak darurat untuk berjaga-jaga",
                         textStyle = Typography.bodyMedium(),
                         color = Color.Gray
                     )
@@ -181,7 +179,7 @@ fun HomeScreen(navController: NavController) {
                         EmergencyContactItem(
                             name = "Evan TIF 21",
                             number = "+62 81234567890",
-                            onClick = {},
+                            onDeleteClicked = {},
                             isDeletable = false,
                             modifier = Modifier
                                 .fillMaxWidth()
@@ -205,24 +203,25 @@ fun HomeScreen(navController: NavController) {
                             }
                         )
                     }
-                    Spacer(modifier = Modifier.height(8.dp))
+                    Spacer(modifier = Modifier.height(12.dp))
                     AppText(
-                        text = "Lorem ipsum",
+                        text = "Bacalah artikel informasi sebagai panduan penggunaan Tangkis dan informasi layanan yang tersedia di fakultasmu",
                         textStyle = Typography.bodyMedium(),
-                        color = Color.Gray
+                        color = Color.Gray,
                     )
 
-                    Spacer(modifier = Modifier.height(8.dp))
+                    Spacer(modifier = Modifier.height(16.dp))
                     LazyRow {
                         items(count = 3) {
                             HomeArticleItem(
                                 title = "Panduan Penggunaan Fitur SOS",
                                 description = "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vivamus in ante semper ...",
                                 onClick = {},
-                                modifier = Modifier.padding(end = 8.dp)
+                                modifier = Modifier.padding(end = 16.dp)
                             )
                         }
                     }
+                    Spacer(modifier = Modifier.height(32.dp))
                 }
             }
         }
