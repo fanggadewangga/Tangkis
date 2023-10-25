@@ -77,7 +77,7 @@ dependencies {
 
     // coroutines lifecycle scopes
     implementation("androidx.lifecycle:lifecycle-viewmodel-ktx:2.6.2")
-    implementation("androidx.lifecycle:lifecycle-runtime-compose:2.7.0-alpha02")
+    implementation("androidx.lifecycle:lifecycle-runtime-compose:2.7.0-alpha03")
 
     // accompanist - systemui
     implementation("com.google.accompanist:accompanist-systemuicontroller:0.27.1")
@@ -119,13 +119,16 @@ dependencies {
     implementation("io.coil-kt:coil-video:2.2.2")
 
     // Icon
-    implementation("androidx.compose.material:material-icons-extended:1.5.3")
+    implementation("androidx.compose.material:material-icons-extended:1.5.4")
 
-    // date picker
-    implementation("com.maxkeppeler.sheets-compose-dialogs:core:1.0.2")
-    implementation("com.maxkeppeler.sheets-compose-dialogs:calendar:1.0.2")
 
     // Pager and Indicators - Accompanist
     implementation("com.google.accompanist:accompanist-pager:0.27.1")
     implementation("com.google.accompanist:accompanist-pager-indicators:0.27.1")
+
+    // Maps
+    implementation ("com.google.android.gms:play-services-location:21.0.1")
+    implementation ("com.google.maps.android:maps-compose:2.7.2")
+    /*implementation ("com.google.android.libraries.places:places:3.2.0")*/
+    implementation("com.google.android.gms:play-services-maps:18.2.0")
 }

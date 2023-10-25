@@ -109,7 +109,7 @@ fun HomeScreen(navController: NavController) {
 
                         // username
                         AppText(
-                            text = "Hallo, 215150200111033",
+                            text = "Selamat datang, 215150200111033",
                             textStyle = Typography.titleMedium(),
                             color = Color.White,
                             maxLine = 1,
