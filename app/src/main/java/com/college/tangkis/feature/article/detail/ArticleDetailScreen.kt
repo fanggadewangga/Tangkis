@@ -28,6 +28,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.ColorFilter
+import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
@@ -94,6 +95,7 @@ fun ArticleDetailScreen(navController: NavController) {
                 Box(modifier = Modifier.fillMaxWidth()) {
                     AsyncImage(
                         model = R.drawable.iv_dummy_article,
+                        contentScale = ContentScale.Crop,
                         contentDescription = "Article image",
                         modifier = Modifier.fillMaxWidth()
                     )
