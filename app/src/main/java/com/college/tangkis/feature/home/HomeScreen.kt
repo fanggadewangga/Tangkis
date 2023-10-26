@@ -1,5 +1,9 @@
 package com.college.tangkis.feature.home
 
+import android.Manifest
+import android.content.pm.PackageManager
+import androidx.activity.compose.rememberLauncherForActivityResult
+import androidx.activity.result.contract.ActivityResultContracts
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
@@ -23,13 +27,16 @@ import androidx.compose.material3.FloatingActionButton
 import androidx.compose.material3.Surface
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.SideEffect
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.ColorFilter
 import androidx.compose.ui.platform.LocalConfiguration
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
+import androidx.core.content.ContextCompat
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
 import coil.compose.AsyncImage
@@ -39,6 +46,7 @@ import com.college.tangkis.feature.main.components.EmergencyContactItem
 import com.college.tangkis.feature.main.components.HomeArticleItem
 import com.college.tangkis.feature.main.navigation.BottomNavigationBar
 import com.college.tangkis.feature.main.route.Screen
+import com.college.tangkis.feature.main.utils.getCurrentLocation
 import com.college.tangkis.theme.Typography
 import com.college.tangkis.theme.md_theme_light_primary
 import com.college.tangkis.theme.md_theme_light_secondary
@@ -50,6 +58,42 @@ fun HomeScreen(navController: NavController) {
     val viewModel = hiltViewModel<HomeViewModel>()
     val screenHeight = LocalConfiguration.current.screenHeightDp
     val systemUiController = rememberSystemUiController()
+    val context = LocalContext.current
+    val permissionLauncher =
+        rememberLauncherForActivityResult(ActivityResultContracts.RequestPermission()) { isGranted: Boolean ->
+            viewModel.isPermissionGranted.value = isGranted
+            if (isGranted) {
+                getCurrentLocation(context) {
+                    viewModel.apply {
+                        userLatState.doubleValue = it.latitude
+                        userLonState.doubleValue = it.longitude
+                        getAddressFromCoordinate(context)
+                    }
+                }
+            }
+        }
+    when (PackageManager.PERMISSION_GRANTED) {
+        ContextCompat.checkSelfPermission(
+            context,
+            Manifest.permission.ACCESS_COARSE_LOCATION
+        ),
+        -> {
+            viewModel.isPermissionGranted.value = true
+            getCurrentLocation(context) {
+                viewModel.apply {
+                    userLatState.doubleValue = it.latitude
+                    userLonState.doubleValue = it.longitude
+                    getAddressFromCoordinate(context)
+                }
+            }
+        }
+
+        else -> {
+            SideEffect {
+                permissionLauncher.launch(Manifest.permission.ACCESS_FINE_LOCATION)
+            }
+        }
+    }
 
     LaunchedEffect(true) {
         systemUiController.setStatusBarColor(color = md_theme_light_primary)
@@ -109,7 +153,7 @@ fun HomeScreen(navController: NavController) {
 
                         // username
                         AppText(
-                            text = "Selamat datang, 215150200111033",
+                            text = "Selamat datang Fa'iq Arya Dewangga",
                             textStyle = Typography.titleMedium(),
                             color = Color.White,
                             maxLine = 1,
@@ -128,7 +172,7 @@ fun HomeScreen(navController: NavController) {
                                 modifier = Modifier.size(21.dp)
                             )
                             AppText(
-                                text = "Gedung F, Fakultas Ilmu Komputer UB",
+                                text = viewModel.userAddress.value,
                                 textStyle = Typography.bodyMedium(),
                                 color = Color.White,
                                 maxLine = 1,
