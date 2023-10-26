@@ -9,16 +9,22 @@ import javax.inject.Inject
 
 @HiltViewModel
 class RegisterViewModel @Inject constructor(private val repository: UserRepository): ViewModel() {
+    val nameState = mutableStateOf("")
+    val isNameFieldClicked = mutableStateOf(false)
+    val isValidName = derivedStateOf {
+        studentNumberState.value.isEmpty() && isStudentNumberFieldClicked.value
+    }
+
     val studentNumberState = mutableStateOf("")
     val isStudentNumberFieldClicked = mutableStateOf(false)
     val isValidStudentNumber = derivedStateOf {
         studentNumberState.value.isEmpty() && isStudentNumberFieldClicked.value
     }
 
-    val nameState = mutableStateOf("")
-    val isNameFieldClicked = mutableStateOf(false)
-    val isValidName = derivedStateOf {
-        studentNumberState.value.isEmpty() && isStudentNumberFieldClicked.value
+    val phoneNumber = mutableStateOf("")
+    val isPhoneNumberFieldClicked = mutableStateOf(false)
+    val isValidPhoneNumber = derivedStateOf {
+        phoneNumber.value.isEmpty() && isPhoneNumberFieldClicked.value
     }
 
     val passwordState = mutableStateOf("")
@@ -30,4 +36,6 @@ class RegisterViewModel @Inject constructor(private val repository: UserReposito
     val isValidConfirmPasswordState = derivedStateOf {
         passwordConfirmState.value.isNotEmpty() && (passwordState.value != passwordConfirmState.value)
     }
+
+    val isChecked = mutableStateOf(false)
 }

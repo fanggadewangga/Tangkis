@@ -9,20 +9,20 @@ sealed class OnboardPage(
     val description: String,
 ) {
     data object First : OnboardPage(
-        image = R.drawable.iv_onboard_1,
-        title = "Pesan Darurat",
+        image = R.drawable.iv_onboard_sos,
+        title = "Emergency SOS",
         description = "Mintalah bantuan ke beberapa kontak sekaligus hanya dengan sekali tekan"
     )
 
     data object Second : OnboardPage(
-        image = R.drawable.iv_onboard_2,
-        title = "Kontak Darurat",
-        description = "Tambahkan kontak darurat agar bisa membantumu kapan saja"
+        image = R.drawable.iv_onboard_report,
+        title = "Pelaporan Online",
+        description = "Laporkan kasus kekerasan seksual secara mudah dan cepat"
     )
 
     data object Third : OnboardPage(
-        image = R.drawable.iv_onboard_3,
-        title = "Artikel Informasi",
-        description = "Bacalah artikel informasi sehingga dapat membantumu"
+        image = R.drawable.iv_onboard_consult,
+        title = "Konsultasi",
+        description = "Mintalah dukungan maupun saran untuk membantu pemulihan mental"
     )
 }

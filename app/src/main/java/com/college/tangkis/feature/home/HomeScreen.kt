@@ -15,6 +15,7 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.CircleShape
@@ -44,6 +45,7 @@ import com.college.tangkis.R
 import com.college.tangkis.feature.main.components.AppText
 import com.college.tangkis.feature.main.components.EmergencyContactItem
 import com.college.tangkis.feature.main.components.HomeArticleItem
+import com.college.tangkis.feature.main.components.ServiceItem
 import com.college.tangkis.feature.main.navigation.BottomNavigationBar
 import com.college.tangkis.feature.main.route.Screen
 import com.college.tangkis.feature.main.utils.getCurrentLocation
@@ -57,6 +59,7 @@ fun HomeScreen(navController: NavController) {
 
     val viewModel = hiltViewModel<HomeViewModel>()
     val screenHeight = LocalConfiguration.current.screenHeightDp
+    val screenWidth = LocalConfiguration.current.screenWidthDp
     val systemUiController = rememberSystemUiController()
     val context = LocalContext.current
     val permissionLauncher =
@@ -194,6 +197,33 @@ fun HomeScreen(navController: NavController) {
                         .padding(top = 16.dp, start = 16.dp, end = 16.dp)
                         .verticalScroll(rememberScrollState())
                 ) {
+
+                    // Univ Service
+                    AppText(text = "Layanan Di Kampusmu", textStyle = Typography.titleLarge())
+                    Spacer(modifier = Modifier.height(16.dp))
+                    Row(
+                        horizontalArrangement = Arrangement.SpaceBetween,
+                        modifier = Modifier.fillMaxWidth().padding(bottom = 16.dp)
+                    ) {
+                        ServiceItem(
+                            serviceName = "Pelaporan \nOnline",
+                            icon = R.drawable.ic_report,
+                            modifier = Modifier
+                                .width((screenWidth * 0.44).dp)
+                                .height(80.dp)
+                        ) {
+                            /* TODO : Navigate To Report Screen*/
+                        }
+                        ServiceItem(
+                            serviceName = "Konsultasi",
+                            icon = R.drawable.ic_consult,
+                            modifier = Modifier
+                                .width((screenWidth * 0.44).dp)
+                                .height(80.dp)
+                        ) {
+                            /* TODO : Navigate To Consult Screen*/
+                        }
+                    }
 
                     Row(
                         horizontalArrangement = Arrangement.SpaceBetween,

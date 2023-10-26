@@ -5,7 +5,7 @@ import android.content.pm.PackageManager
 import androidx.activity.compose.rememberLauncherForActivityResult
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.compose.foundation.layout.Box
-import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
@@ -38,13 +38,14 @@ import androidx.navigation.NavController
 import coil.compose.AsyncImage
 import com.college.tangkis.R
 import com.college.tangkis.feature.main.components.AppButton
+import com.college.tangkis.feature.main.components.AppDialog
 import com.college.tangkis.feature.main.components.AppText
-import com.college.tangkis.feature.main.components.ContactDeletionDialog
 import com.college.tangkis.feature.main.components.EmergencyContactItem
 import com.college.tangkis.feature.main.components.ErrorLayout
 import com.college.tangkis.feature.main.components.LocalContactItem
 import com.college.tangkis.theme.Typography
 import com.college.tangkis.theme.md_theme_light_primary
+import com.college.tangkis.theme.md_theme_light_secondary
 
 @OptIn(ExperimentalMaterial3Api::class, ExperimentalMaterialApi::class)
 @Composable
@@ -215,8 +216,18 @@ fun ContactScreen(navController: NavController) {
             }
 
             if (viewModel.showDialog.value)
-                ContactDeletionDialog(
-                    contactName = viewModel.deleteContactName.value,
+                AppDialog(
+                    dialogContent = {
+                        AppText(text = "Yakin untuk menghapus", textStyle = Typography.titleSmall())
+                        Row(verticalAlignment = Alignment.CenterVertically) {
+                            AppText(text = "nomor ", textStyle = Typography.titleSmall())
+                            AppText(
+                                text = viewModel.deleteContactName.value,
+                                textStyle = Typography.titleSmall(),
+                                color = md_theme_light_secondary
+                            )
+                        }
+                    },
                     setShowDialog = { isShow ->
                         viewModel.showDialog.value = isShow
                     },

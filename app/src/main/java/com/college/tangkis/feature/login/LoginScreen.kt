@@ -110,7 +110,7 @@ fun LoginScreen(navController: NavController) {
                 shape = RoundedCornerShape(4.dp),
                 isError = viewModel.isValidPasswordState.value,
                 showWarningMessage = viewModel.isValidPasswordState.value,
-                warningMessage = "Password harus lebih dari 8 karakter!",
+                warningMessage = "Minimal 8 karakter!",
                 modifier = Modifier.fillMaxWidth()
             )
 
@@ -118,9 +118,22 @@ fun LoginScreen(navController: NavController) {
             Spacer(modifier = Modifier.height(48.dp))
             AppButton(
                 content = { AppText(text = "Masuk", color = Color.White) },
-                onClick = {navController.navigate(Screen.Home.route)},
+                onClick = { navController.navigate(Screen.Home.route) },
                 modifier = Modifier.fillMaxWidth()
             )
+
+            // Register
+            Row(modifier = Modifier.padding(top = 16.dp)) {
+                AppText(text = "Belum punya akun? ", textStyle = Typography.bodyMedium())
+                AppText(
+                    text = "Daftar",
+                    textStyle = Typography.titleSmall(),
+                    color = md_theme_light_primary,
+                    modifier = Modifier.clickable {
+                        navController.navigate(Screen.Register.route)
+                    }
+                )
+            }
         }
     }
 }
