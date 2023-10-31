@@ -2,7 +2,6 @@ package com.college.tangkis.feature.register
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
-import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
@@ -17,18 +16,22 @@ import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.Checkbox
 import androidx.compose.material3.CheckboxDefaults
+import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.platform.LocalConfiguration
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
+import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.navigation.NavController
 import coil.compose.AsyncImage
 import com.college.tangkis.R
+import com.college.tangkis.data.Resource
 import com.college.tangkis.feature.main.components.AppButton
 import com.college.tangkis.feature.main.components.AppText
 import com.college.tangkis.feature.main.components.AppTextField
@@ -39,7 +42,23 @@ import com.college.tangkis.theme.md_theme_light_primary
 @Composable
 fun RegisterScreen(navController: NavController) {
     val viewModel = hiltViewModel<RegisterViewModel>()
-    LocalConfiguration.current.screenWidthDp
+    val registerState = viewModel.registerState.collectAsStateWithLifecycle()
+    val context = LocalContext.current
+
+    LaunchedEffect(registerState.value) {
+        when (registerState.value) {
+            is Resource.Loading -> {}
+            is Resource.Error -> {}
+            is Resource.Empty -> {}
+            is Resource.Success -> {
+                navController.navigate(Screen.Login.route) {
+                    popUpTo(Screen.Register.route) {
+                        inclusive = true
+                    }
+                }
+            }
+        }
+    }
 
     Column(
         horizontalAlignment = Alignment.Start,
@@ -204,17 +223,28 @@ fun RegisterScreen(navController: NavController) {
                 AppText(
                     text = "kebijakan privasi",
                     textStyle = Typography.titleSmall(),
+                    maxLine = 1,
                     color = md_theme_light_primary
                 )
             }
 
             // Button
             Spacer(modifier = Modifier.height(48.dp))
-            AppButton(
-                content = { AppText(text = "Daftar", color = Color.White) },
-                onClick = {},
-                modifier = Modifier.fillMaxWidth()
-            )
+            if (registerState.value is Resource.Loading)
+                Column(
+                    horizontalAlignment = Alignment.CenterHorizontally,
+                    modifier = Modifier.fillMaxWidth()
+                ) {
+                    CircularProgressIndicator(color = md_theme_light_primary)
+                }
+            else
+                AppButton(
+                    content = { AppText(text = "Daftar", color = Color.White) },
+                    onClick = {
+                        viewModel.register()
+                    },
+                    modifier = Modifier.fillMaxWidth()
+                )
 
 
             Spacer(modifier = Modifier.height(16.dp))

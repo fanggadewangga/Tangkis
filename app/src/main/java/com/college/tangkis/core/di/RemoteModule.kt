@@ -2,13 +2,15 @@ package com.college.tangkis.core.di
 
 import com.college.tangkis.data.source.remote.ApiService
 import com.college.tangkis.feature.main.constant.Constants.BASE_URL
+import com.jakewharton.retrofit2.converter.kotlinx.serialization.asConverterFactory
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
 import dagger.hilt.components.SingletonComponent
+import kotlinx.serialization.json.Json
+import okhttp3.MediaType.Companion.toMediaType
 import okhttp3.OkHttpClient
 import retrofit2.Retrofit
-import retrofit2.converter.gson.GsonConverterFactory
 import java.util.concurrent.TimeUnit
 import javax.inject.Singleton
 
@@ -17,7 +19,7 @@ import javax.inject.Singleton
 class RemoteModule {
     @Provides
     @Singleton
-    fun provideStuntionApi(): ApiService {
+    fun provideTangkisApi(): ApiService {
         val client: OkHttpClient =
             OkHttpClient.Builder()
                 .addInterceptor {
@@ -31,9 +33,9 @@ class RemoteModule {
                 .build()
 
         return Retrofit.Builder()
+            .addConverterFactory(Json.asConverterFactory("application/json".toMediaType()))
             .baseUrl(BASE_URL)
             .client(client)
-            .addConverterFactory(GsonConverterFactory.create())
             .build()
             .create(ApiService::class.java)
     }

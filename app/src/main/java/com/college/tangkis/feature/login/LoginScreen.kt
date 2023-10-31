@@ -1,5 +1,6 @@
 package com.college.tangkis.feature.login
 
+import android.util.Log
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Column
@@ -12,7 +13,9 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.KeyboardOptions
+import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Alignment.Companion.CenterHorizontally
 import androidx.compose.ui.Alignment.Companion.Start
@@ -23,9 +26,11 @@ import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
+import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.navigation.NavController
 import coil.compose.AsyncImage
 import com.college.tangkis.R
+import com.college.tangkis.data.Resource
 import com.college.tangkis.feature.main.components.AppButton
 import com.college.tangkis.feature.main.components.AppText
 import com.college.tangkis.feature.main.components.AppTextField
@@ -36,7 +41,23 @@ import com.college.tangkis.theme.md_theme_light_primary
 @Composable
 fun LoginScreen(navController: NavController) {
     val viewModel = hiltViewModel<LoginViewModel>()
-    LocalConfiguration.current.screenWidthDp
+    val loginState = viewModel.loginState.collectAsStateWithLifecycle()
+
+    LaunchedEffect(loginState.value) {
+        when (loginState.value) {
+            is Resource.Loading -> {}
+            is Resource.Error -> {}
+            is Resource.Empty -> {}
+            is Resource.Success -> {
+                Log.d("Login", "Sukses")
+                navController.navigate(Screen.Home.route) {
+                    popUpTo(Screen.Login.route) {
+                        inclusive = true
+                    }
+                }
+            }
+        }
+    }
 
     Column(
         horizontalAlignment = Start,
@@ -116,11 +137,21 @@ fun LoginScreen(navController: NavController) {
 
             // Button
             Spacer(modifier = Modifier.height(48.dp))
-            AppButton(
-                content = { AppText(text = "Masuk", color = Color.White) },
-                onClick = { navController.navigate(Screen.Home.route) },
-                modifier = Modifier.fillMaxWidth()
-            )
+            if (loginState.value is Resource.Loading)
+                Column(
+                    horizontalAlignment = Alignment.CenterHorizontally,
+                    modifier = Modifier.fillMaxWidth()
+                ) {
+                    CircularProgressIndicator(color = md_theme_light_primary)
+                }
+            else
+                AppButton(
+                    content = { AppText(text = "Masuk", color = Color.White) },
+                    onClick = {
+                        viewModel.login()
+                    },
+                    modifier = Modifier.fillMaxWidth()
+                )
 
             // Register
             Row(modifier = Modifier.padding(top = 16.dp)) {

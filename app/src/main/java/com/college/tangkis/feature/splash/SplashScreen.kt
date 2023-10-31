@@ -26,11 +26,18 @@ fun SplashScreen(navController: NavController) {
     LaunchedEffect(true) {
         delay(SPLASH_TIME)
         if (viewModel.isPassedOnboard.value)
-            navController.navigate(Screen.Login.route) {
-                popUpTo(Screen.Splash.route) {
-                    inclusive = true
+            if (viewModel.token.value.isEmpty())
+                navController.navigate(Screen.Login.route) {
+                    popUpTo(Screen.Splash.route) {
+                        inclusive = true
+                    }
                 }
-            }
+            else
+                navController.navigate(Screen.Home.route) {
+                    popUpTo(Screen.Splash.route) {
+                        inclusive = true
+                    }
+                }
         else
             navController.navigate(Screen.OnBoard.route) {
                 popUpTo(Screen.Splash.route) {

@@ -3,8 +3,14 @@ package com.college.tangkis.feature.register
 import androidx.compose.runtime.derivedStateOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.ViewModel
+import androidx.lifecycle.viewModelScope
+import com.college.tangkis.data.Resource
+import com.college.tangkis.data.model.request.user.UserRegisterRequest
 import com.college.tangkis.data.repository.user.UserRepository
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.asStateFlow
+import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @HiltViewModel
@@ -38,4 +44,20 @@ class RegisterViewModel @Inject constructor(private val repository: UserReposito
     }
 
     val isChecked = mutableStateOf(false)
+
+    private val _registerState = MutableStateFlow<Resource<String>>(Resource.Empty())
+    val registerState = _registerState.asStateFlow()
+
+    fun register() {
+        viewModelScope.launch {
+            val name = nameState.value
+            val nim = studentNumberState.value
+            val whatsapp = "+62${phoneNumber.value}"
+            val password = passwordState.value
+            val body = UserRegisterRequest(name, nim, whatsapp, password)
+            repository.register(body).collect {
+                _registerState.value = it
+            }
+        }
+    }
 }

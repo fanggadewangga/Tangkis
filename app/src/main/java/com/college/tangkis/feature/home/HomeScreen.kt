@@ -39,9 +39,11 @@ import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import androidx.core.content.ContextCompat
 import androidx.hilt.navigation.compose.hiltViewModel
+import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.navigation.NavController
 import coil.compose.AsyncImage
 import com.college.tangkis.R
+import com.college.tangkis.data.Resource
 import com.college.tangkis.feature.main.components.AppText
 import com.college.tangkis.feature.main.components.EmergencyContactItem
 import com.college.tangkis.feature.main.components.HomeArticleItem
@@ -97,6 +99,9 @@ fun HomeScreen(navController: NavController) {
             }
         }
     }
+    val userState = viewModel.userState.collectAsStateWithLifecycle()
+    val contactState = viewModel.contactState.collectAsStateWithLifecycle()
+    val articleState = viewModel.articleState.collectAsStateWithLifecycle()
 
     LaunchedEffect(true) {
         systemUiController.setStatusBarColor(color = md_theme_light_primary)
@@ -156,7 +161,7 @@ fun HomeScreen(navController: NavController) {
 
                         // username
                         AppText(
-                            text = "Selamat datang Fa'iq Arya Dewangga",
+                            text = if (userState.value is Resource.Success) "Selamat datang, ${userState.value.data!!.name}" else "",
                             textStyle = Typography.titleMedium(),
                             color = Color.White,
                             maxLine = 1,
@@ -203,7 +208,9 @@ fun HomeScreen(navController: NavController) {
                     Spacer(modifier = Modifier.height(16.dp))
                     Row(
                         horizontalArrangement = Arrangement.SpaceBetween,
-                        modifier = Modifier.fillMaxWidth().padding(bottom = 16.dp)
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .padding(bottom = 16.dp)
                     ) {
                         ServiceItem(
                             serviceName = "Pelaporan \nOnline",
@@ -212,7 +219,7 @@ fun HomeScreen(navController: NavController) {
                                 .width((screenWidth * 0.44).dp)
                                 .height(80.dp)
                         ) {
-                            /* TODO : Navigate To Report Screen*/
+                            navController.navigate(Screen.Report.route)
                         }
                         ServiceItem(
                             serviceName = "Konsultasi",
@@ -221,7 +228,7 @@ fun HomeScreen(navController: NavController) {
                                 .width((screenWidth * 0.44).dp)
                                 .height(80.dp)
                         ) {
-                            /* TODO : Navigate To Consult Screen*/
+                            navController.navigate(Screen.Consultation.route)
                         }
                     }
 
