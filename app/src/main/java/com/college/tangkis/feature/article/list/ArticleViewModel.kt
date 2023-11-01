@@ -8,4 +8,5 @@ import javax.inject.Inject
 @HiltViewModel
 class ArticleViewModel @Inject constructor(): ViewModel() {
     val isError = mutableStateOf(false)
+    val searchQuery = mutableStateOf("")
 }

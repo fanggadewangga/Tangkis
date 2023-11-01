@@ -1,8 +1,6 @@
 package com.college.tangkis.feature.profile
 
 import androidx.compose.foundation.background
-import androidx.compose.foundation.clickable
-import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
@@ -11,7 +9,6 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
-import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.FabPosition
@@ -20,8 +17,6 @@ import androidx.compose.material3.BottomAppBar
 import androidx.compose.material3.Card
 import androidx.compose.material3.FloatingActionButton
 import androidx.compose.runtime.Composable
-import androidx.compose.ui.Alignment
-import androidx.compose.ui.Alignment.Companion.Center
 import androidx.compose.ui.Alignment.Companion.CenterHorizontally
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -31,12 +26,13 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
 import coil.compose.AsyncImage
 import com.college.tangkis.R
+import com.college.tangkis.feature.main.components.AccountConfigurationItem
+import com.college.tangkis.feature.main.components.AppDialog
 import com.college.tangkis.feature.main.components.AppText
 import com.college.tangkis.feature.main.components.ErrorLayout
 import com.college.tangkis.feature.main.navigation.BottomNavigationBar
 import com.college.tangkis.feature.main.route.Screen
 import com.college.tangkis.theme.Typography
-import com.college.tangkis.theme.md_theme_light_primaryContainer
 import com.college.tangkis.theme.md_theme_light_secondary
 
 @Composable
@@ -86,7 +82,7 @@ fun ProfileScreen(navController: NavController) {
                     .fillMaxWidth()
                     .background(Color.White)
                     .padding(horizontal = 16.dp)
-                    .height((screenHeight * 0.69).dp)
+                    .height((screenHeight * 0.64).dp)
             ) {
 
                 if (viewModel.isError.value) {
@@ -105,7 +101,7 @@ fun ProfileScreen(navController: NavController) {
                     )
 
                     // User Info
-                    Spacer(modifier = Modifier.height(32.dp))
+                    Spacer(modifier = Modifier.height(16.dp))
                     AppText(
                         text = "Nama Lengkap",
                         textStyle = Typography.titleSmall(),
@@ -143,7 +139,7 @@ fun ProfileScreen(navController: NavController) {
 
                     Spacer(modifier = Modifier.height(12.dp))
                     AppText(
-                        text = "Program Studi",
+                        text = "Nomor Whatsapp",
                         textStyle = Typography.titleSmall(),
                         color = Color.Gray
                     )
@@ -152,10 +148,10 @@ fun ProfileScreen(navController: NavController) {
                         shape = RoundedCornerShape(8.dp),
                         modifier = Modifier
                             .fillMaxWidth()
-                            .padding(bottom = 32.dp)
+                            .padding(bottom = 16.dp)
                     ) {
                         AppText(
-                            text = "Teknik Informatika",
+                            text = "+62 81234567890",
                             textStyle = Typography.titleMedium(),
                             modifier = Modifier.padding(horizontal = 16.dp, vertical = 12.dp)
                         )
@@ -164,45 +160,69 @@ fun ProfileScreen(navController: NavController) {
             }
 
             // Bottom Section
-            Spacer(modifier = Modifier.height(24.dp))
+            Spacer(modifier = Modifier.height(16.dp))
             Column(
                 modifier = Modifier
                     .fillMaxWidth()
                     .background(Color.White)
                     .padding(horizontal = 16.dp)
-                    .height((screenHeight * 0.4).dp)
+                    .height((screenHeight * 0.5).dp)
             ) {
                 Spacer(modifier = Modifier.height(24.dp))
                 AppText(text = "Akun", textStyle = Typography.titleLarge())
 
                 Spacer(modifier = Modifier.height(8.dp))
-                Row(verticalAlignment = Alignment.CenterVertically) {
-                    Box(
-                        contentAlignment = Center,
-                        modifier = Modifier
-                            .size(32.dp)
-                            .background(
-                                shape = RoundedCornerShape(8.dp),
-                                color = md_theme_light_primaryContainer
-                            )
-                    ) {
-                        AsyncImage(
-                            model = R.drawable.ic_logout,
-                            contentDescription = "Logout",
-                            modifier = Modifier
-                                .size(24.dp)
-                        )
-                    }
-                    Spacer(modifier = Modifier.width(8.dp))
-                    AppText(
-                        text = "Keluar",
-                        textStyle = Typography.bodyMedium(),
-                        color = md_theme_light_secondary,
-                        modifier = Modifier.clickable { }
-                    )
-                }
-            }
+                AccountConfigurationItem(
+                    icon = R.drawable.ic_phone,
+                    title = "Ganti Nomor Whatsapp",
+                    onClick = {
 
+                    }
+                )
+                Spacer(modifier = Modifier.height(8.dp))
+                AccountConfigurationItem(
+                    icon = R.drawable.ic_password,
+                    title = "Ganti Password",
+                    onClick = {
+
+                    }
+                )
+                Spacer(modifier = Modifier.height(8.dp))
+                AccountConfigurationItem(
+                    icon = R.drawable.ic_logout,
+                    title = "Keluar",
+                    titleColor = md_theme_light_secondary,
+                    onClick = {
+                        viewModel.showLogoutDialog.value = true
+                    }
+                )
+            }
         }
+
+        // Dialog
+        if (viewModel.showLogoutDialog.value)
+            AppDialog(
+                dialogContent = {
+                    Column(
+                        horizontalAlignment = CenterHorizontally
+                    ) {
+                        Row {
+                            AppText(text = "Yakin ", textStyle = Typography.titleSmall())
+                            AppText(
+                                text = "log out ",
+                                textStyle = Typography.titleSmall(),
+                                color = Color.Red
+                            )
+                            AppText(text = "dari", textStyle = Typography.titleSmall())
+                        }
+                        AppText(text = "akun kamu?", textStyle = Typography.titleSmall())
+                    }
+                },
+                setShowDialog = { isShow ->
+                    viewModel.showLogoutDialog.value = isShow
+                },
+                onCancelClicked = { viewModel.showLogoutDialog.value = false },
+                onConfirmClicked = { /*TODO*/ }
+            )
     }
 }

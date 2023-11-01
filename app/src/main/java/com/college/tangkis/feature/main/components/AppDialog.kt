@@ -20,11 +20,10 @@ import androidx.compose.ui.window.Dialog
 import androidx.compose.ui.window.DialogProperties
 import com.college.tangkis.theme.Typography
 import com.college.tangkis.theme.md_theme_light_primary
-import com.college.tangkis.theme.md_theme_light_secondary
 
 @Composable
-fun ContactDeletionDialog(
-    contactName: String,
+fun AppDialog(
+    dialogContent: (@Composable () -> Unit),
     setShowDialog: (Boolean) -> Unit,
     onCancelClicked: () -> Unit,
     onConfirmClicked: () -> Unit,
@@ -42,15 +41,7 @@ fun ContactDeletionDialog(
                     .fillMaxWidth()
                     .padding(vertical = 24.dp)
             ) {
-                AppText(text = "Yakin untuk menghapus", textStyle = Typography.titleSmall())
-                Row(verticalAlignment = Alignment.CenterVertically) {
-                    AppText(text = "nomor ", textStyle = Typography.titleSmall())
-                    AppText(
-                        text = contactName,
-                        textStyle = Typography.titleSmall(),
-                        color = md_theme_light_secondary
-                    )
-                }
+                dialogContent.invoke()
 
                 // Button
                 Spacer(modifier = Modifier.height(16.dp))

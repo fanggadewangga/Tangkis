@@ -6,6 +6,7 @@ import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import com.college.tangkis.feature.article.detail.ArticleDetailScreen
 import com.college.tangkis.feature.article.list.ArticleScreen
+import com.college.tangkis.feature.consult.ConsultationScreen
 import com.college.tangkis.feature.contact.ContactScreen
 import com.college.tangkis.feature.home.HomeScreen
 import com.college.tangkis.feature.login.LoginScreen
@@ -13,6 +14,7 @@ import com.college.tangkis.feature.main.route.Screen
 import com.college.tangkis.feature.onboard.OnboardScreen
 import com.college.tangkis.feature.profile.ProfileScreen
 import com.college.tangkis.feature.register.RegisterScreen
+import com.college.tangkis.feature.report.ReportScreen
 import com.college.tangkis.feature.sos.SosScreen
 import com.college.tangkis.feature.sos.SosSentScreen
 import com.college.tangkis.feature.splash.SplashScreen
@@ -65,6 +67,14 @@ fun Navigation() {
 
         composable(route = Screen.SosSent.route) {
             SosSentScreen(navController = navController)
+        }
+        
+        composable(route = Screen.Report.route) {
+            ReportScreen(navController = navController)
+        }
+
+        composable(route = Screen.Consultation.route) {
+            ConsultationScreen(navController = navController)
         }
     }
 }
