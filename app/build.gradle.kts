@@ -119,7 +119,7 @@ dependencies {
     implementation ("androidx.core:core-splashscreen:1.0.1")
 
     //coil
-    implementation("io.coil-kt:coil-compose:2.2.2")
+    implementation("io.coil-kt:coil-compose:2.4.0")
     implementation("io.coil-kt:coil-video:2.2.2")
 
     // Icon
@@ -134,4 +134,7 @@ dependencies {
     implementation ("com.google.android.gms:play-services-location:21.0.1")
     implementation ("com.google.maps.android:maps-compose:2.7.2")
     implementation("com.google.android.gms:play-services-maps:18.2.0")
+
+    // Custom toast
+    implementation("com.github.GrenderG:Toasty:1.5.2")
 }

@@ -94,14 +94,14 @@ fun ArticleScreen(navController: NavController) {
                     modifier = Modifier.padding(horizontal = 16.dp)
                 )
                 LazyColumn(modifier = Modifier.padding(top = 16.dp)) {
-                    items(count = 10) {
+                    /*items(count = 10) {
                         ArticleItem(
                             title = "Panduan Penggunaan Fitur SOS",
                             description = "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vivamus in ante semper..."
                         ) {
                             navController.navigate(Screen.ArticleDetail.route)
                         }
-                    }
+                    }*/
                 }
             }
     }
