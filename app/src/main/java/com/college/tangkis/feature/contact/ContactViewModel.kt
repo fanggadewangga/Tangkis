@@ -33,8 +33,9 @@ class ContactViewModel @Inject constructor(private val contactRepository: Contac
 
     @OptIn(ExperimentalMaterialApi::class)
     val sheetState = mutableStateOf(ModalBottomSheetValue.Hidden)
-    val deviceContacts = mutableListOf<DeviceContact>()
+    val deviceContacts = mutableStateListOf<DeviceContact>()
     val listOfSelectedContact = mutableStateListOf<DeviceContact>()
+    val query = mutableStateOf("")
 
     private val _getContactState =
         MutableStateFlow<Resource<List<ContactResponse>>>(Resource.Loading())
@@ -57,7 +58,7 @@ class ContactViewModel @Inject constructor(private val contactRepository: Contac
         }
     }
 
-    private fun getContacts() {
+    fun getContacts() {
         viewModelScope.launch {
             contactRepository.getContacts().collect {
                 _getContactState.value = it

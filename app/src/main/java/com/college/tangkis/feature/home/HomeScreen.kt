@@ -106,6 +106,7 @@ fun HomeScreen(navController: NavController) {
 
     LaunchedEffect(true) {
         systemUiController.setStatusBarColor(color = md_theme_light_primary)
+        viewModel.getContacts()
     }
 
     Scaffold(

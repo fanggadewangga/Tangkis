@@ -58,7 +58,7 @@ class HomeViewModel @Inject constructor(
         }
     }
 
-    private fun getContacts() {
+    fun getContacts() {
         viewModelScope.launch {
             contactRepository.getContacts().collect {
                 _contactState.value = it

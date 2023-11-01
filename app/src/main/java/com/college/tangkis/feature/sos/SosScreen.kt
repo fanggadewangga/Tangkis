@@ -133,10 +133,6 @@ fun SosScreen(navController: NavController) {
             delay(1000L)
             viewModel.timeLeft.intValue--
             if (viewModel.timeLeft.intValue == 0) {
-                viewModel.sentEmergencyMessage(
-                    destinationNumber = "+6285157055465",
-                    message = "Halo"
-                )
                 navController.navigate(Screen.SosSent.route)
             }
         }

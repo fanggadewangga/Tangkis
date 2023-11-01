@@ -30,6 +30,7 @@ import androidx.compose.material3.TopAppBar
 import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.DisposableEffect
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.SideEffect
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -44,9 +45,11 @@ import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import androidx.core.content.ContextCompat
 import androidx.hilt.navigation.compose.hiltViewModel
+import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.navigation.NavController
 import coil.compose.AsyncImage
 import com.college.tangkis.R
+import com.college.tangkis.data.Resource
 import com.college.tangkis.feature.main.components.AppButton
 import com.college.tangkis.feature.main.components.AppText
 import com.college.tangkis.feature.main.components.ContactReceiverItem
@@ -119,6 +122,14 @@ fun SosSentScreen(navController: NavController) {
     DisposableEffect(true) {
         onDispose {
             viewModel.resetState()
+        }
+    }
+
+    val contactState = viewModel.contactState.collectAsStateWithLifecycle()
+
+    LaunchedEffect(contactState.value is Resource.Success && !contactState.value.data.isNullOrEmpty()) {
+        contactState.value.data!!.forEach {
+            viewModel.sentEmergencyMessage(destinationNumber = it.number, message = "Tes")
         }
     }
 
