@@ -6,6 +6,7 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.items
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Search
 import androidx.compose.material3.ExperimentalMaterial3Api
@@ -21,9 +22,11 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.ColorFilter
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
+import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.navigation.NavController
 import coil.compose.AsyncImage
 import com.college.tangkis.R
+import com.college.tangkis.data.Resource
 import com.college.tangkis.feature.main.components.AppSearchField
 import com.college.tangkis.feature.main.components.AppText
 import com.college.tangkis.feature.main.components.ArticleItem
@@ -38,6 +41,7 @@ import com.college.tangkis.theme.md_theme_light_primaryContainer
 fun ArticleScreen(navController: NavController) {
 
     val viewModel = hiltViewModel<ArticleViewModel>()
+    val articleState = viewModel.articleState.collectAsStateWithLifecycle()
 
     Scaffold(
         topBar = {
@@ -65,44 +69,59 @@ fun ArticleScreen(navController: NavController) {
                 }
             )
         }
-    ) {
+    ) { it ->
         val topPadding = it.calculateTopPadding()
 
-        if (viewModel.isError.value)
-            Box(contentAlignment = Alignment.Center, modifier = Modifier.fillMaxSize()) {
-                ErrorLayout(
-                    image = R.drawable.iv_error,
-                    message = "Daftar artikel informasi gagal ditampilkan"
-                )
-            }
-        else
-            Column(modifier = Modifier.padding(top = topPadding + 16.dp)) {
-                AppSearchField(
-                    valueState = viewModel.searchQuery.value,
-                    borderColor = md_theme_light_primaryContainer,
-                    placeholder = "Temukan Artikel Informasi",
-                    onValueChange = {
-                        viewModel.searchQuery.value = it
-                    },
-                    trailingIcon = {
-                        Icon(
-                            imageVector = Icons.Default.Search,
-                            contentDescription = "Search",
-                            tint = Color.Black
-                        )
-                    },
-                    modifier = Modifier.padding(horizontal = 16.dp)
-                )
-                LazyColumn(modifier = Modifier.padding(top = 16.dp)) {
-                    /*items(count = 10) {
-                        ArticleItem(
-                            title = "Panduan Penggunaan Fitur SOS",
-                            description = "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vivamus in ante semper..."
-                        ) {
-                            navController.navigate(Screen.ArticleDetail.route)
+        when (articleState.value) {
+            is Resource.Loading -> {}
+            is Resource.Success -> {
+                Column(modifier = Modifier.padding(top = topPadding + 16.dp)) {
+                    AppSearchField(
+                        valueState = viewModel.searchQuery.value,
+                        borderColor = md_theme_light_primaryContainer,
+                        placeholder = "Temukan Artikel Informasi",
+                        onValueChange = {
+                            viewModel.apply {
+                                searchQuery.value = it
+                                searchArticle()
+                            }
+                        },
+                        trailingIcon = {
+                            Icon(
+                                imageVector = Icons.Default.Search,
+                                contentDescription = "Search",
+                                tint = Color.Black
+                            )
+                        },
+                        modifier = Modifier.padding(horizontal = 16.dp)
+                    )
+                    LazyColumn(modifier = Modifier.padding(top = 16.dp)) {
+                        items(articleState.value.data!!) {
+                            ArticleItem(
+                                article = it
+                            ) { id ->
+                                navController.navigate(
+                                    Screen.ArticleDetail.route.replace(
+                                        oldValue = "{articleId}",
+                                        newValue = id
+                                    )
+                                )
+                            }
                         }
-                    }*/
+                    }
                 }
             }
+
+            is Resource.Error -> {
+                Box(contentAlignment = Alignment.Center, modifier = Modifier.fillMaxSize()) {
+                    ErrorLayout(
+                        image = R.drawable.iv_error,
+                        message = "Daftar artikel informasi gagal ditampilkan"
+                    )
+                }
+            }
+
+            else -> {}
+        }
     }
 }
