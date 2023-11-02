@@ -18,15 +18,15 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
 import coil.compose.AsyncImage
 import com.college.tangkis.R
+import com.college.tangkis.data.model.response.contact.ContactResponse
 import com.college.tangkis.theme.Typography
 
 @Composable
 fun EmergencyContactItem(
     modifier: Modifier = Modifier,
-    name: String,
-    number: String,
+    contact: ContactResponse,
     isDeletable: Boolean = false,
-    onDeleteClicked: (String) -> Unit
+    onDeleteClicked: ((String, String) -> Unit)? = null
 ) {
     Card(
         colors = CardDefaults.cardColors(containerColor = Color.White),
@@ -55,8 +55,8 @@ fun EmergencyContactItem(
                 Column(
                     verticalArrangement = Arrangement.spacedBy(2.dp)
                 ) {
-                    AppText(text = name, textStyle = Typography.labelLarge())
-                    AppText(text = number, textStyle = Typography.bodySmall(), color = Color.Gray)
+                    AppText(text = contact.name, textStyle = Typography.labelLarge())
+                    AppText(text = contact.number, textStyle = Typography.bodySmall(), color = Color.Gray)
                 }
             }
 
@@ -68,7 +68,7 @@ fun EmergencyContactItem(
                     modifier = Modifier
                         .size(32.dp)
                         .clickable {
-                            onDeleteClicked.invoke(name)
+                            onDeleteClicked?.invoke(contact.contactId, contact.name)
                         }
                 )
         }

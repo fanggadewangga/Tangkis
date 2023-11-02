@@ -10,20 +10,28 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
+import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.KeyboardOptions
+import androidx.compose.foundation.verticalScroll
+import androidx.compose.material3.Checkbox
+import androidx.compose.material3.CheckboxDefaults
+import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.platform.LocalConfiguration
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
+import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.navigation.NavController
 import coil.compose.AsyncImage
 import com.college.tangkis.R
+import com.college.tangkis.data.Resource
 import com.college.tangkis.feature.main.components.AppButton
 import com.college.tangkis.feature.main.components.AppText
 import com.college.tangkis.feature.main.components.AppTextField
@@ -34,7 +42,23 @@ import com.college.tangkis.theme.md_theme_light_primary
 @Composable
 fun RegisterScreen(navController: NavController) {
     val viewModel = hiltViewModel<RegisterViewModel>()
-    LocalConfiguration.current.screenWidthDp
+    val registerState = viewModel.registerState.collectAsStateWithLifecycle()
+    val context = LocalContext.current
+
+    LaunchedEffect(registerState.value) {
+        when (registerState.value) {
+            is Resource.Loading -> {}
+            is Resource.Error -> {}
+            is Resource.Empty -> {}
+            is Resource.Success -> {
+                navController.navigate(Screen.Login.route) {
+                    popUpTo(Screen.Register.route) {
+                        inclusive = true
+                    }
+                }
+            }
+        }
+    }
 
     Column(
         horizontalAlignment = Alignment.Start,
@@ -42,6 +66,7 @@ fun RegisterScreen(navController: NavController) {
             .fillMaxSize()
             .background(color = Color.White)
             .padding(top = 48.dp)
+            .verticalScroll(rememberScrollState())
     ) {
         // Box
         AsyncImage(
@@ -85,7 +110,7 @@ fun RegisterScreen(navController: NavController) {
                     }
                 },
                 keyboardOptions = KeyboardOptions(
-                    keyboardType = KeyboardType.Number,
+                    keyboardType = KeyboardType.Text,
                     imeAction = ImeAction.Next
                 ),
                 shape = RoundedCornerShape(4.dp),
@@ -113,10 +138,35 @@ fun RegisterScreen(navController: NavController) {
                 modifier = Modifier.fillMaxWidth()
             )
 
-            Spacer(modifier = Modifier.height(4.dp))
+            AppTextField(
+                placeHolder = "Nomor Whatsapp",
+                value = viewModel.phoneNumber.value,
+                onValueChange = {
+                    viewModel.apply {
+                        isPhoneNumberFieldClicked.value = true
+                        phoneNumber.value = it
+                    }
+                },
+                keyboardOptions = KeyboardOptions(
+                    keyboardType = KeyboardType.Phone,
+                    imeAction = ImeAction.Next
+                ),
+                leadingIcon = {
+                    AppText(
+                        text = "+62",
+                        textStyle = Typography.bodyLarge(),
+                        modifier = Modifier.padding(bottom = 4.dp, start = 4.dp)
+                    )
+                },
+                shape = RoundedCornerShape(4.dp),
+                isError = viewModel.isValidPhoneNumber.value,
+                showWarningMessage = viewModel.isValidPhoneNumber.value,
+                modifier = Modifier.fillMaxWidth()
+            )
+
             AppTextField(
                 isPassword = true,
-                placeHolder = "Kata Sandi",
+                placeHolder = "Password",
                 value = viewModel.passwordState.value,
                 onValueChange = {
                     viewModel.passwordState.value = it
@@ -128,17 +178,73 @@ fun RegisterScreen(navController: NavController) {
                 shape = RoundedCornerShape(4.dp),
                 isError = viewModel.isValidPasswordState.value,
                 showWarningMessage = viewModel.isValidPasswordState.value,
-                warningMessage = "Password harus lebih dari 8 karakter!",
+                warningMessage = "Minimal 8 karakter!",
                 modifier = Modifier.fillMaxWidth()
             )
 
-            // Button
-            Spacer(modifier = Modifier.height(48.dp))
-            AppButton(
-                content = { AppText(text = "Daftar", color = Color.White) },
-                onClick = {},
+            AppTextField(
+                isPassword = true,
+                placeHolder = "Konfirmasi Password",
+                value = viewModel.passwordConfirmState.value,
+                onValueChange = {
+                    viewModel.passwordConfirmState.value = it
+                },
+                keyboardOptions = KeyboardOptions(
+                    autoCorrect = false,
+                    imeAction = ImeAction.Next
+                ),
+                shape = RoundedCornerShape(4.dp),
+                isError = viewModel.isValidConfirmPasswordState.value,
+                showWarningMessage = viewModel.isValidConfirmPasswordState.value,
+                warningMessage = "Password tidak sesuai!",
                 modifier = Modifier.fillMaxWidth()
             )
+
+            // Checkbox
+            Row(
+                verticalAlignment = Alignment.CenterVertically,
+            ) {
+                Checkbox(
+                    checked = viewModel.isChecked.value, onCheckedChange = {
+                        viewModel.isChecked.value = it
+                    },
+                    colors = CheckboxDefaults.colors(
+                        checkedColor = md_theme_light_primary,
+                        checkmarkColor = Color.White
+                    )
+                )
+                AppText(text = "Saya setuju dengan ", textStyle = Typography.bodyMedium())
+                AppText(
+                    text = "ketentuan ",
+                    textStyle = Typography.titleSmall(),
+                    color = md_theme_light_primary
+                )
+                AppText(text = "dan ", textStyle = Typography.bodyMedium())
+                AppText(
+                    text = "kebijakan privasi",
+                    textStyle = Typography.titleSmall(),
+                    maxLine = 1,
+                    color = md_theme_light_primary
+                )
+            }
+
+            // Button
+            Spacer(modifier = Modifier.height(48.dp))
+            if (registerState.value is Resource.Loading)
+                Column(
+                    horizontalAlignment = Alignment.CenterHorizontally,
+                    modifier = Modifier.fillMaxWidth()
+                ) {
+                    CircularProgressIndicator(color = md_theme_light_primary)
+                }
+            else
+                AppButton(
+                    content = { AppText(text = "Daftar", color = Color.White) },
+                    onClick = {
+                        viewModel.register()
+                    },
+                    modifier = Modifier.fillMaxWidth()
+                )
 
 
             Spacer(modifier = Modifier.height(16.dp))
@@ -151,7 +257,7 @@ fun RegisterScreen(navController: NavController) {
                     textStyle = Typography.labelLarge(),
                     color = md_theme_light_primary,
                     modifier = Modifier.clickable {
-                        navController.navigate(Screen.Home.route)
+                        navController.navigate(Screen.Login.route)
                     }
                 )
             }

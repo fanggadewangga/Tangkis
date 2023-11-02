@@ -8,6 +8,7 @@ import dagger.hilt.components.SingletonComponent
     includes = [
         DatastoreModule::class,
         RepositoryModule::class,
+        RemoteModule::class
     ]
 )
 

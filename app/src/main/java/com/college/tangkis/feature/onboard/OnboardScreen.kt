@@ -30,6 +30,8 @@ import com.college.tangkis.feature.main.components.AppButton
 import com.college.tangkis.feature.main.components.AppText
 import com.college.tangkis.feature.main.route.Screen
 import com.college.tangkis.theme.Typography
+import com.college.tangkis.theme.md_theme_light_primary
+import com.college.tangkis.theme.md_theme_light_secondary
 import com.google.accompanist.pager.ExperimentalPagerApi
 import com.google.accompanist.pager.HorizontalPager
 import com.google.accompanist.pager.HorizontalPagerIndicator
@@ -123,6 +125,7 @@ fun OnboardScreen(navController: NavController) {
 
             // Indicator
             HorizontalPagerIndicator(
+                activeColor = md_theme_light_primary,
                 pagerState = pagerState,
                 modifier = Modifier
                     .align(Alignment.BottomCenter)
@@ -156,6 +159,7 @@ fun PagerItem(onboardPage: OnboardPage) {
             text = onboardPage.title,
             textAlign = TextAlign.Center,
             textStyle = Typography.titleLarge(),
+            color = md_theme_light_secondary,
             modifier = Modifier.padding(horizontal = 16.dp)
         )
 

@@ -50,7 +50,7 @@ object Typography {
     )
 // roboto_bold
     fun titleMedium() = TextStyle(
-        fontFamily = FontFamily(Font(R.font.roboto_medium)),
+        fontFamily = FontFamily(Font(R.font.roboto_bold)),
         fontSize = 18.sp,
         lineHeight = 24.sp
     )
@@ -63,12 +63,18 @@ object Typography {
 // fontSize = 16; lineHeight = 20, semibold
     fun titleSmall() = TextStyle(
         fontFamily = FontFamily(Font(R.font.roboto_bold)),
-        fontSize = 14.sp,
+        fontSize = 16.sp,
         lineHeight = 20.sp
     )
 // tambah lableLarge - prominent
     fun labelLarge() = TextStyle(
         fontFamily = FontFamily(Font(R.font.roboto_medium)),
+        fontSize = 14.sp,
+        lineHeight = 20.sp
+    )
+
+    fun labelLargeProminent() = TextStyle(
+        fontFamily = FontFamily(Font(R.font.roboto_bold)),
         fontSize = 14.sp,
         lineHeight = 20.sp
     )
@@ -100,7 +106,7 @@ object Typography {
     fun bodySmall() = TextStyle(
         fontFamily = FontFamily(Font(R.font.roboto_regular)),
         fontSize = 12.sp,
-        lineHeight = 16.sp
+        lineHeight = 18.sp
     )
 
     fun wallet() = TextStyle(

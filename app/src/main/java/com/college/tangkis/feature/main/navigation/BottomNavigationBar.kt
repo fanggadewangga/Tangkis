@@ -1,10 +1,12 @@
 package com.college.tangkis.feature.main.navigation
 
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.material3.Icon
 import androidx.compose.material3.NavigationBar
 import androidx.compose.material3.NavigationBarItem
+import androidx.compose.material3.NavigationBarItemDefaults
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
@@ -22,6 +24,8 @@ import com.college.tangkis.theme.md_theme_light_primary
 fun BottomNavigationBar(navController: NavController) {
     val navigationItems = listOf(
         BottomNavigationItem.Home,
+        BottomNavigationItem.Activity,
+        BottomNavigationItem.Faq,
         BottomNavigationItem.Profile,
     )
 
@@ -35,6 +39,13 @@ fun BottomNavigationBar(navController: NavController) {
         val currentRoute = navBackStackEntry?.destination?.route
         navigationItems.forEach { item ->
             NavigationBarItem(
+                colors = NavigationBarItemDefaults.colors(
+                    selectedIconColor = Color.White,
+                    selectedTextColor = Color.White,
+                    unselectedTextColor = Color.White,
+                    unselectedIconColor = Color.White,
+                    indicatorColor = Color.White
+                ),
                 icon = {
                     Icon(
                         painter = painterResource(id = item.icon),
@@ -61,6 +72,11 @@ fun BottomNavigationBar(navController: NavController) {
                 },
                 selected = currentRoute == item.route,
                 enabled = currentRoute != item.route,
+                modifier = when (item.label) {
+                    "Aktivitas" -> Modifier.padding(end = 30.dp)
+                    "FAQ" -> Modifier.padding(start = 30.dp)
+                    else -> Modifier
+                }
             )
         }
     }

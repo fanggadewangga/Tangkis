@@ -3,6 +3,7 @@ plugins {
     id("org.jetbrains.kotlin.android")
     id("dagger.hilt.android.plugin")
     id("com.google.devtools.ksp")
+    id("org.jetbrains.kotlin.plugin.serialization") version "1.8.10"
 }
 
 android {
@@ -93,9 +94,12 @@ dependencies {
 
     // retrofit
     implementation("com.squareup.retrofit2:retrofit:2.9.0")
-    implementation("com.squareup.retrofit2:converter-gson:2.9.0")
-    implementation("com.squareup.okhttp3:okhttp:5.0.0-alpha.2")
+    implementation("com.jakewharton.retrofit:retrofit2-kotlinx-serialization-converter:1.0.0")
+    implementation("com.squareup.okhttp3:okhttp:4.11.0")
     implementation("com.squareup.okhttp3:logging-interceptor:5.0.0-alpha.2")
+
+    // Kotlin serialization
+    implementation("org.jetbrains.kotlinx:kotlinx-serialization-json:1.6.0")
 
     // paging
     implementation("androidx.paging:paging-compose:3.3.0-alpha02")
@@ -115,7 +119,7 @@ dependencies {
     implementation ("androidx.core:core-splashscreen:1.0.1")
 
     //coil
-    implementation("io.coil-kt:coil-compose:2.2.2")
+    implementation("io.coil-kt:coil-compose:2.4.0")
     implementation("io.coil-kt:coil-video:2.2.2")
 
     // Icon
@@ -129,6 +133,8 @@ dependencies {
     // Maps
     implementation ("com.google.android.gms:play-services-location:21.0.1")
     implementation ("com.google.maps.android:maps-compose:2.7.2")
-    /*implementation ("com.google.android.libraries.places:places:3.2.0")*/
     implementation("com.google.android.gms:play-services-maps:18.2.0")
+
+    // Custom toast
+    implementation("com.github.GrenderG:Toasty:1.5.2")
 }

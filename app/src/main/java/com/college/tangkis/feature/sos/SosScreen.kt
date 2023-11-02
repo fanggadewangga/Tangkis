@@ -1,5 +1,10 @@
 package com.college.tangkis.feature.sos
 
+import android.Manifest
+import android.content.pm.PackageManager
+import android.location.Location
+import androidx.activity.compose.rememberLauncherForActivityResult
+import androidx.activity.result.contract.ActivityResultContracts
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.interaction.MutableInteractionSource
@@ -22,7 +27,9 @@ import androidx.compose.material3.Scaffold
 import androidx.compose.material3.TopAppBar
 import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.DisposableEffect
 import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.SideEffect
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -30,19 +37,23 @@ import androidx.compose.ui.draw.shadow
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.ColorFilter
 import androidx.compose.ui.platform.LocalConfiguration
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.Font
 import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.core.content.ContextCompat
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
 import coil.compose.AsyncImage
 import com.college.tangkis.R
 import com.college.tangkis.feature.main.components.AppButton
 import com.college.tangkis.feature.main.components.AppText
+import com.college.tangkis.feature.main.constant.Constants.FILKOM_LOCATION
 import com.college.tangkis.feature.main.route.Screen
+import com.college.tangkis.feature.main.utils.getCurrentLocation
 import com.college.tangkis.theme.Typography
 import com.college.tangkis.theme.md_theme_light_primary
 import com.college.tangkis.theme.md_theme_light_secondary
@@ -55,13 +66,81 @@ fun SosScreen(navController: NavController) {
     val viewModel = hiltViewModel<SosViewModel>()
     val interactionSource = remember { MutableInteractionSource() }
     val screenHeight = LocalConfiguration.current.screenHeightDp
+    val context = LocalContext.current
+    val permissionLauncher =
+        rememberLauncherForActivityResult(ActivityResultContracts.RequestPermission()) { isGranted: Boolean ->
+            viewModel.isSMSPermissionGranted.value = isGranted
+        }
+    when (PackageManager.PERMISSION_GRANTED) {
+        ContextCompat.checkSelfPermission(
+            context,
+            Manifest.permission.SEND_SMS,
+        ),
+        -> {
+            viewModel.isSMSPermissionGranted.value = true
+        }
+
+        else -> {
+            SideEffect {
+                permissionLauncher.launch(Manifest.permission.SEND_SMS)
+            }
+        }
+    }
+    when (PackageManager.PERMISSION_GRANTED) {
+        ContextCompat.checkSelfPermission(
+            context,
+            Manifest.permission.ACCESS_FINE_LOCATION,
+        ),
+        -> {
+            viewModel.isPermissionGranted.value = true
+            getCurrentLocation(context) {
+                viewModel.apply {
+                    userLatState.doubleValue = it.latitude
+                    userLonState.doubleValue = it.longitude
+                    getAddressFromCoordinate(context)
+                }
+            }
+        }
+
+        else -> {
+            SideEffect {
+                permissionLauncher.launch(Manifest.permission.ACCESS_FINE_LOCATION)
+            }
+        }
+    }
+
+    LaunchedEffect(true) {
+        val userLocation = Location("User")
+        val filkomLocation = Location("Filkom")
+        userLocation.apply {
+            latitude = viewModel.userLatState.doubleValue
+            longitude = viewModel.userLonState.doubleValue
+        }
+        filkomLocation.apply {
+            latitude = FILKOM_LOCATION.latitude
+            longitude = FILKOM_LOCATION.longitude
+        }
+        val distance = filkomLocation.distanceTo(userLocation) / 1000
+        viewModel.isInRange.value = distance <= 3.0
+    }
+
+    LaunchedEffect(!viewModel.isSMSPermissionGranted.value) {
+        permissionLauncher.launch(Manifest.permission.SEND_SMS)
+    }
 
     LaunchedEffect(key1 = viewModel.timeLeft.intValue, key2 = viewModel.isSending.value) {
         while (viewModel.timeLeft.intValue > 0 && viewModel.isSending.value) {
             delay(1000L)
             viewModel.timeLeft.intValue--
-            if (viewModel.timeLeft.intValue == 0)
+            if (viewModel.timeLeft.intValue == 0) {
                 navController.navigate(Screen.SosSent.route)
+            }
+        }
+    }
+
+    DisposableEffect(true) {
+        onDispose {
+            viewModel.resetState()
         }
     }
 
@@ -102,7 +181,12 @@ fun SosScreen(navController: NavController) {
 
                 if (viewModel.isSending.value)
                     AppButton(
-                        onClick = { viewModel.isSending.value = false },
+                        onClick = {
+                            viewModel.apply {
+                                isSending.value = false
+                                resetState()
+                            }
+                        },
                         backgroundColor = Color.White,
                         borderColor = md_theme_light_secondary,
                         borderWidth = 1.dp,
@@ -204,6 +288,7 @@ fun SosScreen(navController: NavController) {
                     ),
                     modifier = Modifier
                         .clickable(
+                            enabled = viewModel.isInRange.value,
                             interactionSource = interactionSource,
                             indication = null
                         ) {
