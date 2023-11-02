@@ -202,7 +202,6 @@ fun ProfileScreen(navController: NavController) {
                     )
                 }
             }
-
         }
     }
 }
