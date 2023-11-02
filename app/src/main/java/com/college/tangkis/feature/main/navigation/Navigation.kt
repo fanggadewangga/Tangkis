@@ -49,11 +49,11 @@ fun Navigation() {
         composable(route = Screen.Contact.route) {
             ContactScreen(navController = navController)
         }
-        
+
         composable(route = Screen.Article.route) {
             ArticleScreen(navController = navController)
         }
-        
+
         composable(route = Screen.ArticleDetail.route) {
             ArticleDetailScreen(navController = navController)
         }
@@ -61,7 +61,7 @@ fun Navigation() {
         composable(route = Screen.Profile.route) {
             ProfileScreen(navController = navController)
         }
-        
+
         composable(route = Screen.SOS.route) {
             SosScreen(navController = navController)
         }
