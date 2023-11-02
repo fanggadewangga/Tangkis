@@ -17,6 +17,7 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyRow
+import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
@@ -105,6 +106,7 @@ fun HomeScreen(navController: NavController) {
 
     LaunchedEffect(true) {
         systemUiController.setStatusBarColor(color = md_theme_light_primary)
+        viewModel.getContacts()
     }
 
     Scaffold(
@@ -161,7 +163,7 @@ fun HomeScreen(navController: NavController) {
 
                         // username
                         AppText(
-                            text = if (userState.value is Resource.Success) "Selamat datang, ${userState.value.data!!.name}" else "",
+                            text = if (userState.value is Resource.Success) "Selamat datang ${userState.value.data!!.name}" else "",
                             textStyle = Typography.titleMedium(),
                             color = Color.White,
                             maxLine = 1,
@@ -256,17 +258,16 @@ fun HomeScreen(navController: NavController) {
                     )
 
                     Spacer(modifier = Modifier.height(16.dp))
-                    repeat(3) {
-                        EmergencyContactItem(
-                            name = "Evan TIF 21",
-                            number = "+62 81234567890",
-                            onDeleteClicked = {},
-                            isDeletable = false,
-                            modifier = Modifier
-                                .fillMaxWidth()
-                                .padding(bottom = 8.dp)
-                        )
-                    }
+                    if (contactState.value is Resource.Success)
+                        contactState.value.data!!.forEach { contact ->
+                            EmergencyContactItem(
+                                contact = contact,
+                                isDeletable = false,
+                                modifier = Modifier
+                                    .fillMaxWidth()
+                                    .padding(bottom = 8.dp)
+                            )
+                        }
 
                     Spacer(modifier = Modifier.height(24.dp))
                     Row(
@@ -293,14 +294,21 @@ fun HomeScreen(navController: NavController) {
 
                     Spacer(modifier = Modifier.height(16.dp))
                     LazyRow {
-                        items(count = 3) {
-                            HomeArticleItem(
-                                title = "Panduan Penggunaan Fitur SOS",
-                                description = "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vivamus in ante semper ...",
-                                onClick = {},
-                                modifier = Modifier.padding(end = 16.dp)
-                            )
-                        }
+                        if (articleState.value is Resource.Success)
+                            items(articleState.value.data!!) { article ->
+                                HomeArticleItem(
+                                    article = article,
+                                    onClick = {
+                                        navController.navigate(
+                                            Screen.ArticleDetail.route.replace(
+                                                oldValue = "{articleId}",
+                                                newValue = article.articleId
+                                            )
+                                        )
+                                    },
+                                    modifier = Modifier.padding(end = 16.dp)
+                                )
+                            }
                     }
                     Spacer(modifier = Modifier.height(32.dp))
                 }

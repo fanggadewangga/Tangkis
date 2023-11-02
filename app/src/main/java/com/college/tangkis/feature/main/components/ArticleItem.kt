@@ -26,14 +26,14 @@ import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import coil.compose.AsyncImage
 import com.college.tangkis.R
+import com.college.tangkis.data.model.response.article.ArticleListResponse
 import com.college.tangkis.theme.Typography
 
 @Composable
 fun HomeArticleItem(
     modifier: Modifier = Modifier,
-    title: String,
-    description: String,
-    onClick: () -> Unit,
+    article: ArticleListResponse,
+    onClick: (String) -> Unit,
 ) {
     Card(
         elevation = CardDefaults.cardElevation(defaultElevation = 1.dp),
@@ -42,7 +42,7 @@ fun HomeArticleItem(
         modifier = modifier
             .width(280.dp)
             .height(180.dp)
-            .clickable { onClick() }
+            .clickable { onClick(article.articleId) }
     ) {
         Column(
             verticalArrangement = Arrangement.spacedBy(8.dp),
@@ -67,7 +67,7 @@ fun HomeArticleItem(
 
                 // Title
                 AppText(
-                    text = title,
+                    text = article.title,
                     maxLine = 2,
                     overflow = TextOverflow.Ellipsis,
                     textStyle = Typography.titleSmall(),
@@ -80,7 +80,7 @@ fun HomeArticleItem(
 
             // Description
             AppText(
-                text = description,
+                text = article.content,
                 maxLine = 2,
                 overflow = TextOverflow.Ellipsis,
                 textStyle = Typography.bodySmall(),
@@ -94,11 +94,10 @@ fun HomeArticleItem(
 @Composable
 fun ArticleItem(
     modifier: Modifier = Modifier,
-    title: String,
-    description: String,
-    onClick: () -> Unit,
+    article: ArticleListResponse,
+    onClick: (String) -> Unit,
 ) {
-    Column(modifier = modifier.clickable { onClick() }) {
+    Column(modifier = modifier.clickable { onClick(article.articleId) }) {
         Row(
             verticalAlignment = Alignment.CenterVertically,
             modifier = Modifier.padding(vertical = 8.dp, horizontal = 16.dp)
@@ -123,7 +122,7 @@ fun ArticleItem(
 
                 // Title
                 AppText(
-                    text = title,
+                    text = article.title,
                     textStyle = Typography.titleSmall(),
                     maxLine = 1,
                     overflow = TextOverflow.Ellipsis,
@@ -131,7 +130,7 @@ fun ArticleItem(
 
                 // Description
                 AppText(
-                    text = description,
+                    text = article.content,
                     maxLine = 2,
                     overflow = TextOverflow.Ellipsis,
                     textStyle = Typography.bodyMedium(),

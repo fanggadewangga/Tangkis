@@ -2,9 +2,12 @@ package com.college.tangkis.feature.contact
 
 import android.Manifest
 import android.content.pm.PackageManager
+import android.widget.Toast
 import androidx.activity.compose.rememberLauncherForActivityResult
 import androidx.activity.result.contract.ActivityResultContracts
+import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -17,14 +20,19 @@ import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.ExperimentalMaterialApi
 import androidx.compose.material.ModalBottomSheetLayout
 import androidx.compose.material.ModalBottomSheetValue
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Search
 import androidx.compose.material.rememberModalBottomSheetState
 import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.TopAppBar
 import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.SideEffect
+import androidx.compose.runtime.collectAsState
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -34,18 +42,23 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.unit.dp
 import androidx.core.content.ContextCompat
 import androidx.hilt.navigation.compose.hiltViewModel
+import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.navigation.NavController
 import coil.compose.AsyncImage
 import com.college.tangkis.R
+import com.college.tangkis.data.Resource
 import com.college.tangkis.feature.main.components.AppButton
 import com.college.tangkis.feature.main.components.AppDialog
+import com.college.tangkis.feature.main.components.AppSearchField
 import com.college.tangkis.feature.main.components.AppText
 import com.college.tangkis.feature.main.components.EmergencyContactItem
 import com.college.tangkis.feature.main.components.ErrorLayout
 import com.college.tangkis.feature.main.components.LocalContactItem
 import com.college.tangkis.theme.Typography
 import com.college.tangkis.theme.md_theme_light_primary
+import com.college.tangkis.theme.md_theme_light_primaryContainer
 import com.college.tangkis.theme.md_theme_light_secondary
+import es.dmoral.toasty.Toasty
 
 @OptIn(ExperimentalMaterial3Api::class, ExperimentalMaterialApi::class)
 @Composable
@@ -79,6 +92,13 @@ fun ContactScreen(navController: NavController) {
     )
 
     val screenHeight = LocalConfiguration.current.screenHeightDp
+    val contactState = viewModel.getContactState.collectAsState()
+    val deleteContactState = viewModel.deleteContactState.collectAsState()
+    val addContactState = viewModel.addContactState.collectAsState()
+
+    LaunchedEffect(deleteContactState.value, addContactState.value) {
+        viewModel.getContacts()
+    }
 
     ModalBottomSheetLayout(
         sheetState = modalBottomSheetState,
@@ -86,27 +106,75 @@ fun ContactScreen(navController: NavController) {
         sheetContent = {
             Box(
                 modifier = Modifier
-                    .height((screenHeight * 0.6).dp)
+                    .height((screenHeight * 0.95).dp)
                     .padding(
                         start = 16.dp,
                         top = 16.dp,
                         end = 16.dp,
                     )
             ) {
-                LazyColumn(modifier = Modifier.padding(start = 8.dp, top = 24.dp, end = 8.dp)) {
-                    items(viewModel.deviceContacts) {
-                        LocalContactItem(
-                            contact = it,
-                            onSelected = { contact ->
-                                viewModel.listOfSelectedContact.add(contact)
-                            },
-                            onDeselected = { contact ->
-                                viewModel.listOfSelectedContact.remove(contact)
-                            },
-                            modifier = Modifier.padding(bottom = 8.dp)
-                        )
+                Column(
+                    modifier = Modifier.height((screenHeight * 0.9).dp),
+                    verticalArrangement = Arrangement.spacedBy(2.dp)
+                ) {
+                    AppSearchField(
+                        valueState = viewModel.query.value,
+                        borderColor = md_theme_light_primaryContainer,
+                        placeholder = "Cari Kontak",
+                        onValueChange = {
+                            viewModel.apply {
+                                query.value = it
+                                viewModel.deviceContacts.filter {
+                                    it.name.contains(viewModel.query.value)
+                                }
+                            }
+                        },
+                        trailingIcon = {
+                            Icon(
+                                imageVector = Icons.Default.Search,
+                                contentDescription = "Search",
+                                tint = Color.Black
+                            )
+                        },
+                        modifier = Modifier.padding(horizontal = 16.dp)
+                    )
+                    LazyColumn(
+                        modifier = Modifier
+                            .height((screenHeight * 0.75).dp)
+                            .padding(start = 8.dp, top = 24.dp, end = 8.dp)
+                    ) {
+                        items(viewModel.deviceContacts) {
+                            LocalContactItem(
+                                contact = it,
+                                onSelected = { contact ->
+                                    if (viewModel.listOfSelectedContact.size <= 4)
+                                        viewModel.listOfSelectedContact.add(contact)
+                                    else
+                                        Toasty.error(
+                                            context,
+                                            "Hanya dapat menambahkan 5 kontak",
+                                            Toast.LENGTH_SHORT
+                                        ).show()
+                                },
+                                onDeselected = { contact ->
+                                    viewModel.listOfSelectedContact.remove(contact)
+                                },
+                                modifier = Modifier.padding(bottom = 8.dp)
+                            )
+                        }
+                    }
+                    AppButton(
+                        onClick = {
+                            viewModel.addContacts()
+                        },
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .padding(horizontal = 16.dp)
+                    ) {
+                        AppText(text = "Selesai", color = Color.White)
                     }
                 }
+
             }
         },
     ) {
@@ -182,20 +250,20 @@ fun ContactScreen(navController: NavController) {
                             end = 16.dp
                         )
                     ) {
-                        items(viewModel.listOfSelectedContact) { contact ->
-                            EmergencyContactItem(
-                                name = contact.name,
-                                number = contact.number,
-                                isDeletable = true,
-                                modifier = Modifier.padding(top = 8.dp),
-                                onDeleteClicked = { contactName ->
+                        if (contactState.value is Resource.Success)
+                            items(contactState.value.data!!) { contact ->
+                                EmergencyContactItem(
+                                    contact = contact,
+                                    isDeletable = true,
+                                    modifier = Modifier.padding(top = 8.dp)
+                                ) { id, name ->
                                     viewModel.apply {
                                         showDialog.value = true
-                                        deleteContactName.value = contactName
+                                        deleteContactId.value = id
+                                        deleteContactName.value = name
                                     }
                                 }
-                            )
-                        }
+                            }
                     }
 
                 // Alert
@@ -232,7 +300,12 @@ fun ContactScreen(navController: NavController) {
                         viewModel.showDialog.value = isShow
                     },
                     onCancelClicked = { viewModel.showDialog.value = false },
-                    onConfirmClicked = { /*TODO*/ },
+                    onConfirmClicked = {
+                        viewModel.apply {
+                            deleteContact()
+                            showDialog.value = false
+                        }
+                    },
                 )
         }
     }
