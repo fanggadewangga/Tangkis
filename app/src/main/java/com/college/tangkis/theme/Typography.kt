@@ -90,6 +90,11 @@ object Typography {
         fontSize = 11.sp,
         lineHeight = 16.sp
     )
+    fun labelStatus() = TextStyle(
+        fontFamily = FontFamily(Font(R.font.roboto_medium)),
+        fontSize = 13.sp,
+        lineHeight = 0.sp
+    )
 
     fun bodyLarge() = TextStyle(
         fontFamily = FontFamily(Font(R.font.roboto_regular)),
