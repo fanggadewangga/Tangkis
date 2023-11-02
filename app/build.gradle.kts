@@ -137,4 +137,7 @@ dependencies {
 
     // Custom toast
     implementation("com.github.GrenderG:Toasty:1.5.2")
+
+    // date picker
+    implementation("io.github.vanpra.compose-material-dialogs:datetime:0.8.1-rc")
 }

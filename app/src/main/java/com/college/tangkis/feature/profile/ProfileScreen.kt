@@ -17,6 +17,7 @@ import androidx.compose.material3.BottomAppBar
 import androidx.compose.material3.Card
 import androidx.compose.material3.FloatingActionButton
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Alignment.Companion.CenterHorizontally
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -36,6 +37,8 @@ import com.college.tangkis.feature.main.navigation.BottomNavigationBar
 import com.college.tangkis.feature.main.route.Screen
 import com.college.tangkis.theme.Typography
 import com.college.tangkis.theme.md_theme_light_secondary
+import kotlinx.coroutines.delay
+import kotlinx.coroutines.launch
 
 @Composable
 fun ProfileScreen(navController: NavController) {
@@ -43,6 +46,7 @@ fun ProfileScreen(navController: NavController) {
     val viewModel = hiltViewModel<ProfileViewModel>()
     val screenHeight = LocalConfiguration.current.screenHeightDp
     val profileState = viewModel.profileState.collectAsStateWithLifecycle()
+    val coroutineScope = rememberCoroutineScope()
 
     Scaffold(
         floatingActionButton = {
@@ -138,7 +142,7 @@ fun ProfileScreen(navController: NavController) {
                             modifier = Modifier.fillMaxWidth()
                         ) {
                             AppText(
-                                text =  profileState.value.data!!.nim,
+                                text = profileState.value.data!!.nim,
                                 textStyle = Typography.titleMedium(),
                                 modifier = Modifier.padding(horizontal = 16.dp, vertical = 12.dp)
                             )
@@ -158,7 +162,7 @@ fun ProfileScreen(navController: NavController) {
                                 .padding(bottom = 16.dp)
                         ) {
                             AppText(
-                                text =  profileState.value.data!!.whatsapp,
+                                text = profileState.value.data!!.whatsapp,
                                 textStyle = Typography.titleMedium(),
                                 modifier = Modifier.padding(horizontal = 16.dp, vertical = 12.dp)
                             )
@@ -233,7 +237,11 @@ fun ProfileScreen(navController: NavController) {
                 },
                 onCancelClicked = { viewModel.showLogoutDialog.value = false },
                 onConfirmClicked = {
+                    viewModel.showLogoutDialog.value = false
                     viewModel.logout()
+                    coroutineScope.launch {
+                        delay(1500L)
+                    }
                     navController.navigate(Screen.Login.route) {
                         popUpTo(Screen.Profile.route) {
                             inclusive = true

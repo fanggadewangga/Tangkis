@@ -8,6 +8,7 @@ import com.college.tangkis.feature.article.detail.ArticleDetailScreen
 import com.college.tangkis.feature.article.list.ArticleScreen
 import com.college.tangkis.feature.consult.ConsultationScreen
 import com.college.tangkis.feature.contact.ContactScreen
+import com.college.tangkis.feature.faq.FaqScreen
 import com.college.tangkis.feature.home.HomeScreen
 import com.college.tangkis.feature.login.LoginScreen
 import com.college.tangkis.feature.main.route.Screen
@@ -75,6 +76,10 @@ fun Navigation() {
 
         composable(route = Screen.Consultation.route) {
             ConsultationScreen(navController = navController)
+        }
+        
+        composable(route = Screen.FAQ.route) {
+            FaqScreen(navController = navController)
         }
     }
 }

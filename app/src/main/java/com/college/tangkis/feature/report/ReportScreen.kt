@@ -1,7 +1,10 @@
 package com.college.tangkis.feature.report
 
+import android.os.Build
+import androidx.annotation.RequiresApi
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -11,6 +14,7 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.Text
 import androidx.compose.material3.DropdownMenuItem
 import androidx.compose.material3.ExperimentalMaterial3Api
@@ -29,18 +33,28 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.ColorFilter
+import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.window.DialogProperties
 import androidx.hilt.navigation.compose.hiltViewModel
+import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.navigation.NavController
 import coil.compose.AsyncImage
 import com.college.tangkis.R
+import com.college.tangkis.data.Resource
 import com.college.tangkis.feature.main.components.AppButton
 import com.college.tangkis.feature.main.components.AppText
 import com.college.tangkis.feature.main.components.AppTextField
 import com.college.tangkis.feature.main.constant.Constants.CONSULTATION_TIME
 import com.college.tangkis.theme.Typography
 import com.college.tangkis.theme.md_theme_light_primary
+import com.vanpra.composematerialdialogs.MaterialDialog
+import com.vanpra.composematerialdialogs.datetime.date.DatePickerDefaults
+import com.vanpra.composematerialdialogs.datetime.date.datepicker
+import com.vanpra.composematerialdialogs.rememberMaterialDialogState
+import java.time.LocalDate
 
+@RequiresApi(Build.VERSION_CODES.O)
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun ReportScreen(navController: NavController) {
@@ -90,15 +104,17 @@ fun ReportScreen(navController: NavController) {
                 )
                 AppButton(
                     onClick = {
-                        if (viewModel.screenIndex.intValue == 1)
+                        if (viewModel.screenIndex.intValue == 1 && viewModel.isNeedAccompaniment.value)
                             viewModel.screenIndex.intValue = 2
+                        else
+                            viewModel.sentReport()
                     },
                     modifier = Modifier
                         .fillMaxWidth()
                         .padding(bottom = 24.dp)
                 ) {
                     AppText(
-                        text = if (viewModel.screenIndex.intValue == 1) "Lanjutkan" else "Konfirmasi",
+                        text = if (viewModel.screenIndex.intValue == 1 && viewModel.isNeedAccompaniment.value) "Lanjutkan" else "Kirim",
                         color = Color.White,
                         textStyle = Typography.labelLarge()
                     )
@@ -129,6 +145,9 @@ fun ReportScreen(navController: NavController) {
 
 @Composable
 fun ReportForm(viewModel: ReportViewModel) {
+
+    val userState = viewModel.userState.collectAsStateWithLifecycle()
+
     Column(modifier = Modifier.fillMaxWidth()) {
 
         AppText(text = "Ayo isi formulir pelaporan", textStyle = Typography.titleLarge())
@@ -139,9 +158,14 @@ fun ReportForm(viewModel: ReportViewModel) {
         )
         AppTextField(
             placeHolder = "Nomor Whatsapp *",
-            value = "+6281330723755",
+            value = if (userState.value is Resource.Success) userState.value.data!!.whatsapp else "",
             onValueChange = {},
             enabled = false,
+            disabledIndicatorColor = md_theme_light_primary,
+            focusedIndicatorColor = md_theme_light_primary,
+            unfocusedIndicatorColor = md_theme_light_primary,
+            placeHolderColor = md_theme_light_primary,
+            shape = RoundedCornerShape(8.dp),
             modifier = Modifier
                 .fillMaxWidth()
                 .padding(top = 24.dp)
@@ -153,6 +177,7 @@ fun ReportForm(viewModel: ReportViewModel) {
                 viewModel.story.value = it
             },
             showWarningMessage = true,
+            shape = RoundedCornerShape(8.dp),
             warningMessage = "Tenang, privasimu pasti kami jaga",
             modifier = Modifier
                 .fillMaxWidth()
@@ -211,11 +236,14 @@ fun ReportForm(viewModel: ReportViewModel) {
     }
 }
 
+@RequiresApi(Build.VERSION_CODES.O)
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun AccompanimentLayout(viewModel: ReportViewModel) {
-    Column(modifier = Modifier.fillMaxWidth()) {
 
+    val calendarState = rememberMaterialDialogState()
+
+    Column(modifier = Modifier.fillMaxWidth()) {
         Row {
             AppText(
                 text = "Silahkan pilih jadwal pendampingan ",
@@ -230,9 +258,75 @@ fun AccompanimentLayout(viewModel: ReportViewModel) {
         )
 
         // Date
+        Spacer(modifier = Modifier.height(24.dp))
+        AppTextField(
+            placeHolder = "Tanggal",
+            value = if (viewModel.dateState.value.isEmpty()) "Pilih Tanggal" else viewModel.formattedDate.value,
+            onValueChange = {},
+            enabled = false,
+            shape = RoundedCornerShape(8.dp),
+            disabledIndicatorColor = md_theme_light_primary,
+            focusedIndicatorColor = md_theme_light_primary,
+            unfocusedIndicatorColor = md_theme_light_primary,
+            placeHolderColor = md_theme_light_primary,
+            trailingIcon = {
+                AsyncImage(
+                    model = R.drawable.ic_date,
+                    contentDescription = "Date icon",
+                    modifier = Modifier
+                        .size(40.dp)
+                        .clickable {
+                            calendarState.show()
+                        })
+            },
+            modifier = Modifier
+                .fillMaxWidth()
+                .clickable {
+                    calendarState.show()
+                }
+        )
+        MaterialDialog(
+            shape = RoundedCornerShape(16.dp),
+            dialogState = calendarState,
+            properties = DialogProperties(
+                dismissOnBackPress = true,
+                dismissOnClickOutside = true
+            ),
+            buttons = {
+                positiveButton(text = "Ok", textStyle = TextStyle(color = md_theme_light_primary)) {
+                    viewModel.dateState.value = viewModel.formattedDate.value
+                    calendarState.hide()
+                }
+                negativeButton(
+                    text = "Cancel",
+                    textStyle = TextStyle(color = md_theme_light_primary)
+                ) {
+                    calendarState.hide()
+                }
+            },
+            backgroundColor = Color.White
+        ) {
+            datepicker(
+                title = "Select date",
+                initialDate = LocalDate.now(),
+                waitForPositiveButton = true,
+                colors = DatePickerDefaults.colors(
+                    headerBackgroundColor = md_theme_light_primary,
+                    headerTextColor = Color.White,
+                    dateActiveBackgroundColor = md_theme_light_primary,
+                    dateActiveTextColor = Color.White
+                ),
+                allowedDateValidator = { date ->
+                    date >= LocalDate.now()
+                }
+            ) {
+                viewModel.pickedDate.value = it
+            }
+        }
+
 
         // Accompaniment Type
-        Spacer(modifier = Modifier.height(80.dp))
+        Spacer(modifier = Modifier.height(24.dp))
         Row {
             AppText(
                 text = "Ketersediaan mahasiswa untuk hadir konseling ",
@@ -323,7 +417,8 @@ fun AccompanimentLayout(viewModel: ReportViewModel) {
                             text = { Text(text = "${item.startTime} - ${item.endTime}") },
                             onClick = {
                                 viewModel.apply {
-                                    viewModel.selectedTimeIndex.intValue = index
+                                    selectedTimeIndex.intValue = index
+                                    selectedTimeId.value = item.consultationTimeId
                                     hideDropdown()
                                 }
                             },

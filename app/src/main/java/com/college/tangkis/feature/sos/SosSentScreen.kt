@@ -18,6 +18,7 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.lazy.LazyRow
+import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.verticalScroll
@@ -30,7 +31,6 @@ import androidx.compose.material3.TopAppBar
 import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.DisposableEffect
-import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.SideEffect
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -126,13 +126,6 @@ fun SosSentScreen(navController: NavController) {
     }
 
     val contactState = viewModel.contactState.collectAsStateWithLifecycle()
-
-    LaunchedEffect(contactState.value is Resource.Success && !contactState.value.data.isNullOrEmpty()) {
-        contactState.value.data!!.forEach {
-            viewModel.sentEmergencyMessage(destinationNumber = it.number, message = "Tes")
-        }
-    }
-
 
     Scaffold(
         topBar = {
@@ -316,12 +309,13 @@ fun SosSentScreen(navController: NavController) {
                 )
                 Spacer(modifier = Modifier.height(16.dp))
                 LazyRow(modifier = Modifier.padding(horizontal = 16.dp)) {
-                    items(count = 3) {
-                        ContactReceiverItem(
-                            contactName = "Abim TIF UB-21",
-                            modifier = Modifier.padding(end = 8.dp)
-                        )
-                    }
+                    if (contactState.value is Resource.Success)
+                        items(contactState.value.data!!) { contact ->
+                            ContactReceiverItem(
+                                contactName = contact.name,
+                                modifier = Modifier.padding(end = 8.dp)
+                            )
+                        }
                 }
             }
         }

@@ -73,8 +73,8 @@ fun BottomNavigationBar(navController: NavController) {
                 selected = currentRoute == item.route,
                 enabled = currentRoute != item.route,
                 modifier = when (item.label) {
-                    "Aktivitas" -> Modifier.padding(end = 30.dp)
-                    "FAQ" -> Modifier.padding(start = 30.dp)
+                    "Aktivitas" -> Modifier.padding(end = 24.dp)
+                    "FAQ" -> Modifier.padding(start = 24.dp)
                     else -> Modifier
                 }
             )
