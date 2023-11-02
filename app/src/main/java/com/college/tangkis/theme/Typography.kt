@@ -42,13 +42,13 @@ object Typography {
         fontSize = 24.sp,
         lineHeight = 32.sp
     )
-
+// fontSize = 20; lineHeight = 28 (ini tadi tak ganti)
     fun titleLarge() = TextStyle(
         fontFamily = FontFamily(Font(R.font.roboto_bold)),
         fontSize = 20.sp,
         lineHeight = 28.sp
     )
-
+// roboto_bold
     fun titleMedium() = TextStyle(
         fontFamily = FontFamily(Font(R.font.roboto_bold)),
         fontSize = 18.sp,
@@ -60,13 +60,13 @@ object Typography {
         fontSize = 16.sp,
         lineHeight = 24.sp
     )
-
+// fontSize = 16; lineHeight = 20, semibold
     fun titleSmall() = TextStyle(
         fontFamily = FontFamily(Font(R.font.roboto_bold)),
         fontSize = 16.sp,
         lineHeight = 20.sp
     )
-
+// tambah lableLarge - prominent
     fun labelLarge() = TextStyle(
         fontFamily = FontFamily(Font(R.font.roboto_medium)),
         fontSize = 14.sp,
@@ -102,7 +102,7 @@ object Typography {
         fontSize = 14.sp,
         lineHeight = 20.sp
     )
-
+// fontSize = 12; LineHeight = 18
     fun bodySmall() = TextStyle(
         fontFamily = FontFamily(Font(R.font.roboto_regular)),
         fontSize = 12.sp,
