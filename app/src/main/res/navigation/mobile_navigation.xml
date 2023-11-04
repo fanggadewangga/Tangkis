@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/mobile_navigation"
+    app:startDestination="@id/home">
+
+    <fragment
+        android:id="@+id/home"
+        android:name="com.college.tangkis_rpl.home.HomeFragment"
+        android:label="fragment_home"
+        tools:layout="@layout/fragment_home">
+    </fragment>
+
+    <fragment
+        android:id="@+id/sos"
+        android:name="com.college.tangkis_rpl.sos.SOSFragment"
+        android:label="fragment_sos"
+        tools:layout="@layout/fragment_sos">
+    </fragment>
+
+
+    <fragment
+        android:id="@+id/profile"
+        android:name="com.college.tangkis_rpl.profile.ProfileFragment"
+        android:label="fragment_profile"
+        tools:layout="@layout/fragment_profile">
+    </fragment>
+</navigation>

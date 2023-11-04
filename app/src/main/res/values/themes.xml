@@ -28,4 +28,114 @@
         <item name="colorOnSurfaceInverse">@color/md_theme_light_inverseOnSurface</item>
         <item name="colorPrimaryInverse">@color/md_theme_light_inversePrimary</item>
     </style>
+
+    <!-- Display Styles -->
+    <style name="DisplayLarge">
+        <item name="android:fontFamily">@font/roboto_bold</item>
+        <item name="android:textSize">57sp</item>
+    </style>
+
+    <style name="DisplayMedium">
+        <item name="android:fontFamily">@font/roboto_bold</item>
+        <item name="android:textSize">45sp</item>
+    </style>
+
+    <style name="DisplaySmall">
+        <item name="android:fontFamily">@font/roboto_bold</item>
+        <item name="android:textSize">36sp</item>
+    </style>
+
+    <!-- Headline Styles -->
+    <style name="HeadlineLarge">
+        <item name="android:fontFamily">@font/roboto_medium</item>
+        <item name="android:textSize">32sp</item>
+    </style>
+
+    <style name="HeadlineMedium">
+        <item name="android:fontFamily">@font/roboto_regular</item>
+        <item name="android:textSize">28sp</item>
+    </style>
+
+    <style name="HeadlineSmall">
+        <item name="android:fontFamily">@font/roboto_black</item>
+        <item name="android:textSize">24sp</item>
+    </style>
+
+    <!-- Title Styles -->
+    <style name="TitleLarge">
+        <item name="android:fontFamily">@font/roboto_bold</item>
+        <item name="android:textSize">20sp</item>
+    </style>
+
+    <style name="TitleMedium">
+        <item name="android:fontFamily">@font/roboto_bold</item>
+        <item name="android:textSize">18sp</item>
+    </style>
+
+    <style name="TitleBold">
+        <item name="android:fontFamily">@font/roboto_medium</item>
+        <item name="android:textSize">16sp</item>
+    </style>
+
+    <style name="TitleSmall">
+        <item name="android:fontFamily">@font/roboto_bold</item>
+        <item name="android:textSize">16sp</item>
+    </style>
+
+    <!-- Label Styles -->
+    <style name="LabelLarge">
+        <item name="android:fontFamily">@font/roboto_medium</item>
+        <item name="android:textSize">14sp</item>
+    </style>
+
+    <style name="LabelLargeProminent">
+        <item name="android:fontFamily">@font/roboto_bold</item>
+        <item name="android:textSize">14sp</item>
+    </style>
+
+    <style name="LabelMedium">
+        <item name="android:fontFamily">@font/roboto_medium</item>
+        <item name="android:textSize">12sp</item>
+    </style>
+
+    <style name="LabelSmall">
+        <item name="android:fontFamily">@font/roboto_medium</item>
+        <item name="android:textSize">11sp</item>
+    </style>
+
+    <style name="LabelStatus">
+        <item name="android:fontFamily">@font/roboto_medium</item>
+        <item name="android:textSize">13sp</item>
+    </style>
+
+    <!-- Body Styles -->
+    <style name="BodyLarge">
+        <item name="android:fontFamily">@font/roboto_regular</item>
+        <item name="android:textSize">16sp</item>
+    </style>
+
+    <style name="BodyMedium">
+        <item name="android:fontFamily">@font/roboto_regular</item>
+        <item name="android:textSize">14sp</item>
+    </style>
+
+    <style name="BodySmall">
+        <item name="android:fontFamily">@font/roboto_regular</item>
+        <item name="android:textSize">12sp</item>
+    </style>
+
+    <style name="Wallet">
+        <item name="android:fontFamily">@font/roboto_bold</item>
+        <item name="android:textSize">16sp</item>
+    </style>
+
+    <style name="RegistrationStepTitle">
+        <item name="android:fontFamily">@font/roboto_bold</item>
+        <item name="android:textSize">16sp</item>
+    </style>
+
+    <style name="Notification">
+        <item name="android:fontFamily">@font/roboto_medium</item>
+        <item name="android:textSize">12sp</item>
+    </style>
 </resources>
