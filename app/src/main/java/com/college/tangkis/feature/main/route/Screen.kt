@@ -17,5 +17,5 @@ sealed class Screen(val route: String) {
     data object FAQ: Screen("faq")
     data object Activity: Screen("activity")
     data object ChangePassword: Screen("change-password")
-    data object ChangeNumber: Screen("change-number")
+    data object ChangePhoneNumber : Screen("change-phone-number")
 }

@@ -14,7 +14,7 @@ class ActivityViewModel @Inject constructor() : ViewModel() {
     val tabIndex: LiveData<Int> = _tabIndex
     val tabs = listOf("Dalam Proses", "Riwayat")
 
-    var isSwipeToTheLeft: Boolean = false
+    private var isSwipeToTheLeft: Boolean = false
     private val draggableState = DraggableState { delta ->
         isSwipeToTheLeft= delta > 0
     }

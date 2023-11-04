@@ -6,32 +6,41 @@ import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
+import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import com.college.tangkis.feature.main.components.ActivityItem
 
 @Composable
-fun InProgressScreen(viewModel: ActivityViewModel) {
-    Column(modifier = Modifier.fillMaxSize().draggable(
-        state = viewModel.dragState.value!!,
-        orientation = Orientation.Horizontal,
-        onDragStarted = {  },
-        onDragStopped = {
-            viewModel.updateTabIndexBasedOnSwipe()
-        }),
-        horizontalAlignment = Alignment.CenterHorizontally,
-        verticalArrangement = Arrangement.Center) {
-        Row(modifier = Modifier.align(Alignment.CenterHorizontally)) {
-            Text(
-                text = "Dalam Proses",
-                textAlign = TextAlign.Center,
-                fontSize = 20.sp,
-                fontWeight = FontWeight.Bold
-            )
-        }
+fun InProgressScreen(
+    viewModel: ActivityViewModel,
+) {
+    Column(modifier = Modifier
+        .fillMaxSize()
+        .draggable(
+            state = viewModel.dragState.value!!,
+            orientation = Orientation.Horizontal,
+            onDragStopped = {
+                viewModel.updateTabIndexBasedOnSwipe()
+            })
+        .padding(
+            top = 16.dp,
+            start = 16.dp,
+            end = 16.dp,
+            bottom = 8.dp
+        ),
+        verticalArrangement = Arrangement.spacedBy(16.dp),
+        horizontalAlignment = Alignment.CenterHorizontally)
+    {
+
+        // DUMMY DATA NEED LAZY COLUMN IMPLEMENTATION!
+        ActivityItem(title = "Konsultasi ULTKSP", progress = "Diproses", updatedAt = "22 Oktober 2023")
+        ActivityItem(title = "Konsultasi Sebaya", progress = "Diproses", updatedAt = "20 Oktober 2023")
     }
 }

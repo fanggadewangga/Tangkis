@@ -5,6 +5,7 @@ import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
@@ -25,9 +26,11 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.ColorFilter
 import androidx.compose.ui.unit.dp
+import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
 import coil.compose.AsyncImage
 import com.college.tangkis.R
+import com.college.tangkis.feature.consult.ConsultationViewModel
 import com.college.tangkis.feature.main.components.AppText
 import com.college.tangkis.feature.main.navigation.BottomNavigationBar
 import com.college.tangkis.feature.main.route.Screen
@@ -38,6 +41,9 @@ import com.college.tangkis.theme.md_theme_light_secondary
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun ActivityScreen(navController: NavController){
+
+    val viewModel = hiltViewModel<ActivityViewModel>()
+
     Scaffold(
         topBar = {
             TopAppBar(
@@ -92,15 +98,23 @@ fun ActivityScreen(navController: NavController){
         val topPadding = it.calculateTopPadding()
         val bottomPadding = it.calculateBottomPadding()
 
-        //Please Add Injected ViewModel
-        TabLayout(viewModel = ActivityViewModel())
+        TabLayout(
+            viewModel = viewModel,
+            modifier = Modifier.padding(top = topPadding)
+        )
     }
 }
 
 @Composable
-fun TabLayout(viewModel: ActivityViewModel) {
+fun TabLayout(
+    viewModel: ActivityViewModel,
+    modifier: Modifier
+) {
     val tabIndex = viewModel.tabIndex.observeAsState()
-    Column(modifier = Modifier.fillMaxWidth()) {
+    Column(
+        modifier = modifier
+            .fillMaxWidth()
+    ) {
         TabRow(
             selectedTabIndex = tabIndex.value!!,
             backgroundColor = Color.White,
@@ -122,7 +136,7 @@ fun TabLayout(viewModel: ActivityViewModel) {
             }
         }
         when (tabIndex.value) {
-            0 -> InProgressScreen(viewModel = viewModel)
+            0 -> InProgressScreen(viewModel = viewModel )
             1 -> HistoryScreen(viewModel = viewModel)
         }
     }

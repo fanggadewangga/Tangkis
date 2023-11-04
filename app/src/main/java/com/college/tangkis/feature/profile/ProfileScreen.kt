@@ -190,7 +190,7 @@ fun ProfileScreen(navController: NavController) {
                     icon = R.drawable.ic_phone,
                     title = "Ganti Nomor Whatsapp",
                     onClick = {
-                        navController.navigate(Screen.ChangePassword.route)
+                        navController.navigate(Screen.ChangePhoneNumber.route)
                     }
                 )
                 Spacer(modifier = Modifier.height(8.dp))
