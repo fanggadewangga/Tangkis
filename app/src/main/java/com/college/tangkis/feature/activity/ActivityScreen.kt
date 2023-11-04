@@ -1,16 +1,26 @@
 package com.college.tangkis.feature.activity
 
+import androidx.compose.foundation.background
+import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.shape.CircleShape
+import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.BottomAppBar
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.IconButton
 import androidx.compose.material.Scaffold
 import androidx.compose.material.FabPosition
+import androidx.compose.material.Tab
+import androidx.compose.material.TabRow
+import androidx.compose.material.TabRowDefaults.tabIndicatorOffset
 import androidx.compose.material3.FloatingActionButton
 import androidx.compose.material3.TopAppBar
 import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.ColorFilter
@@ -81,5 +91,39 @@ fun ActivityScreen(navController: NavController){
     ){
         val topPadding = it.calculateTopPadding()
         val bottomPadding = it.calculateBottomPadding()
+
+        //Please Add Injected ViewModel
+        TabLayout(viewModel = ActivityViewModel())
+    }
+}
+
+@Composable
+fun TabLayout(viewModel: ActivityViewModel) {
+    val tabIndex = viewModel.tabIndex.observeAsState()
+    Column(modifier = Modifier.fillMaxWidth()) {
+        TabRow(
+            selectedTabIndex = tabIndex.value!!,
+            backgroundColor = Color.White,
+            indicator = { tabPositions ->
+                val modifier = Modifier.tabIndicatorOffset(tabPositions[tabIndex.value!!])
+                Box(
+                    modifier = modifier
+                        .height(5.dp)
+                        .background(color = md_theme_light_primary, shape = RoundedCornerShape(size = 5.dp))
+                )
+            },
+        ) {
+            viewModel.tabs.forEachIndexed { index, title ->
+                Tab(
+                    text = { AppText(text = title, color = md_theme_light_primary, textStyle = Typography.titleBold())},
+                    selected = tabIndex.value!! == index,
+                    onClick = { viewModel.updateTabIndex(index) },
+                )
+            }
+        }
+        when (tabIndex.value) {
+            0 -> InProgressScreen(viewModel = viewModel)
+            1 -> HistoryScreen(viewModel = viewModel)
+        }
     }
 }
