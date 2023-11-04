@@ -4,8 +4,11 @@ import androidx.compose.runtime.Composable
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
+import com.college.tangkis.feature.activity.ActivityScreen
 import com.college.tangkis.feature.article.detail.ArticleDetailScreen
 import com.college.tangkis.feature.article.list.ArticleScreen
+import com.college.tangkis.feature.change_number.ChangeNumberScreen
+import com.college.tangkis.feature.change_password.ChangePasswordScreen
 import com.college.tangkis.feature.consult.ConsultationScreen
 import com.college.tangkis.feature.contact.ContactScreen
 import com.college.tangkis.feature.faq.FaqScreen
@@ -80,6 +83,16 @@ fun Navigation() {
         
         composable(route = Screen.FAQ.route) {
             FaqScreen(navController = navController)
+        }
+
+        composable(route = Screen.Activity.route){
+            ActivityScreen(navController = navController)
+        }
+        composable(route = Screen.ChangeNumber.route){
+            ChangeNumberScreen(navController = navController)
+        }
+        composable(route = Screen.ChangePassword.route){
+            ChangePasswordScreen(navController = navController)
         }
     }
 }
