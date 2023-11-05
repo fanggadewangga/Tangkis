@@ -8,28 +8,28 @@ import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
-import com.college.tangkis_rpl.adapter.HomeArticleAdapter
-import com.college.tangkis_rpl.adapter.HomeContactAdapter
-import com.college.tangkis_rpl.contact.ContactActivity
-import com.college.tangkis_rpl.contact.ContactViewModel
+import com.college.tangkis_rpl.adapter.HomeArtikelInformasiAdapter
+import com.college.tangkis_rpl.adapter.HomeKontakDaruratAdapter
+import com.college.tangkis_rpl.contact.KontakDaruratActivity
+import com.college.tangkis_rpl.contact.KontakDaruratViewModel
 import com.college.tangkis_rpl.databinding.FragmentHomeBinding
 
 class HomeFragment : Fragment() {
 
     private lateinit var binding: FragmentHomeBinding
     private lateinit var viewModel: HomeViewModel
-    private lateinit var contactViewModel: ContactViewModel
-    private lateinit var contactAdapter: HomeContactAdapter
-    private lateinit var articleAdapter: HomeArticleAdapter
+    private lateinit var kontakDaruratViewModel: KontakDaruratViewModel
+    private lateinit var contactAdapter: HomeKontakDaruratAdapter
+    private lateinit var articleAdapter: HomeArtikelInformasiAdapter
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?,
     ): View {
         setupView()
-        getUserData()
-        getContacts()
-        getArticle()
+        getMahasiswa()
+        getKontakDarurat()
+        getDaftarArtikelInformasi()
         observe()
         return binding.root
     }
@@ -49,21 +49,21 @@ class HomeFragment : Fragment() {
             binding.tvHeader.text = "Selamat Datang ${it.name}"
         }
     }
-    private fun getArticle() {
+    private fun getDaftarArtikelInformasi() {
         viewModel.getArticle()
     }
-    private fun getContacts() {
+    private fun getKontakDarurat() {
         viewModel.getContacts()
     }
-    private fun getUserData() {
+    private fun getMahasiswa() {
         viewModel.getUserData()
     }
     private fun setupView() {
         binding = FragmentHomeBinding.inflate(layoutInflater)
         viewModel = ViewModelProvider(this.requireActivity())[HomeViewModel::class.java]
-        contactViewModel = ViewModelProvider(this.requireActivity())[ContactViewModel::class.java]
-        contactAdapter = HomeContactAdapter()
-        articleAdapter = HomeArticleAdapter()
+        kontakDaruratViewModel = ViewModelProvider(this.requireActivity())[KontakDaruratViewModel::class.java]
+        contactAdapter = HomeKontakDaruratAdapter()
+        articleAdapter = HomeArtikelInformasiAdapter()
 
         binding.tvSeeAllContact.setOnClickListener {
             showDaftarKontak()
@@ -80,8 +80,8 @@ class HomeFragment : Fragment() {
         }
     }
     private fun showDaftarKontak() {
-        val intent = Intent(this.context, ContactActivity::class.java)
+        val intent = Intent(this.context, KontakDaruratActivity::class.java)
         startActivity(intent)
-        contactViewModel.getContacts()
+        kontakDaruratViewModel.getKontakDarurat()
     }
 }

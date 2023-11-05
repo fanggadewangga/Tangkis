@@ -1,6 +1,5 @@
 package com.college.tangkis_rpl.model
 
-import android.util.Log
 import io.ktor.client.HttpClient
 import io.ktor.client.request.get
 import io.ktor.client.request.headers
@@ -12,7 +11,7 @@ data class Mahasiswa(
     val name: String = "",
     val password: String = "",
 ) {
-    suspend fun getContacts(nim: String, client: HttpClient): List<KontakDarurat> {
+    suspend fun getKontakDarurat(nim: String, client: HttpClient): List<KontakDarurat> {
         var contacts: List<KontakDarurat> = emptyList()
         val response =
             client.get<BaseResponse<List<KontakDarurat>>>("https://tangkis-api.up.railway.app/user/${nim}/contact") {

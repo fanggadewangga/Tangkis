@@ -36,7 +36,7 @@ class HomeViewModel : ViewModel() {
         val mahasiswaEntity = Mahasiswa()
         viewModelScope.launch {
             _contactLiveData.postValue(
-                mahasiswaEntity.getContacts(
+                mahasiswaEntity.getKontakDarurat(
                     "215150200111033",
                     client = ktorHttpClient
                 )

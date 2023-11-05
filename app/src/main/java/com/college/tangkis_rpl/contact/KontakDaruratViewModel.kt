@@ -11,17 +11,17 @@ import io.ktor.client.engine.android.Android
 import io.ktor.client.features.json.JsonFeature
 import kotlinx.coroutines.launch
 
-class ContactViewModel: ViewModel() {
-    private val _contactLiveData = MutableLiveData<List<KontakDarurat>>()
-    val contactLiveData: LiveData<List<KontakDarurat>> = _contactLiveData
+class KontakDaruratViewModel: ViewModel() {
+    private val _kontakDarurat = MutableLiveData<List<KontakDarurat>>()
+    val kontakDarurat: LiveData<List<KontakDarurat>> = _kontakDarurat
 
     private val ktorHttpClient = HttpClient(Android) { install(JsonFeature) }
 
-    fun getContacts() {
-        val mahasiswaEntity = Mahasiswa()
+    fun getKontakDarurat() {
+        val mahasiswa = Mahasiswa()
         viewModelScope.launch {
-            _contactLiveData.postValue(
-                mahasiswaEntity.getContacts(
+            _kontakDarurat.postValue(
+                mahasiswa.getKontakDarurat(
                     "215150200111033",
                     client = ktorHttpClient
                 )
@@ -30,6 +30,6 @@ class ContactViewModel: ViewModel() {
     }
 
     init {
-        getContacts()
+        getKontakDarurat()
     }
 }

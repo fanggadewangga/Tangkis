@@ -6,7 +6,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.college.tangkis_rpl.databinding.ItemContactHomeBinding
 import com.college.tangkis_rpl.model.KontakDarurat
 
-class HomeContactAdapter: RecyclerView.Adapter<HomeContactAdapter.EmergencyContactViewHolder>() {
+class HomeKontakDaruratAdapter: RecyclerView.Adapter<HomeKontakDaruratAdapter.EmergencyContactViewHolder>() {
 
     var contacts: List<KontakDarurat> = emptyList()
 

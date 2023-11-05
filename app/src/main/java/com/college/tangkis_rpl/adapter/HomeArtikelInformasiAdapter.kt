@@ -8,7 +8,7 @@ import com.bumptech.glide.request.RequestOptions
 import com.college.tangkis_rpl.databinding.ItemArticleHomeBinding
 import com.college.tangkis_rpl.model.ArtikelInformasi
 
-class HomeArticleAdapter : RecyclerView.Adapter<HomeArticleAdapter.HomeArticleViewHolder>() {
+class HomeArtikelInformasiAdapter : RecyclerView.Adapter<HomeArtikelInformasiAdapter.HomeArticleViewHolder>() {
 
     var artikelInformasis: List<ArtikelInformasi> = emptyList()
 
