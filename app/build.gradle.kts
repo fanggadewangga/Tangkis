@@ -125,6 +125,8 @@ dependencies {
     // Icon
     implementation("androidx.compose.material:material-icons-extended:1.5.4")
 
+    //LiveData
+    implementation("androidx.compose.runtime:runtime-livedata:1.5.4")
 
     // Pager and Indicators - Accompanist
     implementation("com.google.accompanist:accompanist-pager:0.27.1")
