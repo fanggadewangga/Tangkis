@@ -4,11 +4,11 @@ import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.college.tangkis_rpl.databinding.ItemContactHomeBinding
-import com.college.tangkis_rpl.model.EmergencyContact
+import com.college.tangkis_rpl.model.KontakDarurat
 
 class HomeContactAdapter: RecyclerView.Adapter<HomeContactAdapter.EmergencyContactViewHolder>() {
 
-    var contacts: List<EmergencyContact> = emptyList()
+    var contacts: List<KontakDarurat> = emptyList()
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): EmergencyContactViewHolder {
         val binding = ItemContactHomeBinding.inflate(LayoutInflater.from(parent.context), parent, false)
@@ -22,7 +22,7 @@ class HomeContactAdapter: RecyclerView.Adapter<HomeContactAdapter.EmergencyConta
     }
 
     inner class EmergencyContactViewHolder(private val view: ItemContactHomeBinding): RecyclerView.ViewHolder(view.root) {
-        fun bind(contact: EmergencyContact) {
+        fun bind(contact: KontakDarurat) {
             view.apply {
                 tvName.text = contact.name
                 tvNumber.text = contact.number

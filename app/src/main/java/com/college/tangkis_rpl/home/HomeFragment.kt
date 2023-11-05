@@ -11,12 +11,14 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.college.tangkis_rpl.adapter.HomeArticleAdapter
 import com.college.tangkis_rpl.adapter.HomeContactAdapter
 import com.college.tangkis_rpl.contact.ContactActivity
+import com.college.tangkis_rpl.contact.ContactViewModel
 import com.college.tangkis_rpl.databinding.FragmentHomeBinding
 
 class HomeFragment : Fragment() {
 
     private lateinit var binding: FragmentHomeBinding
     private lateinit var viewModel: HomeViewModel
+    private lateinit var contactViewModel: ContactViewModel
     private lateinit var contactAdapter: HomeContactAdapter
     private lateinit var articleAdapter: HomeArticleAdapter
 
@@ -33,8 +35,8 @@ class HomeFragment : Fragment() {
     }
 
     private fun observe() {
-        viewModel.articleLiveData.observe(this.requireActivity()) { articles ->
-            articleAdapter.articles = articles
+        viewModel.artikelInformasiLiveData.observe(this.requireActivity()) { articles ->
+            articleAdapter.artikelInformasis = articles
             articleAdapter.notifyDataSetChanged()
         }
 
@@ -43,32 +45,28 @@ class HomeFragment : Fragment() {
             contactAdapter.notifyDataSetChanged()
         }
 
-        viewModel.userLiveData.observe(requireActivity()) {
+        viewModel.mahasiswaLiveData.observe(requireActivity()) {
             binding.tvHeader.text = "Selamat Datang ${it.name}"
         }
     }
-
     private fun getArticle() {
         viewModel.getArticle()
     }
-
     private fun getContacts() {
         viewModel.getContacts()
     }
-
     private fun getUserData() {
         viewModel.getUserData()
     }
-
     private fun setupView() {
         binding = FragmentHomeBinding.inflate(layoutInflater)
         viewModel = ViewModelProvider(this.requireActivity())[HomeViewModel::class.java]
+        contactViewModel = ViewModelProvider(this.requireActivity())[ContactViewModel::class.java]
         contactAdapter = HomeContactAdapter()
         articleAdapter = HomeArticleAdapter()
 
         binding.tvSeeAllContact.setOnClickListener {
-            val intent = Intent(this.context, ContactActivity::class.java)
-            startActivity(intent)
+            showDaftarKontak()
         }
 
         binding.rvArticle.apply {
@@ -80,5 +78,10 @@ class HomeFragment : Fragment() {
             adapter = contactAdapter
             layoutManager = LinearLayoutManager(requireContext(), LinearLayoutManager.VERTICAL, false)
         }
+    }
+    private fun showDaftarKontak() {
+        val intent = Intent(this.context, ContactActivity::class.java)
+        startActivity(intent)
+        contactViewModel.getContacts()
     }
 }

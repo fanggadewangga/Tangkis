@@ -10,6 +10,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.college.tangkis_rpl.R
 import com.college.tangkis_rpl.adapter.ContactAdapter
 import com.college.tangkis_rpl.databinding.ActivityContactBinding
+import com.college.tangkis_rpl.model.KontakDarurat
 import com.google.android.material.bottomsheet.BottomSheetDialog
 
 @Suppress("DEPRECATION")
@@ -23,38 +24,50 @@ class ContactActivity : AppCompatActivity() {
     @SuppressLint("NotifyDataSetChanged")
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        setupView()
+        getContacts()
+        viewModel.contactLiveData.observe(this) { daftarKontak ->
+            if (daftarKontak.isEmpty())
+                showEmpty()
+            else
+                showDaftarKontak(daftarKontak)
+        }
+    }
+
+    override fun onSupportNavigateUp(): Boolean {
+        onBackPressed()
+        return super.onSupportNavigateUp()
+    }
+
+    private fun setupView() {
         binding = ActivityContactBinding.inflate(layoutInflater)
         viewModel = ViewModelProvider(this)[ContactViewModel::class.java]
         setContentView(binding.root)
-
         contactAdapter = ContactAdapter {}
-
         binding.rvContact.apply {
             adapter = contactAdapter
             layoutManager = LinearLayoutManager(context, LinearLayoutManager.VERTICAL, false)
         }
-
         binding.btnAddContact.setOnClickListener {
             showDeviceContact()
         }
-
-        viewModel.contactLiveData.observe(this) { contacts ->
-            contactAdapter.contacts = contacts
-            contactAdapter.notifyDataSetChanged()
-        }
-
         supportActionBar?.apply {
             setDisplayHomeAsUpEnabled(true)
             title = "Kontak Darurat"
             elevation=0f
         }
-
         supportActionBar!!.apply {
             setBackgroundDrawable(ColorDrawable(resources.getColor(R.color.md_theme_light_primary)))
             titleColor = R.color.white
         }
     }
+    private fun showDaftarKontak(daftarKontak: List<KontakDarurat>) {
+        contactAdapter.contacts = daftarKontak
+        contactAdapter.notifyDataSetChanged()
+    }
+    private fun showEmpty() {
 
+    }
     private fun showDeviceContact() {
         val dialogView = layoutInflater.inflate(R.layout.contact_bottom_sheet, null)
         dialog = BottomSheetDialog(this, R.style.BottomSheetDialogTheme)
@@ -67,9 +80,7 @@ class ContactActivity : AppCompatActivity() {
         dialog.show()
         val bottomSheetBehavior = dialog.behavior
     }
-
-    override fun onSupportNavigateUp(): Boolean {
-        onBackPressed()
-        return super.onSupportNavigateUp()
+    private fun getContacts() {
+        viewModel.getContacts()
     }
 }

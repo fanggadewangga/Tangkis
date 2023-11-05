@@ -4,9 +4,9 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.college.tangkis_rpl.model.Article
-import com.college.tangkis_rpl.model.EmergencyContact
-import com.college.tangkis_rpl.model.User
+import com.college.tangkis_rpl.model.ArtikelInformasi
+import com.college.tangkis_rpl.model.KontakDarurat
+import com.college.tangkis_rpl.model.Mahasiswa
 import io.ktor.client.HttpClient
 import io.ktor.client.engine.android.Android
 import io.ktor.client.features.json.JsonFeature
@@ -14,29 +14,29 @@ import kotlinx.coroutines.launch
 
 class HomeViewModel : ViewModel() {
 
-    private val _userLiveData = MutableLiveData<User>()
-    val userLiveData: LiveData<User> = _userLiveData
+    private val _mahasiswaLiveData = MutableLiveData<Mahasiswa>()
+    val mahasiswaLiveData: LiveData<Mahasiswa> = _mahasiswaLiveData
 
-    private val _articleLiveData = MutableLiveData<List<Article>>()
-    val articleLiveData: LiveData<List<Article>> = _articleLiveData
+    private val _artikelInformasiLiveData = MutableLiveData<List<ArtikelInformasi>>()
+    val artikelInformasiLiveData: LiveData<List<ArtikelInformasi>> = _artikelInformasiLiveData
 
-    private val _contactLiveData = MutableLiveData<List<EmergencyContact>>()
-    val contactLiveData: LiveData<List<EmergencyContact>> = _contactLiveData
+    private val _contactLiveData = MutableLiveData<List<KontakDarurat>>()
+    val contactLiveData: LiveData<List<KontakDarurat>> = _contactLiveData
 
     private val ktorHttpClient = HttpClient(Android) { install(JsonFeature) }
 
     fun getArticle() {
-        val articleEntity = Article()
+        val artikelInformasiEntity = ArtikelInformasi()
         viewModelScope.launch {
-            _articleLiveData.postValue(articleEntity.getArticle(ktorHttpClient))
+            _artikelInformasiLiveData.postValue(artikelInformasiEntity.getArticle(ktorHttpClient))
         }
     }
 
     fun getContacts() {
-        val userEntity = User()
+        val mahasiswaEntity = Mahasiswa()
         viewModelScope.launch {
             _contactLiveData.postValue(
-                userEntity.getContacts(
+                mahasiswaEntity.getContacts(
                     "215150200111033",
                     client = ktorHttpClient
                 )
@@ -45,10 +45,10 @@ class HomeViewModel : ViewModel() {
     }
 
     fun getUserData() {
-        val userEntity = User()
+        val mahasiswaEntity = Mahasiswa()
         viewModelScope.launch {
-            _userLiveData.postValue(
-                userEntity.getUserDetail(
+            _mahasiswaLiveData.postValue(
+                mahasiswaEntity.getUserDetail(
                     "215150200111033",
                     client = ktorHttpClient
                 )

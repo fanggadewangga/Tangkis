@@ -6,33 +6,33 @@ import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.bumptech.glide.request.RequestOptions
 import com.college.tangkis_rpl.databinding.ItemArticleHomeBinding
-import com.college.tangkis_rpl.model.Article
+import com.college.tangkis_rpl.model.ArtikelInformasi
 
 class HomeArticleAdapter : RecyclerView.Adapter<HomeArticleAdapter.HomeArticleViewHolder>() {
 
-    var articles: List<Article> = emptyList()
+    var artikelInformasis: List<ArtikelInformasi> = emptyList()
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): HomeArticleViewHolder {
         val binding = ItemArticleHomeBinding.inflate(LayoutInflater.from(parent.context), parent, false)
         return HomeArticleViewHolder(binding)
     }
 
-    override fun getItemCount() = articles.size
+    override fun getItemCount() = artikelInformasis.size
 
     override fun onBindViewHolder(holder: HomeArticleViewHolder, position: Int) {
-        holder.bind(articles[position])
+        holder.bind(artikelInformasis[position])
     }
 
     inner class HomeArticleViewHolder(private val view: ItemArticleHomeBinding) :
         RecyclerView.ViewHolder(view.root) {
-        fun bind(article: Article) {
+        fun bind(artikelInformasi: ArtikelInformasi) {
             view.apply {
-                tvTitle.text = article.title
-                tvContent.text = article.content
+                tvTitle.text = artikelInformasi.title
+                tvContent.text = artikelInformasi.content
             }
             itemView.let {
                 Glide.with(it.context)
-                    .load(article.imageUrl)
+                    .load(artikelInformasi.imageUrl)
                     .apply(RequestOptions.centerCropTransform())
                     .into(view.ivArticle)
             }

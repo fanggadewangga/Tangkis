@@ -4,19 +4,18 @@ import android.util.Log
 import io.ktor.client.HttpClient
 import io.ktor.client.request.get
 import io.ktor.client.request.headers
-import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
 
 @Serializable
-data class User(
+data class Mahasiswa(
     val nim: String = "",
     val name: String = "",
     val password: String = "",
 ) {
-    suspend fun getContacts(nim: String, client: HttpClient): List<EmergencyContact> {
-        var contacts: List<EmergencyContact> = emptyList()
+    suspend fun getContacts(nim: String, client: HttpClient): List<KontakDarurat> {
+        var contacts: List<KontakDarurat> = emptyList()
         val response =
-            client.get<BaseResponse<List<EmergencyContact>>>("https://tangkis-api.up.railway.app/user/${nim}/contact") {
+            client.get<BaseResponse<List<KontakDarurat>>>("https://tangkis-api.up.railway.app/user/${nim}/contact") {
                 headers {
                     append(
                         "Authorization",
@@ -29,9 +28,9 @@ data class User(
         return contacts
     }
 
-    suspend fun getUserDetail(nim: String, client: HttpClient): User {
+    suspend fun getUserDetail(nim: String, client: HttpClient): Mahasiswa {
         val response =
-            client.get<BaseResponse<User>>("https://tangkis-api.up.railway.app/rpl/user/${nim}") {
+            client.get<BaseResponse<Mahasiswa>>("https://tangkis-api.up.railway.app/rpl/user/${nim}") {
                 headers {
                     append(
                         "Authorization",
@@ -39,7 +38,6 @@ data class User(
                     )
                 }
             }
-        Log.d("NAME", response.data!!.name)
         return response.data!!
     }
 }

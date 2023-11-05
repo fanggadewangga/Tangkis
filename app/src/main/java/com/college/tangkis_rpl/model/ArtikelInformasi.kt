@@ -7,18 +7,18 @@ import io.ktor.client.request.headers
 import kotlinx.serialization.Serializable
 
 @Serializable
-data class Article(
+data class ArtikelInformasi(
     val articleId: String = "",
     val title: String = "",
     val imageUrl: String = "",
     val content: String = "",
     val postDate: String = "",
 ) {
-    suspend fun getArticle(client: HttpClient): List<Article> {
-        var article: List<Article> = emptyList()
+    suspend fun getArticle(client: HttpClient): List<ArtikelInformasi> {
+        var artikelInformasi: List<ArtikelInformasi> = emptyList()
         try {
             val response =
-                client.get<BaseResponse<List<Article>>>("https://tangkis-api.up.railway.app/article") {
+                client.get<BaseResponse<List<ArtikelInformasi>>>("https://tangkis-api.up.railway.app/article") {
                     headers {
                         append(
                             "Authorization",
@@ -28,11 +28,11 @@ data class Article(
                 }
 
             if (!response.error)
-                article = response.data!!
+                artikelInformasi = response.data!!
             Log.d("RESPONSE SIZE", response.data!!.size.toString())
         } catch (e: Exception) {
             e.printStackTrace()
         }
-        return article
+        return artikelInformasi
     }
 }
