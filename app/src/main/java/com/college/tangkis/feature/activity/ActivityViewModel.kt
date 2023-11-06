@@ -5,11 +5,18 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
+import androidx.lifecycle.viewModelScope
+import com.college.tangkis.data.Resource
+import com.college.tangkis.data.model.response.activity.ActivityResponse
+import com.college.tangkis.data.repository.activity.ActivityRepository
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.asStateFlow
+import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @HiltViewModel
-class ActivityViewModel @Inject constructor() : ViewModel() {
+class ActivityViewModel @Inject constructor(private val activityRepository: ActivityRepository) : ViewModel() {
     private val _tabIndex: MutableLiveData<Int> = MutableLiveData(0)
     val tabIndex: LiveData<Int> = _tabIndex
     val tabs = listOf("Dalam Proses", "Riwayat")
@@ -22,6 +29,12 @@ class ActivityViewModel @Inject constructor() : ViewModel() {
     private val _dragState = MutableLiveData<DraggableState>(draggableState)
     val dragState: LiveData<DraggableState> = _dragState
 
+    private val _inProgressActivityState = MutableStateFlow<Resource<List<ActivityResponse>>>(Resource.Empty())
+    val inProgressActivityState = _inProgressActivityState.asStateFlow()
+
+    private val _historyActivityState = MutableStateFlow<Resource<List<ActivityResponse>>>(Resource.Empty())
+    val historyActivityState = _historyActivityState.asStateFlow()
+
     fun updateTabIndexBasedOnSwipe() {
         _tabIndex.value = when (isSwipeToTheLeft) {
             true -> Math.floorMod(_tabIndex.value!!.plus(1), tabs.size)
@@ -31,5 +44,21 @@ class ActivityViewModel @Inject constructor() : ViewModel() {
 
     fun updateTabIndex(i: Int) {
         _tabIndex.value = i
+    }
+
+    fun getInProgressActivity() {
+        viewModelScope.launch {
+            activityRepository.getInProgressActivity().collect {
+                _inProgressActivityState.value = it
+            }
+        }
+    }
+
+    fun getHistoryActivity() {
+        viewModelScope.launch {
+            activityRepository.getHistoryActivity().collect {
+                _historyActivityState.value = it
+            }
+        }
     }
 }

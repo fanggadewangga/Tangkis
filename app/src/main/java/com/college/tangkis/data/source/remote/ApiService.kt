@@ -9,10 +9,13 @@ import com.college.tangkis.data.model.request.user.UserPasswordRequest
 import com.college.tangkis.data.model.request.user.UserRegisterRequest
 import com.college.tangkis.data.model.request.user.UserWhatsappRequest
 import com.college.tangkis.data.model.response.BaseResponse
+import com.college.tangkis.data.model.response.activity.ActivityResponse
 import com.college.tangkis.data.model.response.article.ArticleListResponse
+import com.college.tangkis.data.model.response.consultation.AddConsultationResponse
 import com.college.tangkis.data.model.response.consultation.ConsultationDetailResponse
 import com.college.tangkis.data.model.response.consultation.ConsultationListResponse
 import com.college.tangkis.data.model.response.contact.ContactResponse
+import com.college.tangkis.data.model.response.report.AddReportResponse
 import com.college.tangkis.data.model.response.report.ReportDetailResponse
 import com.college.tangkis.data.model.response.report.ReportResponse
 import com.college.tangkis.data.model.response.token.TokenResponse
@@ -91,7 +94,7 @@ interface ApiService {
         @Header("Authorization") token: String,
         @Path("nim") nim: String,
         @Body body: ReportRequest,
-    ): BaseResponse<String>
+    ): BaseResponse<AddReportResponse>
 
     @GET("/user/{nim}/report")
     suspend fun getReports(
@@ -112,7 +115,7 @@ interface ApiService {
         @Header("Authorization") token: String,
         @Path("nim") nim: String,
         @Body body: ConsultationRequest,
-    ): BaseResponse<String>
+    ): BaseResponse<AddConsultationResponse>
 
     @GET("/user/{nim}/consultation")
     suspend fun getConsultations(
@@ -144,4 +147,17 @@ interface ApiService {
         @Header("Authorization") token: String,
         @Path("articleId") articleId: String,
     ): BaseResponse<ArticleResponse>
+
+    // Activity
+    @GET("/user/{nim}/activity/progress")
+    suspend fun getInProgressActivity(
+        @Header("Authorization") token: String,
+        @Path("nim") nim: String,
+    ): BaseResponse<List<ActivityResponse>>
+
+    @GET("/user/{nim}/activity/history")
+    suspend fun getHistoryActivity(
+        @Header("Authorization") token: String,
+        @Path("nim") nim: String,
+    ): BaseResponse<List<ActivityResponse>>
 }

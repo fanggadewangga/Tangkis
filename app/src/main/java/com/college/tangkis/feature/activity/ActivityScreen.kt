@@ -100,7 +100,8 @@ fun ActivityScreen(navController: NavController){
 
         TabLayout(
             viewModel = viewModel,
-            modifier = Modifier.padding(top = topPadding)
+            navController = navController,
+            modifier = Modifier.padding(top = topPadding),
         )
     }
 }
@@ -108,6 +109,7 @@ fun ActivityScreen(navController: NavController){
 @Composable
 fun TabLayout(
     viewModel: ActivityViewModel,
+    navController: NavController,
     modifier: Modifier
 ) {
     val tabIndex = viewModel.tabIndex.observeAsState()
@@ -136,8 +138,8 @@ fun TabLayout(
             }
         }
         when (tabIndex.value) {
-            0 -> InProgressScreen(viewModel = viewModel )
-            1 -> HistoryScreen(viewModel = viewModel)
+            0 -> InProgressScreen(viewModel = viewModel, navController = navController )
+            1 -> HistoryScreen(viewModel = viewModel, navController = navController)
         }
     }
 }

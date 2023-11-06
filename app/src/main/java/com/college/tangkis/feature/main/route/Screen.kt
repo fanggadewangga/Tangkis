@@ -13,9 +13,13 @@ sealed class Screen(val route: String) {
     data object SOS: Screen("sos")
     data object SosSent: Screen("sos-sent")
     data object Report: Screen("report")
+    data object ReportDetail: Screen("report-detail/{reportId}")
     data object Consultation: Screen("consultation")
+    data object ConsultationDetail: Screen("consultation-detail/{consultationId}")
     data object FAQ: Screen("faq")
     data object Activity: Screen("activity")
     data object ChangePassword: Screen("change-password")
     data object ChangePhoneNumber : Screen("change-phone-number")
+    data object SentReportSuccess: Screen("sent-report-success/{reportId}")
+    data object SentConsultationSuccess: Screen("sent-consultation-success/{consultationId}")
 }
