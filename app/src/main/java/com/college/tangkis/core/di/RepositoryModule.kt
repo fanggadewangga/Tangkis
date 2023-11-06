@@ -1,5 +1,7 @@
 package com.college.tangkis.core.di
 
+import com.college.tangkis.data.repository.activity.ActivityRepository
+import com.college.tangkis.data.repository.activity.ActivityRepositoryImpl
 import com.college.tangkis.data.repository.article.ArticleRepository
 import com.college.tangkis.data.repository.article.ArticleRepositoryImpl
 import com.college.tangkis.data.repository.consultation.ConsultationRepository
@@ -49,4 +51,10 @@ class RepositoryModule {
         datastore: TangkisDatastore,
         apiService: ApiService,
     ): ReportRepository = ReportRepositoryImpl(datastore, apiService)
+
+    @Provides
+    fun provideActivityRepository(
+        datastore: TangkisDatastore,
+        apiService: ApiService,
+    ): ActivityRepository = ActivityRepositoryImpl(datastore, apiService)
 }

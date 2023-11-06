@@ -3,6 +3,7 @@ package com.college.tangkis.data.repository.report
 import android.util.Log
 import com.college.tangkis.data.Resource
 import com.college.tangkis.data.model.request.report.ReportRequest
+import com.college.tangkis.data.model.response.report.AddReportResponse
 import com.college.tangkis.data.model.response.report.ReportDetailResponse
 import com.college.tangkis.data.model.response.report.ReportResponse
 import com.college.tangkis.data.source.local.TangkisDatastore
@@ -18,7 +19,7 @@ class ReportRepositoryImpl @Inject constructor(
     private val datastore: TangkisDatastore,
     private val apiService: ApiService,
 ) : ReportRepository {
-    override suspend fun addReport(body: ReportRequest): Flow<Resource<String>> = flow {
+    override suspend fun addReport(body: ReportRequest): Flow<Resource<AddReportResponse?>> = flow {
         emit(Resource.Loading())
         try {
             val token = "Bearer ${datastore.readBearerToken().first()}"
@@ -29,7 +30,7 @@ class ReportRepositoryImpl @Inject constructor(
                 emit(Resource.Error(result.message))
             } else {
                 Log.d("Add Report", result.message)
-                emit(Resource.Success(result.message))
+                emit(Resource.Success(result.data))
             }
         } catch (e: Exception) {
             e.printStackTrace()

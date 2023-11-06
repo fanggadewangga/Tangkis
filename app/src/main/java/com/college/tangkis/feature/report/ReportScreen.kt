@@ -1,6 +1,7 @@
 package com.college.tangkis.feature.report
 
 import android.os.Build
+import android.widget.Toast
 import androidx.annotation.RequiresApi
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
@@ -16,6 +17,7 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.Text
+import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.DropdownMenuItem
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.ExposedDropdownMenuBox
@@ -29,10 +31,12 @@ import androidx.compose.material3.TextFieldDefaults
 import androidx.compose.material3.TopAppBar
 import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.ColorFilter
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.window.DialogProperties
@@ -46,12 +50,14 @@ import com.college.tangkis.feature.main.components.AppButton
 import com.college.tangkis.feature.main.components.AppText
 import com.college.tangkis.feature.main.components.AppTextField
 import com.college.tangkis.feature.main.constant.Constants.CONSULTATION_TIME
+import com.college.tangkis.feature.main.route.Screen
 import com.college.tangkis.theme.Typography
 import com.college.tangkis.theme.md_theme_light_primary
 import com.vanpra.composematerialdialogs.MaterialDialog
 import com.vanpra.composematerialdialogs.datetime.date.DatePickerDefaults
 import com.vanpra.composematerialdialogs.datetime.date.datepicker
 import com.vanpra.composematerialdialogs.rememberMaterialDialogState
+import es.dmoral.toasty.Toasty
 import java.time.LocalDate
 
 @RequiresApi(Build.VERSION_CODES.O)
@@ -60,6 +66,34 @@ import java.time.LocalDate
 fun ReportScreen(navController: NavController) {
 
     val viewModel = hiltViewModel<ReportViewModel>()
+    val sentReportState = viewModel.reportState.collectAsStateWithLifecycle()
+    val context = LocalContext.current
+
+    LaunchedEffect(sentReportState.value) {
+        when (sentReportState.value) {
+            is Resource.Loading -> {}
+            is Resource.Error -> Toasty.error(
+                context,
+                sentReportState.value.message.toString(),
+                Toast.LENGTH_SHORT
+            ).show()
+
+            is Resource.Empty -> {}
+            is Resource.Success -> {
+                Toasty.success(context, "Berhasil membuat laporan!", Toast.LENGTH_SHORT).show()
+                navController.navigate(
+                    Screen.SentReportSuccess.route.replace(
+                        oldValue = "{reportId}",
+                        newValue = sentReportState.value.data!!.reportId
+                    )
+                ) {
+                    popUpTo(Screen.SentReportSuccess.route) {
+                        inclusive = true
+                    }
+                }
+            }
+        }
+    }
 
     Scaffold(
         topBar = {
@@ -95,6 +129,7 @@ fun ReportScreen(navController: NavController) {
         bottomBar = {
             Column(
                 verticalArrangement = Arrangement.spacedBy(24.dp),
+                horizontalAlignment = Alignment.CenterHorizontally,
                 modifier = Modifier.padding(horizontal = 16.dp)
             ) {
                 AsyncImage(
@@ -102,23 +137,26 @@ fun ReportScreen(navController: NavController) {
                     contentDescription = "Your Data is Save",
                     modifier = Modifier.fillMaxWidth()
                 )
-                AppButton(
-                    onClick = {
-                        if (viewModel.screenIndex.intValue == 1 && viewModel.isNeedAccompaniment.value)
-                            viewModel.screenIndex.intValue = 2
-                        else
-                            viewModel.sentReport()
-                    },
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .padding(bottom = 24.dp)
-                ) {
-                    AppText(
-                        text = if (viewModel.screenIndex.intValue == 1 && viewModel.isNeedAccompaniment.value) "Lanjutkan" else "Kirim",
-                        color = Color.White,
-                        textStyle = Typography.labelLarge()
-                    )
-                }
+                if (sentReportState.value is Resource.Loading)
+                    CircularProgressIndicator(color = md_theme_light_primary)
+                else
+                    AppButton(
+                        onClick = {
+                            if (viewModel.screenIndex.intValue == 1 && viewModel.isNeedAccompaniment.value)
+                                viewModel.screenIndex.intValue = 2
+                            else
+                                viewModel.sentReport()
+                        },
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .padding(bottom = 24.dp)
+                    ) {
+                        AppText(
+                            text = if (viewModel.screenIndex.intValue == 1 && viewModel.isNeedAccompaniment.value) "Lanjutkan" else "Kirim",
+                            color = Color.White,
+                            textStyle = Typography.labelLarge()
+                        )
+                    }
             }
         }
     ) {
@@ -346,8 +384,8 @@ fun AccompanimentLayout(viewModel: ReportViewModel) {
             // 1st Choice
             Row(verticalAlignment = Alignment.CenterVertically) {
                 RadioButton(
-                    selected = viewModel.accompanimentTypeIndex.intValue == 0,
-                    onClick = { viewModel.accompanimentTypeIndex.intValue = 0 },
+                    selected = viewModel.accompanimentTypeIndex.intValue == 1,
+                    onClick = { viewModel.accompanimentTypeIndex.intValue = 1 },
                     colors = RadioButtonDefaults.colors(selectedColor = md_theme_light_primary)
                 )
                 AppText(
@@ -359,8 +397,8 @@ fun AccompanimentLayout(viewModel: ReportViewModel) {
             // 2nd Choice
             Row(verticalAlignment = Alignment.CenterVertically) {
                 RadioButton(
-                    selected = viewModel.accompanimentTypeIndex.intValue == 1,
-                    onClick = { viewModel.accompanimentTypeIndex.intValue = 1 },
+                    selected = viewModel.accompanimentTypeIndex.intValue == 2,
+                    onClick = { viewModel.accompanimentTypeIndex.intValue = 2 },
                     colors = RadioButtonDefaults.colors(selectedColor = md_theme_light_primary)
                 )
                 AppText(

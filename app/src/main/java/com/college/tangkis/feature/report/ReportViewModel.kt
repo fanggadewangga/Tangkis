@@ -1,5 +1,6 @@
 package com.college.tangkis.feature.report
 
+import android.annotation.SuppressLint
 import android.os.Build
 import androidx.annotation.RequiresApi
 import androidx.compose.runtime.derivedStateOf
@@ -8,7 +9,9 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.college.tangkis.data.Resource
+import com.college.tangkis.data.model.request.consultation.ConsultationRequest
 import com.college.tangkis.data.model.request.report.ReportRequest
+import com.college.tangkis.data.model.response.report.AddReportResponse
 import com.college.tangkis.data.model.response.user.UserResponse
 import com.college.tangkis.data.repository.report.ReportRepository
 import com.college.tangkis.data.repository.user.UserRepository
@@ -28,11 +31,12 @@ class ReportViewModel @Inject constructor(
     val screenIndex = mutableIntStateOf(1)
     val story = mutableStateOf("")
     val isNeedAccompaniment = mutableStateOf(true)
-    val accompanimentTypeIndex = mutableIntStateOf(100)
+    val accompanimentTypeIndex = mutableIntStateOf(1)
     val isDropdownExpanded = mutableStateOf(false)
     val selectedTimeIndex = mutableIntStateOf(100)
     val selectedTimeId = mutableStateOf("")
     val dateState = mutableStateOf("")
+
     @RequiresApi(Build.VERSION_CODES.O)
     val pickedDate = mutableStateOf(LocalDate.now())
 
@@ -44,7 +48,7 @@ class ReportViewModel @Inject constructor(
     private val _userState = MutableStateFlow<Resource<UserResponse?>>(Resource.Loading())
     val userState = _userState.asStateFlow()
 
-    private val _reportState = MutableStateFlow<Resource<String>>(Resource.Empty())
+    private val _reportState = MutableStateFlow<Resource<AddReportResponse?>>(Resource.Empty())
     val reportState = _reportState.asStateFlow()
 
     fun hideDropdown() = run { isDropdownExpanded.value = false }
@@ -57,10 +61,26 @@ class ReportViewModel @Inject constructor(
         }
     }
 
+    @SuppressLint("NewApi")
     fun sentReport() {
         viewModelScope.launch {
-            val body =
-                ReportRequest(story = story.value, isNeedConsultation = isNeedAccompaniment.value)
+            var consultationBody: ConsultationRequest? = null
+            if (isNeedAccompaniment.value) {
+                consultationBody = ConsultationRequest(
+                    story = story.value,
+                    consultationType = accompanimentTypeIndex.intValue,
+                    date = formattedDate.value,
+                    time = selectedTimeId.value
+                )
+            }
+            val reportBody = ReportRequest(
+                    story = story.value,
+                    isNeedConsultation = isNeedAccompaniment.value,
+                    consultation = consultationBody
+                )
+            reportRepository.addReport(body = reportBody).collect {
+                _reportState.value = it
+            }
         }
     }
 
