@@ -23,6 +23,7 @@ import androidx.compose.material.ModalBottomSheetValue
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Search
 import androidx.compose.material.rememberModalBottomSheetState
+import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
@@ -32,7 +33,7 @@ import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.SideEffect
-import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.toMutableStateList
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -92,16 +93,48 @@ fun ContactScreen(navController: NavController) {
     )
 
     val screenHeight = LocalConfiguration.current.screenHeightDp
-    val contactState = viewModel.getContactState.collectAsState()
-    val deleteContactState = viewModel.deleteContactState.collectAsState()
-    val addContactState = viewModel.addContactState.collectAsState()
+    val contactState = viewModel.getContactState.collectAsStateWithLifecycle()
+    val deleteContactState = viewModel.deleteContactState.collectAsStateWithLifecycle()
+    val addContactState = viewModel.addContactState.collectAsStateWithLifecycle()
 
-    LaunchedEffect(deleteContactState.value, addContactState.value) {
+    LaunchedEffect(deleteContactState.value) {
+        when (deleteContactState.value) {
+            is Resource.Success -> Toasty.success(
+                context,
+                "Berhasil menghapus kontak!",
+                Toast.LENGTH_SHORT
+            ).show()
+
+            is Resource.Error -> Toasty.error(
+                context,
+                "Gagal menghapus kontak!",
+                Toast.LENGTH_SHORT
+            ).show()
+
+            else -> {}
+        }
+        viewModel.getContacts()
+    }
+
+    LaunchedEffect(addContactState.value) {
+        when (addContactState.value) {
+            is Resource.Success -> Toasty.success(
+                context,
+                "Berhasil menambah kontak!",
+                Toast.LENGTH_SHORT
+            ).show()
+
+            is Resource.Error -> Toasty.error(context, "Gagal menambah kontak!", Toast.LENGTH_SHORT)
+                .show()
+
+            else -> {}
+        }
         viewModel.getContacts()
     }
 
     ModalBottomSheetLayout(
         sheetState = modalBottomSheetState,
+        sheetGesturesEnabled = false,
         sheetShape = RoundedCornerShape(topStart = 32.dp, topEnd = 32.dp),
         sheetContent = {
             Box(
@@ -124,9 +157,10 @@ fun ContactScreen(navController: NavController) {
                         onValueChange = {
                             viewModel.apply {
                                 query.value = it
-                                viewModel.deviceContacts.filter {
-                                    it.name.contains(viewModel.query.value)
-                                }
+                                if (it.length < query.value.length) resetDeviceContacts()
+                                copyOfDeviceContact = viewModel.copyOfDeviceContact.filter {
+                                    it.name.contains(it.name, ignoreCase = true)
+                                }.toMutableStateList()
                             }
                         },
                         trailingIcon = {
@@ -143,7 +177,7 @@ fun ContactScreen(navController: NavController) {
                             .height((screenHeight * 0.75).dp)
                             .padding(start = 8.dp, top = 24.dp, end = 8.dp)
                     ) {
-                        items(viewModel.deviceContacts) {
+                        items(viewModel.copyOfDeviceContact) {
                             LocalContactItem(
                                 contact = it,
                                 onSelected = { contact ->
@@ -165,7 +199,10 @@ fun ContactScreen(navController: NavController) {
                     }
                     AppButton(
                         onClick = {
-                            viewModel.addContacts()
+                            viewModel.apply {
+                                sheetState.value = ModalBottomSheetValue.Hidden
+                                addContacts()
+                            }
                         },
                         modifier = Modifier
                             .fillMaxWidth()
@@ -230,57 +267,72 @@ fun ContactScreen(navController: NavController) {
 
             Box(modifier = Modifier.fillMaxSize()) {
 
-                if (viewModel.isEmpty.value)
-                // Show if contacts are empty
-                    ErrorLayout(
-                        image = R.drawable.iv_empty_contact,
-                        message = "Belum ada kontak darurat",
-                        modifier = Modifier
-                            .align(
-                                Alignment.Center
-                            )
-                            .padding(bottom = it.calculateBottomPadding())
-                    )
-                else
-                // Contact item
-                    LazyColumn(
-                        modifier = Modifier.padding(
-                            start = 16.dp,
-                            top = topPadding + 16.dp,
-                            end = 16.dp
-                        )
-                    ) {
-                        if (contactState.value is Resource.Success)
-                            items(contactState.value.data!!) { contact ->
-                                EmergencyContactItem(
-                                    contact = contact,
-                                    isDeletable = true,
-                                    modifier = Modifier.padding(top = 8.dp)
-                                ) { id, name ->
-                                    viewModel.apply {
-                                        showDialog.value = true
-                                        deleteContactId.value = id
-                                        deleteContactName.value = name
-                                    }
-                                }
-                            }
+                when (contactState.value) {
+                    is Resource.Loading -> {
+                        Box(
+                            contentAlignment = Alignment.BottomCenter,
+                            modifier = Modifier.fillMaxWidth()
+                        ) {
+                            CircularProgressIndicator(color = md_theme_light_primary)
+                        }
                     }
 
-                // Alert
-                AsyncImage(
-                    model = R.drawable.iv_contact_alert,
-                    contentDescription = "Contact alert",
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .padding(
-                            start = 16.dp,
-                            end = 16.dp,
-                            bottom = it.calculateBottomPadding() + 24.dp
+                    is Resource.Success -> {
+                        if (contactState.value.data!!.isEmpty())
+                        // Show if contacts are empty
+                            ErrorLayout(
+                                image = R.drawable.iv_empty_contact,
+                                message = "Belum ada kontak darurat",
+                                modifier = Modifier
+                                    .align(
+                                        Alignment.Center
+                                    )
+                                    .padding(bottom = it.calculateBottomPadding())
+                            )
+                        else
+                        // Contact item
+                            LazyColumn(
+                                modifier = Modifier.padding(
+                                    start = 16.dp,
+                                    top = topPadding + 16.dp,
+                                    end = 16.dp
+                                )
+                            ) {
+                                if (contactState.value is Resource.Success)
+                                    items(contactState.value.data!!) { contact ->
+                                        EmergencyContactItem(
+                                            contact = contact,
+                                            isDeletable = true,
+                                            modifier = Modifier.padding(top = 8.dp)
+                                        ) { id, name ->
+                                            viewModel.apply {
+                                                showDialog.value = true
+                                                deleteContactId.value = id
+                                                deleteContactName.value = name
+                                            }
+                                        }
+                                    }
+                            }
+
+                        // Alert
+                        AsyncImage(
+                            model = R.drawable.iv_contact_alert,
+                            contentDescription = "Contact alert",
+                            modifier = Modifier
+                                .fillMaxWidth()
+                                .padding(
+                                    start = 16.dp,
+                                    end = 16.dp,
+                                    bottom = it.calculateBottomPadding() + 24.dp
+                                )
+                                .align(
+                                    Alignment.BottomCenter
+                                )
                         )
-                        .align(
-                            Alignment.BottomCenter
-                        )
-                )
+                    }
+
+                    else -> {}
+                }
             }
 
             if (viewModel.showDialog.value)

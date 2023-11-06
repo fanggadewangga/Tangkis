@@ -18,7 +18,6 @@ import com.college.tangkis.domain.model.DeviceContact
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
-import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
@@ -33,7 +32,8 @@ class ContactViewModel @Inject constructor(private val contactRepository: Contac
 
     @OptIn(ExperimentalMaterialApi::class)
     val sheetState = mutableStateOf(ModalBottomSheetValue.Hidden)
-    val deviceContacts = mutableStateListOf<DeviceContact>()
+    var copyOfDeviceContact = mutableStateListOf<DeviceContact>()
+    var originalDeviceContacts = mutableStateListOf<DeviceContact>()
     val listOfSelectedContact = mutableStateListOf<DeviceContact>()
     val query = mutableStateOf("")
 
@@ -94,11 +94,16 @@ class ContactViewModel @Inject constructor(private val contactRepository: Contac
                 val contactNumber =
                     cursor.getString(cursor.getColumnIndex(ContactsContract.CommonDataKinds.Phone.NUMBER))
                 val contact = DeviceContact(contactName, contactNumber)
-                deviceContacts.add(contact)
+                originalDeviceContacts.add(contact)
             }
+            copyOfDeviceContact.addAll(originalDeviceContacts)
         } catch (e: Exception) {
             e.printStackTrace()
         }
+    }
+
+    fun resetDeviceContacts() {
+        copyOfDeviceContact.addAll(originalDeviceContacts)
     }
 
     init {

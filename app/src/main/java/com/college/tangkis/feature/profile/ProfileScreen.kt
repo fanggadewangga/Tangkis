@@ -1,5 +1,6 @@
 package com.college.tangkis.feature.profile
 
+import android.widget.Toast
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -17,11 +18,13 @@ import androidx.compose.material3.BottomAppBar
 import androidx.compose.material3.Card
 import androidx.compose.material3.FloatingActionButton
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Alignment.Companion.CenterHorizontally
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalConfiguration
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
@@ -37,6 +40,7 @@ import com.college.tangkis.feature.main.navigation.BottomNavigationBar
 import com.college.tangkis.feature.main.route.Screen
 import com.college.tangkis.theme.Typography
 import com.college.tangkis.theme.md_theme_light_secondary
+import es.dmoral.toasty.Toasty
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 
@@ -46,7 +50,27 @@ fun ProfileScreen(navController: NavController) {
     val viewModel = hiltViewModel<ProfileViewModel>()
     val screenHeight = LocalConfiguration.current.screenHeightDp
     val profileState = viewModel.profileState.collectAsStateWithLifecycle()
+    val logoutState = viewModel.logoutState.collectAsStateWithLifecycle()
     val coroutineScope = rememberCoroutineScope()
+    val context = LocalContext.current
+
+    LaunchedEffect(logoutState.value) {
+        when(logoutState.value) {
+            is Resource.Success -> {
+                Toasty.success(context, "Berhasil logout!", Toast.LENGTH_SHORT).show()
+                coroutineScope.launch {
+                    delay(1500L)
+                }
+                navController.navigate(Screen.Login.route) {
+                    popUpTo(Screen.Profile.route) {
+                        inclusive = true
+                    }
+                }
+            }
+            is  Resource.Error -> Toasty.error(context, "Terjadi kesalahan", Toast.LENGTH_SHORT).show()
+            else -> {}
+        }
+    }
 
     Scaffold(
         floatingActionButton = {
@@ -239,14 +263,6 @@ fun ProfileScreen(navController: NavController) {
                 onConfirmClicked = {
                     viewModel.showLogoutDialog.value = false
                     viewModel.logout()
-                    coroutineScope.launch {
-                        delay(1500L)
-                    }
-                    navController.navigate(Screen.Login.route) {
-                        popUpTo(Screen.Profile.route) {
-                            inclusive = true
-                        }
-                    }
                 }
             )
     }

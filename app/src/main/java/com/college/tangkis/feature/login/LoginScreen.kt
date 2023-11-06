@@ -1,6 +1,6 @@
 package com.college.tangkis.feature.login
 
-import android.util.Log
+import android.widget.Toast
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Column
@@ -21,7 +21,7 @@ import androidx.compose.ui.Alignment.Companion.CenterHorizontally
 import androidx.compose.ui.Alignment.Companion.Start
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.platform.LocalConfiguration
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.unit.dp
@@ -37,25 +37,28 @@ import com.college.tangkis.feature.main.components.AppTextField
 import com.college.tangkis.feature.main.route.Screen
 import com.college.tangkis.theme.Typography
 import com.college.tangkis.theme.md_theme_light_primary
+import es.dmoral.toasty.Toasty
 
 @Composable
 fun LoginScreen(navController: NavController) {
     val viewModel = hiltViewModel<LoginViewModel>()
     val loginState = viewModel.loginState.collectAsStateWithLifecycle()
+    val context = LocalContext.current
 
     LaunchedEffect(loginState.value) {
         when (loginState.value) {
-            is Resource.Loading -> {}
-            is Resource.Error -> {}
-            is Resource.Empty -> {}
+            is Resource.Error -> {
+                Toasty.error(context, loginState.value.message.toString(), Toast.LENGTH_SHORT).show()
+            }
             is Resource.Success -> {
-                Log.d("Login", "Sukses")
+                Toasty.success(context, "Berhasil login!", Toast.LENGTH_SHORT).show()
                 navController.navigate(Screen.Home.route) {
                     popUpTo(Screen.Login.route) {
                         inclusive = true
                     }
                 }
             }
+            else -> {}
         }
     }
 

@@ -1,6 +1,7 @@
 package com.college.tangkis.feature.main.navigation
 
 import android.os.Build
+import android.util.Log
 import androidx.annotation.RequiresApi
 import androidx.compose.runtime.Composable
 import androidx.navigation.compose.NavHost
@@ -11,7 +12,9 @@ import com.college.tangkis.feature.article.detail.ArticleDetailScreen
 import com.college.tangkis.feature.article.list.ArticleScreen
 import com.college.tangkis.feature.changephonenumber.ChangeNumberScreen
 import com.college.tangkis.feature.changepassword.ChangePasswordScreen
+import com.college.tangkis.feature.consult.ConsultationDetailScreen
 import com.college.tangkis.feature.consult.ConsultationScreen
+import com.college.tangkis.feature.consult.SentConsultationSuccessScreen
 import com.college.tangkis.feature.contact.ContactScreen
 import com.college.tangkis.feature.faq.FaqScreen
 import com.college.tangkis.feature.home.HomeScreen
@@ -20,7 +23,9 @@ import com.college.tangkis.feature.main.route.Screen
 import com.college.tangkis.feature.onboard.OnboardScreen
 import com.college.tangkis.feature.profile.ProfileScreen
 import com.college.tangkis.feature.register.RegisterScreen
+import com.college.tangkis.feature.report.ReportDetailScreen
 import com.college.tangkis.feature.report.ReportScreen
+import com.college.tangkis.feature.report.SentReportSuccessScreen
 import com.college.tangkis.feature.sos.SosScreen
 import com.college.tangkis.feature.sos.SosSentScreen
 import com.college.tangkis.feature.splash.SplashScreen
@@ -60,8 +65,11 @@ fun Navigation() {
             ArticleScreen(navController = navController)
         }
 
-        composable(route = Screen.ArticleDetail.route) {
-            ArticleDetailScreen(navController = navController)
+        composable(route = Screen.ArticleDetail.route) { navBackStackEntry ->
+            val articleId = navBackStackEntry.arguments?.getString("articleId")
+            articleId?.let {
+                ArticleDetailScreen(navController = navController, articleId = articleId)
+            }
         }
 
         composable(route = Screen.Profile.route) {
@@ -75,27 +83,65 @@ fun Navigation() {
         composable(route = Screen.SosSent.route) {
             SosSentScreen(navController = navController)
         }
-        
+
         composable(route = Screen.Report.route) {
             ReportScreen(navController = navController)
+        }
+
+        composable(route = Screen.ReportDetail.route) { navBackStackEntry ->
+            val reportId = navBackStackEntry.arguments?.getString("reportId")
+            reportId?.let {
+                ReportDetailScreen(navController = navController, reportId = reportId)
+            }
         }
 
         composable(route = Screen.Consultation.route) {
             ConsultationScreen(navController = navController)
         }
-        
+
+        composable(route = Screen.ConsultationDetail.route) { navBackStackEntry ->
+            val consultationId = navBackStackEntry.arguments?.getString("consultationId")
+            consultationId?.let {
+                ConsultationDetailScreen(
+                    navController = navController,
+                    consultationId = consultationId
+                )
+            }
+        }
+
         composable(route = Screen.FAQ.route) {
             FaqScreen(navController = navController)
         }
 
-        composable(route = Screen.Activity.route){
+        composable(route = Screen.Activity.route) {
             ActivityScreen(navController = navController)
         }
-        composable(route = Screen.ChangePhoneNumber.route){
+
+        composable(route = Screen.ChangePhoneNumber.route) {
             ChangeNumberScreen(navController = navController)
         }
-        composable(route = Screen.ChangePassword.route){
+
+        composable(route = Screen.ChangePassword.route) {
             ChangePasswordScreen(navController = navController)
+        }
+
+        composable(route = Screen.SentReportSuccess.route) { navBackStackEntry ->
+            val reportId = navBackStackEntry.arguments?.getString("reportId")
+            Log.d("Report Id", reportId.toString())
+            reportId?.let {
+                SentReportSuccessScreen(navController = navController, reportId = reportId)
+            }
+        }
+
+        composable(route = Screen.SentConsultationSuccess.route) { navBackStackEntry ->
+            val consultationId = navBackStackEntry.arguments?.getString("consultationId")
+            Log.d("Consultation Id", consultationId.toString())
+            consultationId?.let {
+                SentConsultationSuccessScreen(
+                    navController = navController,
+                    consultationId = consultationId
+                )
+            }
         }
     }
 }

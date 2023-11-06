@@ -21,6 +21,9 @@ class ProfileViewModel @Inject constructor(private val userRepository: UserRepos
     private val _profileState = MutableStateFlow<Resource<UserResponse?>>(Resource.Loading())
     val profileState = _profileState.asStateFlow()
 
+    private val _logoutState = MutableStateFlow<Resource<String>>(Resource.Empty())
+    val logoutState = _logoutState.asStateFlow()
+
     private fun getProfileData() {
         viewModelScope.launch {
             userRepository.getUserDetail().collect {
@@ -31,7 +34,9 @@ class ProfileViewModel @Inject constructor(private val userRepository: UserRepos
 
     fun logout() {
         viewModelScope.launch {
-            userRepository.logout()
+            userRepository.logout().collect {
+                _logoutState.value = it
+            }
         }
     }
 

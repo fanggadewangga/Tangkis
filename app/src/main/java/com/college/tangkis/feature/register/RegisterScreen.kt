@@ -1,5 +1,6 @@
 package com.college.tangkis.feature.register
 
+import android.widget.Toast
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Column
@@ -38,6 +39,7 @@ import com.college.tangkis.feature.main.components.AppTextField
 import com.college.tangkis.feature.main.route.Screen
 import com.college.tangkis.theme.Typography
 import com.college.tangkis.theme.md_theme_light_primary
+import es.dmoral.toasty.Toasty
 
 @Composable
 fun RegisterScreen(navController: NavController) {
@@ -47,16 +49,16 @@ fun RegisterScreen(navController: NavController) {
 
     LaunchedEffect(registerState.value) {
         when (registerState.value) {
-            is Resource.Loading -> {}
-            is Resource.Error -> {}
-            is Resource.Empty -> {}
+            is Resource.Error -> Toasty.error(context, registerState.value.message.toString(), Toast.LENGTH_SHORT).show()
             is Resource.Success -> {
+                Toasty.success(context, "Berhasil daftar!", Toast.LENGTH_SHORT).show()
                 navController.navigate(Screen.Login.route) {
                     popUpTo(Screen.Register.route) {
                         inclusive = true
                     }
                 }
             }
+            else -> {}
         }
     }
 
