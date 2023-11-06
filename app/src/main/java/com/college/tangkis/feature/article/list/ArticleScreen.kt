@@ -9,6 +9,7 @@ import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Search
+import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
@@ -20,12 +21,10 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.ColorFilter
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.navigation.NavController
-import androidx.navigation.compose.rememberNavController
 import coil.compose.AsyncImage
 import com.college.tangkis.R
 import com.college.tangkis.data.Resource
@@ -74,56 +73,63 @@ fun ArticleScreen(navController: NavController) {
     ) { it ->
         val topPadding = it.calculateTopPadding()
 
-        when (articleState.value) {
-            is Resource.Loading -> {}
-            is Resource.Success -> {
-                Column(modifier = Modifier.padding(top = topPadding + 16.dp)) {
-                    AppSearchField(
-                        valueState = viewModel.searchQuery.value,
-                        borderColor = md_theme_light_primaryContainer,
-                        placeholder = "Temukan Artikel Informasi",
-                        onValueChange = {
-                            viewModel.apply {
-                                searchQuery.value = it
-                                searchArticle()
-                            }
-                        },
-                        trailingIcon = {
-                            Icon(
-                                imageVector = Icons.Default.Search,
-                                contentDescription = "Search",
-                                tint = Color.Black
-                            )
-                        },
-                        modifier = Modifier.padding(horizontal = 16.dp)
+        Column(modifier = Modifier.padding(top = topPadding + 16.dp)) {
+            AppSearchField(
+                valueState = viewModel.searchQuery.value,
+                borderColor = md_theme_light_primaryContainer,
+                placeholder = "Temukan Artikel Informasi",
+                onValueChange = {
+                    viewModel.apply {
+                        searchQuery.value = it
+                        searchArticle()
+                    }
+                },
+                trailingIcon = {
+                    Icon(
+                        imageVector = Icons.Default.Search,
+                        contentDescription = "Search",
+                        tint = Color.Black
                     )
-                    LazyColumn(modifier = Modifier.padding(top = 16.dp)) {
-                        items(articleState.value.data!!) {
-                            ArticleItem(
-                                article = it
-                            ) { id ->
-                                navController.navigate(
-                                    Screen.ArticleDetail.route.replace(
-                                        oldValue = "{articleId}",
-                                        newValue = id
-                                    )
-                                )
-                            }
-                        }
+                },
+                modifier = Modifier.padding(horizontal = 16.dp)
+            )
+
+            when (articleState.value) {
+                is Resource.Loading -> {
+                    Box(contentAlignment = Alignment.Center, modifier = Modifier.fillMaxSize()) {
+                        CircularProgressIndicator(color = md_theme_light_primary)
                     }
                 }
-            }
 
-            is Resource.Error -> {
-                Box(contentAlignment = Alignment.Center, modifier = Modifier.fillMaxSize()) {
-                    ErrorLayout(
-                        image = R.drawable.iv_error,
-                        message = "Daftar artikel informasi gagal ditampilkan"
-                    )
+                is Resource.Success -> {
+                    LazyColumn(modifier = Modifier.padding(top = 16.dp)) {
+                        if (articleState.value is Resource.Success && !articleState.value.data.isNullOrEmpty())
+                            items(articleState.value.data!!) {
+                                ArticleItem(
+                                    article = it
+                                ) { id ->
+                                    navController.navigate(
+                                        Screen.ArticleDetail.route.replace(
+                                            oldValue = "{articleId}",
+                                            newValue = id
+                                        )
+                                    )
+                                }
+                            }
+                    }
                 }
-            }
 
-            else -> {}
+                is Resource.Error -> {
+                    Box(contentAlignment = Alignment.Center, modifier = Modifier.fillMaxSize()) {
+                        ErrorLayout(
+                            image = R.drawable.iv_error,
+                            message = "Daftar artikel informasi gagal ditampilkan"
+                        )
+                    }
+                }
+
+                else -> {}
+            }
         }
     }
 }
