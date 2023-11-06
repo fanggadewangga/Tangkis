@@ -99,13 +99,13 @@ class UserRepositoryImpl @Inject constructor(
         }
     }.flowOn(Dispatchers.IO)
 
-    override suspend fun changePassword(newPassword: UserPasswordRequest): Flow<Resource<String>> =
+    override suspend fun changePassword(body: UserPasswordRequest): Flow<Resource<String>> =
         flow<Resource<String>> {
             emit(Resource.Loading())
             try {
                 val token = "Bearer ${readBearerToken().first()}"
                 val nim = readNIM().first()
-                val response = apiService.changePassword(token, nim, newPassword)
+                val response = apiService.changePassword(token, nim, body)
                 if (response.error) {
                     Log.d("Change Password", response.message)
                     emit(Resource.Error(response.message))

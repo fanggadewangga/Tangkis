@@ -21,7 +21,7 @@ interface UserRepository {
     suspend fun login(body: UserLoginRequest): Flow<Resource<String>>
     suspend fun register(body: UserRegisterRequest): Flow<Resource<String>>
     suspend fun getUserDetail(): Flow<Resource<UserResponse?>>
-    suspend fun changePassword(newPassword: UserPasswordRequest): Flow<Resource<String>>
+    suspend fun changePassword(body: UserPasswordRequest): Flow<Resource<String>>
     suspend fun changeWhatsapp(newWhatsapp: UserWhatsappRequest): Flow<Resource<String>>
     suspend fun logout(): Flow<Resource<String>>
 }

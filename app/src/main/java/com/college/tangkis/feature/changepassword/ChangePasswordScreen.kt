@@ -1,44 +1,84 @@
 package com.college.tangkis.feature.changepassword
 
-import androidx.compose.foundation.clickable
+import android.widget.Toast
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material.Scaffold
+import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.TopAppBar
 import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.rememberCoroutineScope
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.ColorFilter
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
+import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.navigation.NavController
 import coil.compose.AsyncImage
 import com.college.tangkis.R
+import com.college.tangkis.data.Resource
 import com.college.tangkis.feature.main.components.AppButton
 import com.college.tangkis.feature.main.components.AppText
 import com.college.tangkis.feature.main.components.AppTextField
+import com.college.tangkis.feature.main.route.Screen
 import com.college.tangkis.theme.Typography
 import com.college.tangkis.theme.md_theme_light_primary
-import com.college.tangkis.theme.md_theme_light_secondary
+import es.dmoral.toasty.Toasty
+import kotlinx.coroutines.delay
+import kotlinx.coroutines.launch
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun ChangePasswordScreen(navController: NavController) {
 
-    //?
     val viewModel = hiltViewModel<ChangePasswordViewModel>()
+    val changePasswordState = viewModel.changePasswordState.collectAsStateWithLifecycle()
+    val logoutState = viewModel.logoutState.collectAsStateWithLifecycle()
+    val coroutineScope = rememberCoroutineScope()
+    val context = LocalContext.current
+
+    LaunchedEffect(changePasswordState.value) {
+        when (changePasswordState.value) {
+            is Resource.Error -> Toasty.error(context, changePasswordState.value.message.toString(), Toast.LENGTH_SHORT).show()
+            is Resource.Success -> {
+                Toasty.success(context, "Berhasil mengubah password!", Toast.LENGTH_SHORT).show()
+                viewModel.logout()
+            }
+            else -> {}
+        }
+    }
+
+    LaunchedEffect(logoutState.value) {
+        when (logoutState.value) {
+            is Resource.Error -> Toasty.error(context, "Terjadi kesalahan", Toast.LENGTH_SHORT).show()
+            is Resource.Success -> {
+                Toasty.success(context, "Berhasil logout!", Toast.LENGTH_SHORT).show()
+                coroutineScope.launch {
+                    delay(1500L)
+                }
+                navController.navigate(Screen.Login.route) {
+                    popUpTo(Screen.Profile.route) {
+                        inclusive = true
+                    }
+                }
+            }
+            else -> {}
+        }
+    }
 
     Scaffold(
         topBar = {
@@ -102,9 +142,6 @@ fun ChangePasswordScreen(navController: NavController) {
                         imeAction = ImeAction.Next
                     ),
                     shape = RoundedCornerShape(4.dp),
-
-                    //Logic for comparing current/old password to be implemented!
-
                     isError = viewModel.isValidCurrentPasswordState.value,
                     showWarningMessage = viewModel.isValidCurrentPasswordState.value,
                     warningMessage = "Password Tidak Sesuai!",
@@ -146,24 +183,30 @@ fun ChangePasswordScreen(navController: NavController) {
                     warningMessage = "Password tidak sesuai!",
                     modifier = Modifier.fillMaxWidth()
                 )
-                
-                Spacer(modifier = Modifier.height(30.dp))
 
-                AppText(
-                    text = "Lupa Password?",
-                    textStyle = Typography.titleMedium(),
-                    color = md_theme_light_secondary,
-                    modifier = Modifier.clickable { },
-                )
-                
             }
-            AppButton(
-                content = { AppText(text = "Ubah Password", color = Color.White, textStyle = Typography.labelLarge()) },
-                onClick = {
-                    //TO BE IMPLEMENTED
-                },
-                modifier = Modifier.fillMaxWidth()
-            )
+
+            if (changePasswordState.value is Resource.Loading)
+                Column(
+                    horizontalAlignment = Alignment.CenterHorizontally,
+                    modifier = Modifier.fillMaxWidth()
+                ) {
+                    CircularProgressIndicator(color = md_theme_light_primary)
+                }
+            else
+                AppButton(
+                    content = {
+                        AppText(
+                            text = "Ubah Password",
+                            color = Color.White,
+                            textStyle = Typography.labelLarge()
+                        )
+                    },
+                    onClick = {
+                        viewModel.changePassword()
+                    },
+                    modifier = Modifier.fillMaxWidth()
+                )
         }
     }
 }
