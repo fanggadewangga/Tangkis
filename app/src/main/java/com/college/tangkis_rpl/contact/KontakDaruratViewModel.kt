@@ -18,15 +18,7 @@ class KontakDaruratViewModel: ViewModel() {
     private val ktorHttpClient = HttpClient(Android) { install(JsonFeature) }
 
     fun getKontakDarurat() {
-        val mahasiswa = Mahasiswa()
-        viewModelScope.launch {
-            _kontakDarurat.postValue(
-                mahasiswa.getKontakDarurat(
-                    "215150200111033",
-                    client = ktorHttpClient
-                )
-            )
-        }
+
     }
 
     init {

@@ -35,28 +35,15 @@ class HomeFragment : Fragment() {
     }
 
     private fun observe() {
-        viewModel.artikelInformasiLiveData.observe(this.requireActivity()) { articles ->
-            articleAdapter.artikelInformasis = articles
-            articleAdapter.notifyDataSetChanged()
-        }
 
-        viewModel.contactLiveData.observe(this.requireActivity()) { contacts ->
-            contactAdapter.contacts = contacts
-            contactAdapter.notifyDataSetChanged()
-        }
-
-        viewModel.mahasiswaLiveData.observe(requireActivity()) {
-            binding.tvHeader.text = "Selamat Datang ${it.name}"
-        }
     }
     private fun getDaftarArtikelInformasi() {
-        viewModel.getArticle()
+
     }
     private fun getKontakDarurat() {
-        viewModel.getContacts()
     }
     private fun getMahasiswa() {
-        viewModel.getUserData()
+
     }
     private fun setupView() {
         binding = FragmentHomeBinding.inflate(layoutInflater)

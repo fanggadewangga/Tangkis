@@ -14,45 +14,5 @@ import kotlinx.coroutines.launch
 
 class HomeViewModel : ViewModel() {
 
-    private val _mahasiswaLiveData = MutableLiveData<Mahasiswa>()
-    val mahasiswaLiveData: LiveData<Mahasiswa> = _mahasiswaLiveData
 
-    private val _artikelInformasiLiveData = MutableLiveData<List<ArtikelInformasi>>()
-    val artikelInformasiLiveData: LiveData<List<ArtikelInformasi>> = _artikelInformasiLiveData
-
-    private val _contactLiveData = MutableLiveData<List<KontakDarurat>>()
-    val contactLiveData: LiveData<List<KontakDarurat>> = _contactLiveData
-
-    private val ktorHttpClient = HttpClient(Android) { install(JsonFeature) }
-
-    fun getArticle() {
-        val artikelInformasiEntity = ArtikelInformasi()
-        viewModelScope.launch {
-            _artikelInformasiLiveData.postValue(artikelInformasiEntity.getArticle(ktorHttpClient))
-        }
-    }
-
-    fun getContacts() {
-        val mahasiswaEntity = Mahasiswa()
-        viewModelScope.launch {
-            _contactLiveData.postValue(
-                mahasiswaEntity.getKontakDarurat(
-                    "215150200111033",
-                    client = ktorHttpClient
-                )
-            )
-        }
-    }
-
-    fun getUserData() {
-        val mahasiswaEntity = Mahasiswa()
-        viewModelScope.launch {
-            _mahasiswaLiveData.postValue(
-                mahasiswaEntity.getUserDetail(
-                    "215150200111033",
-                    client = ktorHttpClient
-                )
-            )
-        }
-    }
 }

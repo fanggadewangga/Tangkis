@@ -50,6 +50,7 @@
         app:layout_constraintTop_toBottomOf="@id/tv_desc_login">
 
         <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/edt_nim"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:fontFamily="@font/roboto_regular"
@@ -67,6 +68,7 @@
         app:passwordToggleEnabled="true">
 
         <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/edt_password"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:fontFamily="@font/roboto_regular"
