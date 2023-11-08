@@ -6,4 +6,109 @@
     android:layout_height="match_parent"
     tools:context=".article_detail.DetailArtikelInformasiActivity">
 
+
+    <ScrollView
+        android:id="@+id/sv_article_detail"
+        android:layout_width="409dp"
+        android:layout_height="912dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <ImageView
+                android:id="@+id/iv_article_detail"
+                android:contentDescription="Thumbnail image"
+                android:layout_width="match_parent"
+                android:layout_height="221dp"
+                android:src="@tools:sample/avatars"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:srcCompat="@drawable/iv_dummy_article" />
+
+            <TextView
+                android:id="@+id/tv_title_article_detail"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="16dp"
+                android:layout_marginTop="16dp"
+                android:layout_marginEnd="16dp"
+                android:text="Panduan Penggunaan Fitur SOS"
+                android:textColor="#000000"
+                android:textSize="20sp"
+                android:textStyle="bold"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/iv_article_detail" />
+
+            <ImageView
+                android:id="@+id/iv_ic_time_article_detail"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="16dp"
+                android:layout_marginTop="8dp"
+                android:src="@drawable/ic_time"
+                android:contentDescription="Time icon"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/tv_title_article_detail" />
+
+            <TextView
+                android:id="@+id/tv_date_article_detail"
+                android:layout_width="wrap_content"
+                android:layout_height="24dp"
+                android:layout_marginStart="11dp"
+                android:layout_marginTop="8dp"
+                android:gravity="center_vertical"
+                android:text="31 Januari 2023"
+                android:textColor="#7A767A"
+                android:textSize="12sp"
+                app:layout_constraintStart_toEndOf="@id/iv_ic_time_article_detail"
+                app:layout_constraintTop_toBottomOf="@id/tv_title_article_detail" />
+
+            <View
+                android:id="@+id/view_line_article_detail"
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:background="#CDC3CE"
+                android:layout_marginHorizontal="16dp"
+                android:layout_marginTop="9dp"
+                android:layout_marginBottom="16dp"
+                app:layout_constraintTop_toBottomOf="@id/iv_ic_time_article_detail"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                />
+
+            <TextView
+                android:id="@+id/tv_desc_article_detail"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginHorizontal="16dp"
+                android:layout_marginTop="16dp"
+                android:lineHeight="20sp"
+                android:text="Pesan darurat atau fitur SOS adalah sistem perlindungan darurat yang disediakan di Fakultas Ilmu Komputer Universitas Brawijaya. Fitur ini bertujuan untuk memberikan perlindungan dan kenyamanan kepada para mahasiswa dalam situasi-situasi yang memerlukan tindakan cepat, seperti pelecehan seksual.
+\n
+\nCara Menggunakan Fitur SOS:
+\nPastikan telah menambahkan kontak darurat terlebih dahulu dalam aplikasi Tangkis. Setelah itu, langkah-langkah yang dilakukan, yaitu:
+\n1. Terdapat tombol bertuliskan 'SOS' Tekan tombol ini untuk memicu proses penggunaan fitur SOS.
+\n2. Setelah menekan akan diarahkan ke halaman pesan darurat. Di halaman ini, terdapat tombol besar bertuliskan 'SOS.' Namun, ada syarat khusus yang harus dipenuhi untuk mengaktifkan tombol SOS. Anda harus berada dalam radius fakultas Ilmu Komputer agar tombol SOS dapat digunakan. Jika Anda berada di luar radius, tombol SOS tidak akan aktif.
+\n3. Setelah memastikan bahwa Anda berada dalam radius FILKOM UB, tekan tombol SOS. Setelahnya, halaman akan menampilkan waktu countdown selama 5 detik. Selama periode countdown ini, Anda masih memiliki opsi untuk membatalkan pengiriman pesan darurat dengan menekan tombol pembatalan (cancel).
+\n4. Jika Anda memutuskan untuk melanjutkan dan tidak membatalkan pengiriman pesan darurat selama countdown berlangsung, maka setelah 5 detik, halaman akan menampilkan pemberitahuan bahwa pesan darurat telah berhasil dikirimkan ke kontak darurat yang telah Anda tetapkan sebelumnya.
+\n
+\nOpsi untuk Menelpon ULTKSP:
+\nSetelah pengiriman pesan darurat berhasil, Anda akan diberikan opsi untuk menelpon ULTKSP (Unit Layanan Terpadu Keamanan dan Keselamatan Universitas). Ini adalah langkah selanjutnya untuk penanganan lebih lanjut dalam situasi darurat. Anda dapat menekan tombol untuk langsung menghubungi ULTKSP, yang akan memberikan bantuan dan koordinasi yang diperlukan.
+"
+                android:textColor="#000000"
+                app:layout_constraintEnd_toEndOf="parent"
+
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/view_line_article_detail" />
+        </androidx.constraintlayout.widget.ConstraintLayout>
+    </ScrollView>
+
+
 </androidx.constraintlayout.widget.ConstraintLayout>
