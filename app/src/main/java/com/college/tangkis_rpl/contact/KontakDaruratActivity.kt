@@ -1,7 +1,6 @@
 package com.college.tangkis_rpl.contact
 
 import android.annotation.SuppressLint
-import android.graphics.drawable.ColorDrawable
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.ViewModelProvider
@@ -41,15 +40,18 @@ class KontakDaruratActivity : AppCompatActivity() {
     private fun showConfirmationBox() {
 
     }
+
     private fun dismissConfirmationBox() {}
     private fun confirm(confirm: Boolean) {}
     private fun showDaftarKontak(daftarKontak: List<KontakDarurat>) {
         kontakDaruratAdapter.contacts = daftarKontak
         kontakDaruratAdapter.notifyDataSetChanged()
     }
+
     private fun showEmpty() {
 
     }
+
     private fun showAlert() {}
     private fun showUpdate() {}
     private fun setupView() {
@@ -64,16 +66,8 @@ class KontakDaruratActivity : AppCompatActivity() {
         binding.btnAddContact.setOnClickListener {
             showKontakPerangkat()
         }
-        supportActionBar?.apply {
-            setDisplayHomeAsUpEnabled(true)
-            title = "Kontak Darurat"
-            elevation=0f
-        }
-        supportActionBar!!.apply {
-            setBackgroundDrawable(ColorDrawable(resources.getColor(R.color.md_theme_light_primary)))
-            titleColor = R.color.white
-        }
     }
+
     private fun showKontakPerangkat() {
         val dialogView = layoutInflater.inflate(R.layout.contact_bottom_sheet, null)
         dialog = BottomSheetDialog(this, R.style.BottomSheetDialogTheme)

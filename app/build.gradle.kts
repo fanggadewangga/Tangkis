@@ -79,4 +79,6 @@ dependencies {
     implementation("io.ktor:ktor-client-android:1.5.0")
     implementation("io.ktor:ktor-client-serialization:1.5.0")
     implementation("io.ktor:ktor-client-logging-jvm:1.5.0")
+
+    implementation("com.google.android.gms:play-services-maps:18.2.0")
 }

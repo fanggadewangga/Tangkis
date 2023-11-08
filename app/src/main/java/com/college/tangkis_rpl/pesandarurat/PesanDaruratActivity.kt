@@ -28,10 +28,10 @@ class PesanDaruratActivity : AppCompatActivity() {
             ) { permissions ->
                 when {
                     permissions[Manifest.permission.ACCESS_FINE_LOCATION] ?: false -> {
-                        viewModel.initiatePesanDarurat(this)
+                        viewModel.initiatePesanDaruratButton(this)
                     }
                     permissions[Manifest.permission.ACCESS_COARSE_LOCATION] ?: false -> {
-                        viewModel.initiatePesanDarurat(this)
+                        viewModel.initiatePesanDaruratButton(this)
                     }
                 }
             }
@@ -97,7 +97,7 @@ class PesanDaruratActivity : AppCompatActivity() {
             }
 
             override fun onFinish() {
-
+                viewModel.initiatePesanDarurat(this@PesanDaruratActivity)
             }
         }
         countDownTimer.start()

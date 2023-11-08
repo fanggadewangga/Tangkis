@@ -1,13 +1,14 @@
 package com.college.tangkis_rpl.pesandarurat
 
 import android.Manifest
-import android.app.Activity
 import android.content.Context
+import android.content.Intent
 import android.content.pm.PackageManager
 import android.location.Location
 import android.util.Log
 import androidx.core.content.ContextCompat
 import androidx.lifecycle.ViewModel
+import com.college.tangkis_rpl.sos_terkirim.PesanDaruratTerkirimActivity
 import com.google.android.gms.location.FusedLocationProviderClient
 import com.google.android.gms.location.LocationServices
 
@@ -15,7 +16,7 @@ class PesanDaruratViewModel : ViewModel() {
     private var fusedLocationClient: FusedLocationProviderClient? = null
 
 
-    fun initiatePesanDarurat(activity: PesanDaruratActivity) {
+    fun initiatePesanDaruratButton(activity: PesanDaruratActivity) {
         fusedLocationClient = LocationServices.getFusedLocationProviderClient(activity)
         if (checkPermission(Manifest.permission.ACCESS_FINE_LOCATION, activity) && checkPermission(
                 Manifest.permission.ACCESS_COARSE_LOCATION,
@@ -50,8 +51,9 @@ class PesanDaruratViewModel : ViewModel() {
         activity.show()
     }
 
-    fun initializePesanDarurat() {
-
+    fun initiatePesanDarurat(activity: PesanDaruratActivity) {
+        val intent = Intent(activity, PesanDaruratTerkirimActivity::class.java)
+        activity.startActivity(intent)
     }
 
     private fun checkPermission(permission: String, context: Context): Boolean {
