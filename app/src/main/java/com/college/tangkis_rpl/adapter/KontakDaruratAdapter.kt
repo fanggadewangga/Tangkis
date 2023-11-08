@@ -25,8 +25,8 @@ class KontakDaruratAdapter(private val onDeleteClick: () -> Unit) : RecyclerView
         RecyclerView.ViewHolder(view.root) {
         fun bind(contact: KontakDarurat) {
             view.apply {
-                tvName.text = contact.name
-                tvNumber.text = contact.number
+                tvName.text = contact.nama
+                tvNumber.text = contact.nomor
                 ivDelete.setOnClickListener {
                     onDeleteClick.invoke()
                 }

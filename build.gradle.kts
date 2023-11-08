@@ -5,6 +5,7 @@ plugins {
     id("com.google.devtools.ksp") version "1.9.10-1.0.13" apply false
     id("org.jetbrains.kotlin.plugin.serialization") version "1.8.10"
     id("com.android.library") version "7.4.0" apply false
+    id("com.google.android.libraries.mapsplatform.secrets-gradle-plugin") version "2.0.1" apply false
 }
 
 buildscript {
@@ -13,5 +14,6 @@ buildscript {
     }
     dependencies {
         classpath("com.google.android.libraries.mapsplatform.secrets-gradle-plugin:secrets-gradle-plugin:2.0.1")
+        classpath("com.google.gms:google-services:4.4.0")
     }
 }

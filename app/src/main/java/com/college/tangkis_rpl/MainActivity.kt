@@ -1,10 +1,12 @@
 package com.college.tangkis_rpl
 
-import androidx.appcompat.app.AppCompatActivity
+import android.content.Intent
 import android.os.Bundle
+import androidx.appcompat.app.AppCompatActivity
 import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.ui.setupWithNavController
 import com.college.tangkis_rpl.databinding.ActivityMainBinding
+import com.college.tangkis_rpl.pesandarurat.PesanDaruratActivity
 
 class MainActivity : AppCompatActivity() {
 
@@ -15,8 +17,17 @@ class MainActivity : AppCompatActivity() {
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-        val fragmentManager = supportFragmentManager.findFragmentById(R.id.container) as NavHostFragment
+        val fragmentManager =
+            supportFragmentManager.findFragmentById(R.id.container) as NavHostFragment
         val navController = fragmentManager.navController
         binding.bottomNavigation.setupWithNavController(navController)
+        binding.fabSos.setOnClickListener {
+            sendPesanDarurat()
+        }
+    }
+
+    private fun sendPesanDarurat() {
+        val intent = Intent(this, PesanDaruratActivity::class.java)
+        startActivity(intent)
     }
 }
