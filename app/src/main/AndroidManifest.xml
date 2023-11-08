@@ -3,6 +3,8 @@
     xmlns:tools="http://schemas.android.com/tools">
 
     <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
+    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
 
     <application
         android:allowBackup="true"
@@ -15,23 +17,26 @@
         android:theme="@style/AppTheme"
         tools:targetApi="31">
         <activity
+            android:name=".pesandarurat.PesanDaruratActivity"
+            android:exported="false" />
+        <activity
             android:name=".article_detail.DetailArtikelInformasiActivity"
             android:exported="false" />
-
         <activity
             android:name=".article_list.DaftarArtikelInformasiActivity"
             android:exported="false" />
-
         <activity
             android:name=".contact.KontakDaruratActivity"
             android:exported="false" />
-
         <activity
             android:name=".register.RegisterActivity"
             android:exported="false" />
-
         <activity
             android:name=".login.LoginActivity"
+            android:exported="true">
+        </activity>
+        <activity
+            android:name=".MainActivity"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -40,15 +45,9 @@
             </intent-filter>
         </activity>
 
-        <activity
-            android:name=".MainActivity"
-            android:exported="true">
-        </activity>
-
         <meta-data
             android:name="com.google.android.geo.API_KEY"
             android:value="AIzaSyAW6HSd61ro9BIJE8TxwHGscCHfGArkqA0" />
-
     </application>
 
 </manifest>
