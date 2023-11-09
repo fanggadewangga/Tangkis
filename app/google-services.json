@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "1006250545876",
+    "project_id": "tangkis-rpl-60f8d",
+    "storage_bucket": "tangkis-rpl-60f8d.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:1006250545876:android:f563474155d5b3e6ede141",
+        "android_client_info": {
+          "package_name": "com.college.tangkis_rpl"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCutA35emb35vvN93eNHmPs72SLLEL5aYE"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
