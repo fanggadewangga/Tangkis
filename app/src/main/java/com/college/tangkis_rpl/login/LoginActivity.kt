@@ -2,30 +2,24 @@ package com.college.tangkis_rpl.login
 
 import android.content.Intent
 import android.os.Bundle
-import android.provider.ContactsContract.RawContacts.Data
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.ViewModelProvider
 import com.college.tangkis_rpl.MainActivity
 import com.college.tangkis_rpl.databinding.ActivityLoginBinding
-import com.college.tangkis_rpl.datastore.Datastore
 import com.college.tangkis_rpl.register.RegisterActivity
 
 class LoginActivity : AppCompatActivity() {
 
     private lateinit var binding: ActivityLoginBinding
     private lateinit var viewModel: LoginViewModel
-    private lateinit var dataStore: Datastore
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityLoginBinding.inflate(layoutInflater)
-        dataStore = Datastore(this)
-        val isLoggedIn = dataStore.readNim().isNotEmpty()
-        if (isLoggedIn)
-            showHomepage()
         setContentView(binding.root)
         viewModel = ViewModelProvider(this)[LoginViewModel::class.java]
+        viewModel.checkLoginStatus(this)
         binding.apply {
             tvRegister.setOnClickListener {
                 val intent = Intent(this@LoginActivity, RegisterActivity::class.java)
