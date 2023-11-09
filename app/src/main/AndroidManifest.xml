@@ -26,9 +26,6 @@
             android:name=".article_detail.DetailArtikelInformasiActivity"
             android:exported="false" />
         <activity
-            android:name=".article_list.DaftarArtikelInformasiActivity"
-            android:exported="false" />
-        <activity
             android:name=".contact.KontakDaruratActivity"
             android:exported="false" />
         <activity

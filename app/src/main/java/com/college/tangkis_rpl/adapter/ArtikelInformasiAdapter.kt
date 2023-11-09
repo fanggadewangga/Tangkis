@@ -8,7 +8,7 @@ import com.bumptech.glide.request.RequestOptions
 import com.college.tangkis_rpl.databinding.ItemArticleHomeBinding
 import com.college.tangkis_rpl.model.ArtikelInformasi
 
-class HomeArtikelInformasiAdapter : RecyclerView.Adapter<HomeArtikelInformasiAdapter.HomeArticleViewHolder>() {
+class ArtikelInformasiAdapter(private val onClick: (String) -> Unit) : RecyclerView.Adapter<ArtikelInformasiAdapter.HomeArticleViewHolder>() {
 
     var artikelInformasis: List<ArtikelInformasi> = emptyList()
 
@@ -35,6 +35,9 @@ class HomeArtikelInformasiAdapter : RecyclerView.Adapter<HomeArtikelInformasiAda
                     .load(artikelInformasi.imageUrl)
                     .apply(RequestOptions.centerCropTransform())
                     .into(view.ivArticle)
+            }
+            itemView.setOnClickListener {
+                onClick.invoke(artikelInformasi.articleId)
             }
         }
     }
