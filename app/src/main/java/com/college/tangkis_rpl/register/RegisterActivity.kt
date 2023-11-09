@@ -1,16 +1,12 @@
 package com.college.tangkis_rpl.register
 
 import android.content.Intent
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.util.Log
 import android.widget.Toast
+import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.ViewModelProvider
-import com.college.tangkis_rpl.R
-import com.college.tangkis_rpl.databinding.ActivityLoginBinding
 import com.college.tangkis_rpl.databinding.ActivityRegisterBinding
 import com.college.tangkis_rpl.login.LoginActivity
-import com.college.tangkis_rpl.login.LoginViewModel
 
 class RegisterActivity : AppCompatActivity() {
 
@@ -51,17 +47,15 @@ class RegisterActivity : AppCompatActivity() {
         val password = binding.edtPassword.text.toString()
         var errorMessage = ""
 
-        if (nama.isEmpty() || nim.isEmpty() || password.isEmpty())
+        if (nama.isEmpty() || nim.isEmpty() || password.isEmpty()) {
             errorMessage = "Data tidak boleh kosong"
-
-        if (errorMessage != "")
             Toast.makeText(this, errorMessage, Toast.LENGTH_SHORT).show()
-
+        }
         return errorMessage == ""
     }
 
-    fun showAlreadyRegisteredMessage() {
-        Toast.makeText(this, "NIM telah terdaftar", Toast.LENGTH_SHORT).show()
+    fun showErrorMessage(errorMessage: String) {
+        Toast.makeText(this, errorMessage, Toast.LENGTH_SHORT).show()
     }
 
     fun show() {

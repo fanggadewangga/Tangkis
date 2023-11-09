@@ -1,18 +1,20 @@
 package com.college.tangkis_rpl.register
 
-import android.util.Log
 import androidx.lifecycle.ViewModel
+import androidx.lifecycle.viewModelScope
 import com.college.tangkis_rpl.model.AuthHandler
+import kotlinx.coroutines.launch
 
 class RegisterViewModel : ViewModel() {
 
     fun register(nama: String, nim: String, password: String, activity: RegisterActivity) {
         val authHandler = AuthHandler()
-        val errorMessage = authHandler.register(nama, nim, password)
-        Log.d("Error message", errorMessage.toString())
-        if (errorMessage != "")
-            activity.showAlreadyRegisteredMessage()
-        else
-            activity.show()
+        viewModelScope.launch {
+            val errorMessage = authHandler.register(nama, nim, password)
+            if (errorMessage != "")
+                activity.showErrorMessage(errorMessage)
+            else
+                activity.show()
+        }
     }
 }

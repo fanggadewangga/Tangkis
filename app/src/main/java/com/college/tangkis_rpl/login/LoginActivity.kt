@@ -1,13 +1,11 @@
 package com.college.tangkis_rpl.login
 
 import android.content.Intent
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.util.Log
 import android.widget.Toast
+import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.ViewModelProvider
 import com.college.tangkis_rpl.MainActivity
-import com.college.tangkis_rpl.R
 import com.college.tangkis_rpl.databinding.ActivityLoginBinding
 import com.college.tangkis_rpl.register.RegisterActivity
 
@@ -23,7 +21,6 @@ class LoginActivity : AppCompatActivity() {
         viewModel = ViewModelProvider(this)[LoginViewModel::class.java]
         binding.apply {
             tvRegister.setOnClickListener {
-                Log.d("Clicked", "True")
                 val intent = Intent(this@LoginActivity, RegisterActivity::class.java)
                 startActivity(intent)
             }
@@ -48,12 +45,10 @@ class LoginActivity : AppCompatActivity() {
         val password = binding.edtPassword.text.toString()
         var errorMessage = ""
 
-        if (nim.isEmpty() || password.isEmpty())
+        if (nim.isEmpty() || password.isEmpty()) {
             errorMessage = "Data tidak boleh kosong"
-
-        if (errorMessage != "")
             Toast.makeText(this, errorMessage, Toast.LENGTH_SHORT).show()
-
+        }
         return errorMessage == ""
     }
 
