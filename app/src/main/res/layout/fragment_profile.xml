@@ -1,18 +1,123 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    tools:context=".profile.ProfileFragment">
+    android:padding="16dp"
+    android:orientation="vertical"
+    android:gravity="center_horizontal"
+    android:weightSum="1">
 
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Profile bagian evan"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:orientation="vertical"
+        android:gravity="center_horizontal"
+        android:layout_weight="0.75">
 
-</androidx.constraintlayout.widget.ConstraintLayout>
+        <ImageView
+            android:id="@+id/iv_profile"
+            android:layout_width="wrap_content"
+            android:layout_height="240dp"
+            android:src="@drawable/iv_profile"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+       <LinearLayout
+           android:layout_width="match_parent"
+           android:layout_height="wrap_content"
+           android:orientation="vertical"
+           android:layout_marginTop="32dp"
+           >
+
+           <TextView
+               android:id="@+id/tv_title_name"
+               android:layout_width="match_parent"
+               android:layout_height="wrap_content"
+               android:text="Nama Lengkap"
+               android:layout_marginBottom="8dp"
+               style="@style/TitleSmall"
+               android:textColor="@color/material_dynamic_neutral50"
+               />
+           <TextView
+               android:id="@id/tv_name"
+               android:layout_width="match_parent"
+               android:layout_height="wrap_content"
+               android:text="Nama Lengkap"
+               android:layout_marginBottom="16dp"
+               style="@style/TitleMedium"
+               android:textColor="@color/md_theme_light_scrim"
+               android:padding="16dp"
+               android:background="#FFF6EEFC"
+               />
+
+           <TextView
+               android:id="@+id/tv_title_nim"
+               android:layout_width="match_parent"
+               android:layout_height="wrap_content"
+               android:text="Nomor Induk Mahasiswa"
+               android:layout_marginBottom="8dp"
+               style="@style/TitleSmall"
+               android:textColor="@color/material_dynamic_neutral50"
+               />
+           <TextView
+               android:id="@+id/tv_nim"
+               android:layout_width="match_parent"
+               android:layout_height="wrap_content"
+               android:text="NIM"
+               android:layout_marginBottom="16dp"
+               style="@style/TitleMedium"
+               android:textColor="@color/md_theme_light_scrim"
+               android:padding="16dp"
+               android:background="#FFF6EEFC"
+               />
+
+
+
+
+       </LinearLayout>
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:orientation="vertical"
+        android:layout_weight="0.25">
+        <TextView
+            android:id="@+id/tv_title"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Akun"
+            android:fontFamily="@font/roboto_bold"
+            android:textSize="20sp"
+            android:textColor="#000000"/>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:layout_marginTop="8dp">
+
+            <ImageView
+                android:id="@+id/ic_logout"
+                android:layout_width="40dp"
+                android:layout_height="40dp"
+                android:src="@drawable/ic_logout"
+                android:background="@color/md_theme_light_inverseOnSurface"
+                android:padding="5dp"
+                android:contentDescription="Logout Button" />
+
+            <TextView
+                android:id="@+id/tv_logout"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:gravity="center"
+                android:layout_marginStart="8dp"
+                style="@style/LabelLarge"
+                android:textColor="@color/md_theme_light_secondary"
+                android:text="Keluar" />
+
+        </LinearLayout>
+    </LinearLayout>
+</LinearLayout>

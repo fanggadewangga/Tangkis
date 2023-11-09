@@ -1,32 +1,81 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:layout_width="wrap_content"
-    android:layout_height="wrap_content"
-    android:padding="16dp">
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:padding="16dp"
+    android:orientation="vertical"
+    android:gravity="center_horizontal"
+    android:weightSum="1">
 
-    <ImageView
-        android:id="@+id/iv_error"
-        android:layout_width="wrap_content"
-        android:layout_height="240dp"
-        android:layout_marginTop="135dp"
-        android:src="@drawable/iv_error"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+   <LinearLayout
+       android:layout_width="match_parent"
+       android:layout_height="0dp"
+       android:orientation="vertical"
+       android:gravity="center_horizontal"
+       android:layout_weight="0.75">
 
-    <TextView
-        android:id="@+id/tv_desc_fail_profile"
-        android:text="Profil gagal ditampilkan"
-        android:textSize="20dp"
-        android:fontFamily="@font/roboto_bold"
-        android:textColor="@color/md_theme_dark_outline"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        app:layout_constraintTop_toBottomOf="@id/iv_error"
-        android:layout_marginTop="32dp"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        android:textAlignment="center"/>
+       <ImageView
+           android:id="@+id/iv_error"
+           android:layout_width="wrap_content"
+           android:layout_height="240dp"
+           android:src="@drawable/iv_error"
+           app:layout_constraintEnd_toEndOf="parent"
+           app:layout_constraintStart_toStartOf="parent"
+           app:layout_constraintTop_toTopOf="parent"
+           />
 
-</androidx.constraintlayout.widget.ConstraintLayout>
+       <TextView
+           android:id="@+id/tv_desc_fail_profile"
+           android:text="Profil gagal ditampilkan"
+           android:textSize="20sp"
+           android:fontFamily="@font/roboto_bold"
+           android:textColor="@color/md_theme_dark_outline"
+           android:layout_width="wrap_content"
+           android:layout_height="wrap_content"
+           android:layout_marginTop="32dp"
+           android:textAlignment="center" />
+   </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:orientation="vertical"
+        android:layout_weight="0.25">
+        <TextView
+            android:id="@+id/tv_title"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Akun"
+            android:fontFamily="@font/roboto_bold"
+            android:textSize="20sp"
+            android:textColor="#000000"/>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:layout_marginTop="8dp">
+
+            <ImageView
+                android:id="@+id/ic_logout"
+                android:layout_width="40dp"
+                android:layout_height="40dp"
+                android:src="@drawable/ic_logout"
+                android:background="@color/md_theme_light_inverseOnSurface"
+                android:padding="5dp"
+                android:contentDescription="Logout Button" />
+
+            <TextView
+                android:id="@+id/tv_logout"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:gravity="center"
+                android:layout_marginStart="8dp"
+                style="@style/LabelLarge"
+                android:textColor="@color/md_theme_light_secondary"
+                android:text="Keluar" />
+
+        </LinearLayout>
+    </LinearLayout>
+</LinearLayout>
