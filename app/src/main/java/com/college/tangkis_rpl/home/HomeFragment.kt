@@ -1,5 +1,6 @@
 package com.college.tangkis_rpl.home
 
+import android.annotation.SuppressLint
 import android.content.Intent
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -13,6 +14,8 @@ import com.college.tangkis_rpl.adapter.HomeKontakDaruratAdapter
 import com.college.tangkis_rpl.contact.KontakDaruratActivity
 import com.college.tangkis_rpl.contact.KontakDaruratViewModel
 import com.college.tangkis_rpl.databinding.FragmentHomeBinding
+import com.college.tangkis_rpl.model.KontakDarurat
+import com.college.tangkis_rpl.model.Mahasiswa
 
 class HomeFragment : Fragment() {
 
@@ -27,30 +30,34 @@ class HomeFragment : Fragment() {
         savedInstanceState: Bundle?,
     ): View {
         setupView()
-        getMahasiswa()
-        getKontakDarurat()
         getDaftarArtikelInformasi()
-        observe()
         return binding.root
     }
 
-    private fun observe() {
-
-    }
     private fun getDaftarArtikelInformasi() {
 
     }
-    private fun getKontakDarurat() {
-    }
-    private fun getMahasiswa() {
 
+    @SuppressLint("NotifyDataSetChanged")
+    fun showKontakDarurat(kontakDarurat: List<KontakDarurat>) {
+        contactAdapter.contacts = kontakDarurat
+        contactAdapter.notifyDataSetChanged()
     }
+
+    fun showDataMahasiswa(mahasiswa: Mahasiswa) {
+        binding.apply {
+            tvHeader.text = "Selamat datang ${mahasiswa?.nama}"
+        }
+    }
+
     private fun setupView() {
         binding = FragmentHomeBinding.inflate(layoutInflater)
         viewModel = ViewModelProvider(this.requireActivity())[HomeViewModel::class.java]
         kontakDaruratViewModel = ViewModelProvider(this.requireActivity())[KontakDaruratViewModel::class.java]
         contactAdapter = HomeKontakDaruratAdapter()
         articleAdapter = HomeArtikelInformasiAdapter()
+        viewModel.getDataMahasiswa(this)
+        viewModel.getKontakDarurat(this)
 
         binding.tvSeeAllContact.setOnClickListener {
             showDaftarKontak()
@@ -66,9 +73,10 @@ class HomeFragment : Fragment() {
             layoutManager = LinearLayoutManager(requireContext(), LinearLayoutManager.VERTICAL, false)
         }
     }
+
     private fun showDaftarKontak() {
-        val intent = Intent(this.context, KontakDaruratActivity::class.java)
-        startActivity(intent)
+        val intent = Intent(this.requireActivity(), KontakDaruratActivity::class.java)
+        this.requireActivity().startActivity(intent)
         kontakDaruratViewModel.getKontakDarurat()
     }
 }

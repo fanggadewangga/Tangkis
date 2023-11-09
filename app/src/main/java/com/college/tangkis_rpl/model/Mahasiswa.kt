@@ -1,40 +1,54 @@
 package com.college.tangkis_rpl.model
 
+import android.util.Log
 import com.college.tangkis_rpl.firebase.Firebase
+import kotlinx.coroutines.tasks.await
 
 data class Mahasiswa(
     val nim: String = "",
     val nama: String = "",
     val password: String = "",
 ) {
-    fun getDataMahasiswa(nim: String): Mahasiswa? {
+    suspend fun getDataMahasiswa(): Mahasiswa? {
+        Log.d("Get Data Mahasiswa", "Masuk")
         var mahasiswa: Mahasiswa? = null
         val firebase = Firebase()
+        val firebaseAuthentication = firebase.firebaseAuth
         val firebaseFirestore = firebase.firebaseFirestore
-        firebaseFirestore.collection("Mahasiswa").whereEqualTo("nim", nim).get()
-            .addOnSuccessListener { querySnapshot ->
-                if (!querySnapshot.isEmpty) {
-                    for (document in querySnapshot.documents) {
-                        val nimMahasiswa = document.getString("nim")
-                        val namaMahasiswa = document.getString("nama")
-                        val password = document.getString("password")
-                        mahasiswa = Mahasiswa(nimMahasiswa!!, namaMahasiswa!!, password!!)
-                    }
+        val nim = firebaseAuthentication.currentUser!!.email!!.substringBefore("@")
+
+        try {
+            val querySnapshot = firebaseFirestore.collection("Mahasiswa").whereEqualTo("nim", nim).get().await()
+            Log.d("Get Data Mahasiswa", querySnapshot.toString())
+            if (!querySnapshot.isEmpty) {
+                for (document in querySnapshot.documents) {
+                    val nimMahasiswa = document.getString("nim")
+                    val namaMahasiswa = document.getString("nama")
+                    val password = document.getString("password")
+                    mahasiswa = Mahasiswa(nimMahasiswa!!, namaMahasiswa!!, password!!)
+                    Log.d("Get Data Mahasiswa", mahasiswa.toString())
                 }
             }
-            .addOnFailureListener { exception ->
-                println("Error: $exception")
-            }
+        } catch (exception: Exception) {
+            Log.e("Get Data Mahasiswa: $exception", "True")
+        }
         return mahasiswa
     }
 
-    fun tambahKontak(kontak: KontakDarurat, nim: String): String? {
+    fun tambahKontak(kontak: KontakDarurat): String? {
         var errorMessage: String? = ""
-        val jumlahKontakDarurat = getJumlahKontakDarurat(nim)
+        val firebase = Firebase()
+        val firebaseAuthentication = firebase.firebaseAuth
+        val firebaseFirestore = firebase.firebaseFirestore
+        val nim = firebaseAuthentication.currentUser!!.email!!.substringBefore("@")
+        var jumlahKontak = 0
+        val kontakCollection = firebaseFirestore.collection("KontakDarurat")
+        kontakCollection.whereEqualTo("nim", nim).get()
+            .addOnSuccessListener { querySnapshot ->
+                jumlahKontak = querySnapshot.size()
+            }
 
-        if (jumlahKontakDarurat < 5) {
-            val firebase = Firebase()
-            val firebaseFirestore = firebase.firebaseFirestore
+        if (jumlahKontak < 5) {
             val kontakCollection = firebaseFirestore.collection("KontakDarurat")
             val nomorKontakBaru = kontak.nomor
 
@@ -60,64 +74,58 @@ data class Mahasiswa(
         return errorMessage
     }
 
-    private fun getJumlahKontakDarurat(nim: String): Int {
-        val firebase = Firebase()
-        var jumlahKontak = 0
-        val firebaseFirestore = firebase.firebaseFirestore
-        val kontakCollection = firebaseFirestore.collection("KontakDarurat")
-        kontakCollection.whereEqualTo("nim", nim).get()
-            .addOnSuccessListener { querySnapshot ->
-                jumlahKontak = querySnapshot.size()
-            }
-        return jumlahKontak
-    }
-
-    fun hapusKontak(nomor: String, nim: String): Boolean {
+    suspend fun hapusKontak(nomor: String, nim: String): Boolean {
         var isError = false
         val firebase = Firebase()
         val firebaseFirestore = firebase.firebaseFirestore
-        firebaseFirestore.collection("KontakDarurat").whereEqualTo("nim", nim)
-            .whereEqualTo("nomor", nomor)
-            .get()
-            .addOnSuccessListener { querySnapshot ->
-                if (!querySnapshot.isEmpty) {
-                    for (document in querySnapshot) {
-                        document.reference.delete()
-                            .addOnFailureListener {
-                                isError = true
-                            }
-                    }
-                } else {
-                    isError = true
+
+        try {
+            val querySnapshot = firebaseFirestore.collection("KontakDarurat")
+                .whereEqualTo("nim", nim)
+                .whereEqualTo("nomor", nomor)
+                .get()
+                .await()
+
+            if (!querySnapshot.isEmpty) {
+                for (document in querySnapshot) {
+                    document.reference.delete().await()
                 }
-            }
-            .addOnFailureListener {
+            } else {
                 isError = true
             }
+        } catch (exception: Exception) {
+            isError = true
+            println("Error: $exception")
+        }
+
         return isError
     }
 
-    fun getDaftarKontakDarurat(nim: String): List<KontakDarurat> {
+    suspend fun getKontakDarurat(): List<KontakDarurat> {
+        Log.d("GET DAFTAR KONTAK", "MASUK")
         val firebase = Firebase()
         val firebaseFirestore = firebase.firebaseFirestore
+        val firebaseAuthentication = firebase.firebaseAuth
         val kontakCollection = firebaseFirestore.collection("KontakDarurat")
-        val daftarKontakDarurat = mutableListOf<KontakDarurat>()
+        val kontakDarurat = mutableListOf<KontakDarurat>()
+        val nim = firebaseAuthentication.currentUser!!.email!!.substringBefore("@")
 
-        kontakCollection.whereEqualTo("nim", nim).get()
-            .addOnSuccessListener { querySnapshot ->
-                for (document in querySnapshot) {
-                    val nomor = document.getString("nomor")
-                    val nama = document.getString("nama")
-                    if (nomor != null && nama != null) {
-                        val kontak = KontakDarurat(nama, nomor)
-                        daftarKontakDarurat.add(kontak)
-                    }
+        try {
+            Log.d("GET DAFTAR KONTAK", "MASUK TRY")
+            val querySnapshot = kontakCollection.whereEqualTo("nim", nim).get().await()
+            for (document in querySnapshot) {
+                val nomor = document.getString("nomor")
+                val nama = document.getString("nama")
+                if (nomor != null && nama != null) {
+                    val kontak = KontakDarurat(nama, nomor)
+                    Log.d("GET DAFTAR KONTAK", kontak.toString())
+                    kontakDarurat.add(kontak)
                 }
+            }
+        } catch (exception: Exception) {
+            Log.d("GET DAFTAR KONTAK", exception.toString())
+        }
 
-            }
-            .addOnFailureListener { exception ->
-                println("Error: $exception")
-            }
-        return daftarKontakDarurat.toList()
+        return kontakDarurat.toList()
     }
 }

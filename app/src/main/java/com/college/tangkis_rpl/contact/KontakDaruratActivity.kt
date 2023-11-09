@@ -2,6 +2,7 @@ package com.college.tangkis_rpl.contact
 
 import android.annotation.SuppressLint
 import android.os.Bundle
+import android.view.View
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -24,12 +25,6 @@ class KontakDaruratActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setupView()
-        viewModel.kontakDarurat.observe(this) { daftarKontak ->
-            if (daftarKontak.isEmpty())
-                showEmpty()
-            else
-                showDaftarKontak(daftarKontak)
-        }
     }
 
     override fun onSupportNavigateUp(): Boolean {
@@ -43,20 +38,26 @@ class KontakDaruratActivity : AppCompatActivity() {
 
     private fun dismissConfirmationBox() {}
     private fun confirm(confirm: Boolean) {}
-    private fun showDaftarKontak(daftarKontak: List<KontakDarurat>) {
+    fun showDaftarKontak(daftarKontak: List<KontakDarurat>) {
         kontakDaruratAdapter.contacts = daftarKontak
         kontakDaruratAdapter.notifyDataSetChanged()
     }
 
-    private fun showEmpty() {
-
+    fun showEmpty() {
+        binding.apply {
+            rvContact.visibility = View.GONE
+            contactEmpty.ivContactEmpty.visibility = View.VISIBLE
+            contactEmpty.tvDescContactEmpty.visibility = View.VISIBLE
+        }
     }
 
     private fun showAlert() {}
     private fun showUpdate() {}
+
     private fun setupView() {
         binding = ActivityContactBinding.inflate(layoutInflater)
         viewModel = ViewModelProvider(this)[KontakDaruratViewModel::class.java]
+        viewModel.getKontakDarurat(this)
         setContentView(binding.root)
         kontakDaruratAdapter = KontakDaruratAdapter {}
         binding.rvContact.apply {
