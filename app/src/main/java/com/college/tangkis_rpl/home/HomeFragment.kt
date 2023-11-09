@@ -9,7 +9,7 @@ import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
-import com.college.tangkis_rpl.adapter.HomeArtikelInformasiAdapter
+import com.college.tangkis_rpl.adapter.ArtikelInformasiAdapter
 import com.college.tangkis_rpl.adapter.HomeKontakDaruratAdapter
 import com.college.tangkis_rpl.contact.KontakDaruratActivity
 import com.college.tangkis_rpl.contact.KontakDaruratViewModel
@@ -23,7 +23,7 @@ class HomeFragment : Fragment() {
     private lateinit var viewModel: HomeViewModel
     private lateinit var kontakDaruratViewModel: KontakDaruratViewModel
     private lateinit var contactAdapter: HomeKontakDaruratAdapter
-    private lateinit var articleAdapter: HomeArtikelInformasiAdapter
+    private lateinit var articleAdapter: ArtikelInformasiAdapter
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -35,7 +35,7 @@ class HomeFragment : Fragment() {
     }
 
     private fun getDaftarArtikelInformasi() {
-
+       articleAdapter.artikelInformasis = viewModel.getDaftarArtikelInformasi()
     }
 
     @SuppressLint("NotifyDataSetChanged")
@@ -53,9 +53,10 @@ class HomeFragment : Fragment() {
     private fun setupView() {
         binding = FragmentHomeBinding.inflate(layoutInflater)
         viewModel = ViewModelProvider(this.requireActivity())[HomeViewModel::class.java]
-        kontakDaruratViewModel = ViewModelProvider(this.requireActivity())[KontakDaruratViewModel::class.java]
+        kontakDaruratViewModel =
+            ViewModelProvider(this.requireActivity())[KontakDaruratViewModel::class.java]
         contactAdapter = HomeKontakDaruratAdapter()
-        articleAdapter = HomeArtikelInformasiAdapter()
+        articleAdapter = ArtikelInformasiAdapter(onClick = { chooseArtikelInformasi(it) })
         viewModel.getDataMahasiswa(this)
         viewModel.getKontakDarurat(this)
 
@@ -65,12 +66,14 @@ class HomeFragment : Fragment() {
 
         binding.rvArticle.apply {
             adapter = articleAdapter
-            layoutManager =  LinearLayoutManager(requireContext(), LinearLayoutManager.HORIZONTAL, false)
+            layoutManager =
+                LinearLayoutManager(requireContext(), LinearLayoutManager.HORIZONTAL, false)
         }
 
         binding.rvContact.apply {
             adapter = contactAdapter
-            layoutManager = LinearLayoutManager(requireContext(), LinearLayoutManager.VERTICAL, false)
+            layoutManager =
+                LinearLayoutManager(requireContext(), LinearLayoutManager.VERTICAL, false)
         }
     }
 
@@ -78,5 +81,9 @@ class HomeFragment : Fragment() {
         val intent = Intent(this.requireActivity(), KontakDaruratActivity::class.java)
         this.requireActivity().startActivity(intent)
         kontakDaruratViewModel.getKontakDarurat()
+    }
+
+    private fun chooseArtikelInformasi(idArtikel: String) {
+        viewModel.getArtikelInformasi(idArtikel, this)
     }
 }
