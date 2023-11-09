@@ -29,12 +29,19 @@ class PesanDaruratTerkirimActivity : AppCompatActivity() {
         binding = ActivityPesanDaruratTerkirimBinding.inflate(layoutInflater)
         viewModel = ViewModelProvider(this)[PesanDaruratTerkirimViewModel::class.java]
         setContentView(binding.root)
-        val callback = OnMapReadyCallback { googleMap ->
+        /*val callback = OnMapReadyCallback { googleMap ->
             fusedLocationClient = LocationServices.getFusedLocationProviderClient(this)
             map = googleMap
             map.apply {
                 animateCamera(CameraUpdateFactory.newLatLngZoom(LatLng(0.0, 0.0), 17f))
             }
+        }*/
+        binding.btnUltksp.setOnClickListener {
+            callULTKSP()
         }
+    }
+
+    private fun callULTKSP() {
+        viewModel.callULKTSP(this)
     }
 }

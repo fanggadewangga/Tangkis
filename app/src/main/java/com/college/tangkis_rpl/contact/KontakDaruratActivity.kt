@@ -41,6 +41,11 @@ class KontakDaruratActivity : AppCompatActivity() {
     fun showDaftarKontak(daftarKontak: List<KontakDarurat>) {
         kontakDaruratAdapter.contacts = daftarKontak
         kontakDaruratAdapter.notifyDataSetChanged()
+        binding.apply {
+            rvContact.visibility = View.VISIBLE
+            contactEmpty.ivContactEmpty.visibility = View.GONE
+            contactEmpty.tvDescContactEmpty.visibility = View.GONE
+        }
     }
 
     fun showEmpty() {
