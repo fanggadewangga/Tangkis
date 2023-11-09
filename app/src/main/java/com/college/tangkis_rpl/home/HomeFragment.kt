@@ -16,6 +16,7 @@ import com.college.tangkis_rpl.contact.KontakDaruratViewModel
 import com.college.tangkis_rpl.databinding.FragmentHomeBinding
 import com.college.tangkis_rpl.model.KontakDarurat
 import com.college.tangkis_rpl.model.Mahasiswa
+import com.college.tangkis_rpl.profile.ProfileFragment
 
 class HomeFragment : Fragment() {
 

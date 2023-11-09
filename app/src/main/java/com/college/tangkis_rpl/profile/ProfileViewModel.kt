@@ -1,7 +1,19 @@
 package com.college.tangkis_rpl.profile
 
 import androidx.lifecycle.ViewModel
+import androidx.lifecycle.viewModelScope
+import com.college.tangkis_rpl.model.Mahasiswa
+import kotlinx.coroutines.launch
 
 class ProfileViewModel : ViewModel() {
-    // TODO: Implement the ViewModel
+    fun getProfile(profileFragment: ProfileFragment) {
+        viewModelScope.launch {
+            var mahasiswa: Mahasiswa? = Mahasiswa()
+            mahasiswa = mahasiswa?.getProfilData()
+            if (mahasiswa != null)
+                profileFragment.showProfil(mahasiswa)
+            else
+                profileFragment.showAlert()
+        }
+    }
 }

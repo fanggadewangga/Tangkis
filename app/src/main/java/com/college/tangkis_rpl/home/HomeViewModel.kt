@@ -11,7 +11,7 @@ class HomeViewModel : ViewModel() {
     fun getDataMahasiswa(home: HomeFragment) {
         var mahasiswa: Mahasiswa? = Mahasiswa()
         viewModelScope.launch {
-            mahasiswa = mahasiswa!!.getDataMahasiswa()
+            mahasiswa = mahasiswa!!.getProfilData()
             home.showDataMahasiswa(mahasiswa!!)
         }
     }

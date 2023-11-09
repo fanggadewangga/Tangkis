@@ -9,7 +9,7 @@ data class Mahasiswa(
     val nama: String = "",
     val password: String = "",
 ) {
-    suspend fun getDataMahasiswa(): Mahasiswa? {
+    suspend fun getProfilData(): Mahasiswa? {
         Log.d("Get Data Mahasiswa", "Masuk")
         var mahasiswa: Mahasiswa? = null
         val firebase = Firebase()

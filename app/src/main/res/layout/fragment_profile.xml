@@ -25,6 +25,7 @@
             app:layout_constraintTop_toTopOf="parent" />
 
         <include
+            android:id="@+id/include_error_profile"
             layout="@layout/include_error_profile"
             android:visibility="gone" />
 
