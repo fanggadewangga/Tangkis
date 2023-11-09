@@ -24,6 +24,10 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
+        <include
+            layout="@layout/include_error_profile"
+            android:visibility="gone" />
+
        <LinearLayout
            android:layout_width="match_parent"
            android:layout_height="wrap_content"
@@ -72,9 +76,6 @@
                android:padding="16dp"
                android:background="#FFF6EEFC"
                />
-
-
-
 
        </LinearLayout>
     </LinearLayout>
