@@ -16,4 +16,10 @@ class ProfileViewModel : ViewModel() {
                 profileFragment.showAlert()
         }
     }
+
+    fun logout(profileFragment: ProfileFragment) {
+        val mahasiswa = Mahasiswa()
+        mahasiswa.logout()
+        profileFragment.showLoginPage()
+    }
 }

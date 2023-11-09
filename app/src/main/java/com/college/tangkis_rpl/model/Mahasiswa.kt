@@ -128,4 +128,12 @@ data class Mahasiswa(
 
         return kontakDarurat.toList()
     }
+
+    fun logout() {
+        Log.d("Logout", "Masuk")
+        val firebase = Firebase()
+        val firebaseAuth = firebase.firebaseAuth
+        firebaseAuth.signOut()
+        Log.d("CURRENT USER", firebaseAuth.currentUser.toString())
+    }
 }
