@@ -10,7 +10,7 @@ class LoginViewModel : ViewModel() {
     fun getUser(nim: String, password: String, activity: LoginActivity) {
         val authHandler = AuthHandler()
         viewModelScope.launch {
-            val errorMessage = authHandler.getUser(nim, password)
+            val errorMessage = authHandler.getUser(nim, password, activity)
             if (errorMessage != "")
                 activity.showAlert(errorMessage)
             else

@@ -1,6 +1,8 @@
 package com.college.tangkis_rpl.model
 
+import android.content.Context
 import android.util.Log
+import com.college.tangkis_rpl.datastore.Datastore
 import com.college.tangkis_rpl.firebase.Firebase
 import kotlinx.coroutines.tasks.await
 
@@ -49,23 +51,25 @@ class AuthHandler {
         }
     }
 
-    suspend fun getUser(nim: String, password: String): String {
+    suspend fun getUser(nim: String, password: String, context: Context): String {
         val firebase = Firebase()
         val firebaseAuthentication = firebase.firebaseAuth
         val firebaseFirestore = firebase.firebaseFirestore
         val document = firebaseFirestore.collection("Mahasiswa").document(nim).get().await()
 
         if (document != null && document.exists()) {
-            try {
+            return try {
                 val authResult =
                     firebaseAuthentication.signInWithEmailAndPassword("$nim@tangkis.com", password)
                         .await()
-                return if (authResult.user != null)
+                if (authResult.user != null) {
+                    val datastore = Datastore(context)
+                    datastore.saveNim(nim)
                     ""
-                else
-                    return "Password salah"
+                } else
+                    "Password salah"
             } catch (e: Exception) {
-                return "Password salah"
+                "Password salah"
             }
         } else {
             return "NIM tidak terdaftar"
