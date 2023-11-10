@@ -12,14 +12,14 @@ import android.view.Window
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import com.college.tangkis_rpl.R
-import com.college.tangkis_rpl.databinding.FragmentProfileBinding
+import com.college.tangkis_rpl.databinding.FragmentProfilBinding
 import com.college.tangkis_rpl.login.LoginActivity
 import com.college.tangkis_rpl.model.Mahasiswa
 import com.google.android.material.button.MaterialButton
 
 class ProfileFragment : Fragment() {
 
-    private lateinit var binding: FragmentProfileBinding
+    private lateinit var binding: FragmentProfilBinding
     private lateinit var viewModel: ProfileViewModel
 
     override fun onCreateView(
@@ -27,7 +27,7 @@ class ProfileFragment : Fragment() {
         savedInstanceState: Bundle?,
     ): View {
         viewModel = ViewModelProvider(this.requireActivity())[ProfileViewModel::class.java]
-        binding = FragmentProfileBinding.inflate(layoutInflater)
+        binding = FragmentProfilBinding.inflate(layoutInflater)
         viewModel.getProfile(this)
 
         // Logout

@@ -2,17 +2,17 @@ package com.college.tangkis_rpl.artikel_informasi
 
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
-import com.college.tangkis_rpl.databinding.ActivityArticleDetailBinding
+import com.college.tangkis_rpl.databinding.ActivityArtikelInformasiBinding
 
 class ArtikelInformasiActivity : AppCompatActivity() {
 
-    private lateinit var binding: ActivityArticleDetailBinding
+    private lateinit var binding: ActivityArtikelInformasiBinding
     private lateinit var judulArtikel: String
     private lateinit var tanggalArtikel: String
     private lateinit var kontenArtikel: String
 
     override fun onCreate(savedInstanceState: Bundle?) {
-        binding = ActivityArticleDetailBinding.inflate(layoutInflater)
+        binding = ActivityArtikelInformasiBinding.inflate(layoutInflater)
         super.onCreate(savedInstanceState)
         setContentView(binding.root)
         judulArtikel = intent.getStringExtra("judul")!!

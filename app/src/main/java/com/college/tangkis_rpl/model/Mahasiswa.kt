@@ -78,17 +78,21 @@ data class Mahasiswa(
         return errorMessage
     }
 
-    suspend fun hapusKontak(nomor: String, nim: String): Boolean {
+    suspend fun deleteKontak(nomor: String): Boolean {
+        Log.d("HAPUS KONTAK", "MASUK")
         var isError = false
         val firebase = Firebase()
+        val firebaseAuthentication = firebase.firebaseAuth
         val firebaseFirestore = firebase.firebaseFirestore
 
-        try {
+        try {Log.d("HAPUS KONTAK", "MASUK TRY")
+            val nim = firebaseAuthentication.currentUser!!.email!!.substringBefore("@")
             val querySnapshot = firebaseFirestore.collection("KontakDarurat")
                 .whereEqualTo("nim", nim)
                 .whereEqualTo("nomor", nomor)
                 .get()
                 .await()
+            Log.d("HAPUS KONTAK", nomor)
 
             if (!querySnapshot.isEmpty) {
                 for (document in querySnapshot) {
@@ -99,7 +103,7 @@ data class Mahasiswa(
             }
         } catch (exception: Exception) {
             isError = true
-            println("Error: $exception")
+            Log.d("HAPUS KONTAK", exception.message.toString())
         }
 
         return isError
