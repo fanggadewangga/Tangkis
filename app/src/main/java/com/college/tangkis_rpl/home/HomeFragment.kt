@@ -11,9 +11,10 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.college.tangkis_rpl.adapter.ArtikelInformasiAdapter
 import com.college.tangkis_rpl.adapter.HomeKontakDaruratAdapter
-import com.college.tangkis_rpl.contact.KontakDaruratActivity
-import com.college.tangkis_rpl.contact.KontakDaruratViewModel
+import com.college.tangkis_rpl.artikel_informasi.ArtikelInformasiViewModel
 import com.college.tangkis_rpl.databinding.FragmentHomeBinding
+import com.college.tangkis_rpl.kontak_darurat.KontakDaruratActivity
+import com.college.tangkis_rpl.kontak_darurat.KontakDaruratViewModel
 import com.college.tangkis_rpl.model.KontakDarurat
 import com.college.tangkis_rpl.model.Mahasiswa
 
@@ -22,6 +23,7 @@ class HomeFragment : Fragment() {
     private lateinit var binding: FragmentHomeBinding
     private lateinit var viewModel: HomeViewModel
     private lateinit var kontakDaruratViewModel: KontakDaruratViewModel
+    private lateinit var artikelInformasiViewModel: ArtikelInformasiViewModel
     private lateinit var contactAdapter: HomeKontakDaruratAdapter
     private lateinit var articleAdapter: ArtikelInformasiAdapter
 
@@ -53,8 +55,8 @@ class HomeFragment : Fragment() {
     private fun setupView() {
         binding = FragmentHomeBinding.inflate(layoutInflater)
         viewModel = ViewModelProvider(this.requireActivity())[HomeViewModel::class.java]
-        kontakDaruratViewModel =
-            ViewModelProvider(this.requireActivity())[KontakDaruratViewModel::class.java]
+        kontakDaruratViewModel = ViewModelProvider(this.requireActivity())[KontakDaruratViewModel::class.java]
+        artikelInformasiViewModel = ViewModelProvider(this.requireActivity())[ArtikelInformasiViewModel::class.java]
         contactAdapter = HomeKontakDaruratAdapter()
         articleAdapter = ArtikelInformasiAdapter(onClick = { chooseArtikelInformasi(it) })
         viewModel.getDataMahasiswa(this)
@@ -84,6 +86,6 @@ class HomeFragment : Fragment() {
     }
 
     private fun chooseArtikelInformasi(idArtikel: String) {
-        viewModel.getArtikelInformasi(idArtikel, this)
+        artikelInformasiViewModel.getArtikelInformasi(idArtikel, this)
     }
 }

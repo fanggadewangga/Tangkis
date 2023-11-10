@@ -1,10 +1,10 @@
-package com.college.tangkis_rpl.article_detail
+package com.college.tangkis_rpl.artikel_informasi
 
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import com.college.tangkis_rpl.databinding.ActivityArticleDetailBinding
 
-class DetailArtikelInformasiActivity : AppCompatActivity() {
+class ArtikelInformasiActivity : AppCompatActivity() {
 
     private lateinit var binding: ActivityArticleDetailBinding
     private lateinit var judulArtikel: String

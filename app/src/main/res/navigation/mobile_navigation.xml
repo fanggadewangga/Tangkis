@@ -22,7 +22,7 @@
 
     <fragment
         android:id="@+id/profile"
-        android:name="com.college.tangkis_rpl.profile.ProfileFragment"
+        android:name="com.college.tangkis_rpl.profil.ProfileFragment"
         android:label="fragment_profile"
         tools:layout="@layout/fragment_profile">
     </fragment>

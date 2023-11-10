@@ -1,9 +1,12 @@
 package com.college.tangkis_rpl.model
 
+import android.telephony.SmsManager
 import android.util.Log
 import com.college.tangkis_rpl.firebase.Firebase
+import com.google.android.gms.maps.model.LatLng
 import kotlinx.coroutines.tasks.await
 
+@Suppress("DEPRECATION")
 data class Mahasiswa(
     val nim: String = "",
     val nama: String = "",
@@ -18,7 +21,8 @@ data class Mahasiswa(
         val nim = firebaseAuthentication.currentUser!!.email!!.substringBefore("@")
 
         try {
-            val querySnapshot = firebaseFirestore.collection("Mahasiswa").whereEqualTo("nim", nim).get().await()
+            val querySnapshot =
+                firebaseFirestore.collection("Mahasiswa").whereEqualTo("nim", nim).get().await()
             Log.d("Get Data Mahasiswa", querySnapshot.toString())
             if (!querySnapshot.isEmpty) {
                 for (document in querySnapshot.documents) {
@@ -129,11 +133,26 @@ data class Mahasiswa(
         return kontakDarurat.toList()
     }
 
+    suspend fun sendPesanDarurat(daftarKontakDarurat: List<KontakDarurat>, lokasi: LatLng) {
+        val smsManager = SmsManager.getDefault()
+        val mahasiswa = getProfilData()
+        val message =
+            "Dikirim secara otomatis oleh Tangkis: Tangani Kekerasan Seksual: \n\n\nAnda menerima pesan ini karena nomor Anda tercantum sebagai kontak darurat ${mahasiswa?.nama}. \n\n ${mahasiswa?.nama!!.split(" ")[0]} menggunakan fitur pesan darurat di aplikasi Tangkis dan memerlukan bantuan. \n\n ${mahasiswa.nama.split(" ")[0]} membagikan lokasi dengan Anda: https://www.google.com/maps?q=${lokasi.latitude},${lokasi.longitude}. \n\n\nHubungi ${mahasiswa.nama.split(" ")[0]} langsung untuk mendapat pembaruan."
+        val parts = smsManager.divideMessage(message)
+        daftarKontakDarurat.forEach {
+            smsManager.sendMultipartTextMessage(
+                it.nomor,
+                null,
+                parts,
+                null,
+                null
+            )
+        }
+    }
+
     fun logout() {
-        Log.d("Logout", "Masuk")
         val firebase = Firebase()
         val firebaseAuth = firebase.firebaseAuth
         firebaseAuth.signOut()
-        Log.d("CURRENT USER", firebaseAuth.currentUser.toString())
     }
 }

@@ -1,4 +1,4 @@
-package com.college.tangkis_rpl.contact
+package com.college.tangkis_rpl.kontak_darurat
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
