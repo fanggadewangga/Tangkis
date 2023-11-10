@@ -1,4 +1,4 @@
-package com.college.tangkis_rpl.profile
+package com.college.tangkis_rpl.profil
 
 import android.app.Dialog
 import android.content.Intent

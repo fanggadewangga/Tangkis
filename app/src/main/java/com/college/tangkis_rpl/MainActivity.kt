@@ -6,7 +6,7 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.ui.setupWithNavController
 import com.college.tangkis_rpl.databinding.ActivityMainBinding
-import com.college.tangkis_rpl.pesandarurat.PesanDaruratActivity
+import com.college.tangkis_rpl.pesan_darurat.PesanDaruratActivity
 
 class MainActivity : AppCompatActivity() {
 

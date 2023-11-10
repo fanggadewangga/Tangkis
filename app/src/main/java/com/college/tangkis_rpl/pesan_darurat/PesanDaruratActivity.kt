@@ -1,4 +1,4 @@
-package com.college.tangkis_rpl.pesandarurat
+package com.college.tangkis_rpl.pesan_darurat
 
 import android.Manifest
 import android.os.Bundle
@@ -39,13 +39,12 @@ class PesanDaruratActivity : AppCompatActivity() {
             arrayOf(
                 Manifest.permission.ACCESS_FINE_LOCATION,
                 Manifest.permission.ACCESS_COARSE_LOCATION,
+                Manifest.permission.CALL_PHONE,
+                Manifest.permission.READ_CONTACTS,
+                Manifest.permission.READ_PHONE_STATE,
+                Manifest.permission.SEND_SMS
             )
         )
-
-        binding.apply {
-            btnSos.setOnClickListener { startPesanDarurat() }
-            btnBatalkan.setOnClickListener { cancelPesanDarurat() }
-        }
     }
 
     fun activateButton(valid: Boolean) {
@@ -59,6 +58,8 @@ class PesanDaruratActivity : AppCompatActivity() {
                 pesanDaruratTimer.tvDesc.visibility = View.GONE
                 pesanDaruratTimer.desc2.visibility = View.GONE
                 pesanDaruratTimer.tvCountdown.visibility = View.GONE
+                btnSos.setOnClickListener { startPesanDarurat() }
+                btnBatalkan.setOnClickListener { cancelPesanDarurat() }
             }
         } else {
             binding.apply {

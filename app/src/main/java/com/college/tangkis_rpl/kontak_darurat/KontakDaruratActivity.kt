@@ -1,4 +1,4 @@
-package com.college.tangkis_rpl.contact
+package com.college.tangkis_rpl.kontak_darurat
 
 import android.annotation.SuppressLint
 import android.os.Bundle
@@ -8,7 +8,7 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.college.tangkis_rpl.R
-import com.college.tangkis_rpl.adapter.KontakDaruratAdapter
+import com.college.tangkis_rpl.adapter.DaftarKontakDaruratAdapter
 import com.college.tangkis_rpl.databinding.ActivityContactBinding
 import com.college.tangkis_rpl.model.KontakDarurat
 import com.google.android.material.bottomsheet.BottomSheetDialog
@@ -17,7 +17,7 @@ import com.google.android.material.bottomsheet.BottomSheetDialog
 class KontakDaruratActivity : AppCompatActivity() {
 
     private lateinit var binding: ActivityContactBinding
-    private lateinit var kontakDaruratAdapter: KontakDaruratAdapter
+    private lateinit var daftarKontakDaruratAdapter: DaftarKontakDaruratAdapter
     private lateinit var viewModel: KontakDaruratViewModel
     private lateinit var dialog: BottomSheetDialog
 
@@ -39,8 +39,8 @@ class KontakDaruratActivity : AppCompatActivity() {
     private fun dismissConfirmationBox() {}
     private fun confirm(confirm: Boolean) {}
     fun showDaftarKontak(daftarKontak: List<KontakDarurat>) {
-        kontakDaruratAdapter.contacts = daftarKontak
-        kontakDaruratAdapter.notifyDataSetChanged()
+        daftarKontakDaruratAdapter.contacts = daftarKontak
+        daftarKontakDaruratAdapter.notifyDataSetChanged()
         binding.apply {
             rvContact.visibility = View.VISIBLE
             contactEmpty.ivContactEmpty.visibility = View.GONE
@@ -64,9 +64,9 @@ class KontakDaruratActivity : AppCompatActivity() {
         viewModel = ViewModelProvider(this)[KontakDaruratViewModel::class.java]
         viewModel.getKontakDarurat(this)
         setContentView(binding.root)
-        kontakDaruratAdapter = KontakDaruratAdapter {}
+        daftarKontakDaruratAdapter = DaftarKontakDaruratAdapter {}
         binding.rvContact.apply {
-            adapter = kontakDaruratAdapter
+            adapter = daftarKontakDaruratAdapter
             layoutManager = LinearLayoutManager(context, LinearLayoutManager.VERTICAL, false)
         }
         binding.btnAddContact.setOnClickListener {
@@ -80,7 +80,7 @@ class KontakDaruratActivity : AppCompatActivity() {
         dialog.setContentView(dialogView)
         val recyclerView = dialogView.findViewById<RecyclerView>(R.id.rv_contact)
         recyclerView.apply {
-            adapter = kontakDaruratAdapter
+            adapter = daftarKontakDaruratAdapter
             layoutManager = LinearLayoutManager(context, LinearLayoutManager.VERTICAL, false)
         }
         dialog.show()

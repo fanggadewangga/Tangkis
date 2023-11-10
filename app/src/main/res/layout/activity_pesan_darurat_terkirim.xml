@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".sos_terkirim.PesanDaruratTerkirimActivity">
+    tools:context=".informasi_pesan_darurat.InformasiPesanDaruratActivity">
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/top_section"
@@ -77,7 +77,7 @@
         android:id="@+id/maps"
         android:name="com.google.android.gms.maps.SupportMapFragment"
         android:layout_width="match_parent"
-        android:layout_height="120dp"
+        android:layout_height="200dp"
         android:layout_marginHorizontal="16dp"
         android:layout_marginVertical="12dp"
         app:layout_constraintEnd_toEndOf="parent"
@@ -108,7 +108,7 @@
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/rv_kontak_darurat"
         android:layout_width="0dp"
-        android:layout_height="72dp"
+        android:layout_height="wrap_content"
         android:layout_marginHorizontal="16dp"
         android:layout_marginVertical="8dp"
         android:orientation="horizontal"
