@@ -10,6 +10,7 @@ class ArtikelInformasiActivity : AppCompatActivity() {
     private lateinit var judulArtikel: String
     private lateinit var tanggalArtikel: String
     private lateinit var kontenArtikel: String
+    private var gambarArtikel: Int = 0
 
     override fun onCreate(savedInstanceState: Bundle?) {
         binding = ActivityArtikelInformasiBinding.inflate(layoutInflater)
@@ -18,6 +19,7 @@ class ArtikelInformasiActivity : AppCompatActivity() {
         judulArtikel = intent.getStringExtra("judul")!!
         tanggalArtikel = intent.getStringExtra("tanggal")!!
         kontenArtikel = intent.getStringExtra("konten")!!
+        gambarArtikel = intent.getIntExtra("gambar", 0)
         showArtikelInformasi()
     }
 
@@ -26,6 +28,7 @@ class ArtikelInformasiActivity : AppCompatActivity() {
             tvTitleArticleDetail.text = judulArtikel
             tvDateArticleDetail.text = tanggalArtikel
             tvDescArticleDetail.text = kontenArtikel
+            ivArticleDetail.setImageResource(gambarArtikel)
         }
     }
 }
