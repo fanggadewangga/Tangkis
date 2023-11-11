@@ -16,4 +16,15 @@ class KontakDaruratViewModel: ViewModel() {
                 activity?.showDaftarKontak(kontakDarurat)
         }
     }
+
+    fun deleteKontak(nomorKontak: String, activity: KontakDaruratActivity) {
+        viewModelScope.launch {
+            val mahasiswa = Mahasiswa()
+            val error = mahasiswa.deleteKontak(nomorKontak)
+            if (error)
+                activity.showAlert()
+            else
+                activity.showUpdate()
+        }
+    }
 }

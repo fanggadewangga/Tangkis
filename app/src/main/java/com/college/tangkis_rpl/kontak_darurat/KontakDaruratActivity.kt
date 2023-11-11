@@ -1,25 +1,33 @@
 package com.college.tangkis_rpl.kontak_darurat
 
 import android.annotation.SuppressLint
+import android.app.Dialog
+import android.graphics.Color
+import android.graphics.drawable.ColorDrawable
 import android.os.Bundle
 import android.view.View
+import android.view.Window
+import android.widget.TextView
+import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.college.tangkis_rpl.R
 import com.college.tangkis_rpl.adapter.DaftarKontakDaruratAdapter
-import com.college.tangkis_rpl.databinding.ActivityContactBinding
+import com.college.tangkis_rpl.databinding.ActivityKontakDaruratBinding
 import com.college.tangkis_rpl.model.KontakDarurat
 import com.google.android.material.bottomsheet.BottomSheetDialog
+import com.google.android.material.button.MaterialButton
 
 @Suppress("DEPRECATION")
 class KontakDaruratActivity : AppCompatActivity() {
 
-    private lateinit var binding: ActivityContactBinding
+    private lateinit var binding: ActivityKontakDaruratBinding
     private lateinit var daftarKontakDaruratAdapter: DaftarKontakDaruratAdapter
     private lateinit var viewModel: KontakDaruratViewModel
-    private lateinit var dialog: BottomSheetDialog
+    private lateinit var sheetDialog: BottomSheetDialog
+    private lateinit var hapusDialog: Dialog
 
     @SuppressLint("NotifyDataSetChanged")
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -32,12 +40,47 @@ class KontakDaruratActivity : AppCompatActivity() {
         return super.onSupportNavigateUp()
     }
 
-    private fun showConfirmationBox() {
+    private fun setupView() {
+        binding = ActivityKontakDaruratBinding.inflate(layoutInflater)
+        viewModel = ViewModelProvider(this)[KontakDaruratViewModel::class.java]
+        viewModel.getKontakDarurat(this)
+        setContentView(binding.root)
 
+        // deleteKontak()
+        daftarKontakDaruratAdapter = DaftarKontakDaruratAdapter { showConfirmationBox(it) }
+        binding.rvContact.apply {
+            adapter = daftarKontakDaruratAdapter
+            layoutManager = LinearLayoutManager(context, LinearLayoutManager.VERTICAL, false)
+        }
+        binding.btnAddContact.setOnClickListener {
+            showKontakPerangkat()
+        }
     }
 
-    private fun dismissConfirmationBox() {}
-    private fun confirm(confirm: Boolean) {}
+    private fun showConfirmationBox(kontakDarurat: KontakDarurat) {
+        hapusDialog = Dialog(this)
+        hapusDialog.requestWindowFeature(Window.FEATURE_NO_TITLE)
+        hapusDialog.setCancelable(false)
+        hapusDialog.setContentView(R.layout.dialog_hapus_kontak)
+        hapusDialog.window?.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
+        val btnBatal: MaterialButton = hapusDialog.findViewById(R.id.btn_batal)
+        val btnHapus: MaterialButton = hapusDialog.findViewById(R.id.btn_hapus)
+        val namaKontak: TextView = hapusDialog.findViewById(R.id.tv_contact_name)
+        namaKontak.text = kontakDarurat.nama
+        btnBatal.setOnClickListener {
+            // confirm()
+            // confirm = false
+            dismissConfirmationBox()
+        }
+        btnHapus.setOnClickListener {
+            // confirm()
+            // confirm = true
+            dismissConfirmationBox()
+            viewModel.deleteKontak(kontakDarurat.nomor, this)
+        }
+        hapusDialog.show()
+    }
+
     fun showDaftarKontak(daftarKontak: List<KontakDarurat>) {
         daftarKontakDaruratAdapter.contacts = daftarKontak
         daftarKontakDaruratAdapter.notifyDataSetChanged()
@@ -48,6 +91,23 @@ class KontakDaruratActivity : AppCompatActivity() {
         }
     }
 
+    private fun showKontakPerangkat() {
+        val dialogView = layoutInflater.inflate(R.layout.contact_bottom_sheet, null)
+        sheetDialog = BottomSheetDialog(this, R.style.BottomSheetDialogTheme)
+        sheetDialog.setContentView(dialogView)
+        val recyclerView = dialogView.findViewById<RecyclerView>(R.id.rv_contact)
+        recyclerView.apply {
+            adapter = daftarKontakDaruratAdapter
+            layoutManager = LinearLayoutManager(context, LinearLayoutManager.VERTICAL, false)
+        }
+        sheetDialog.show()
+        val bottomSheetBehavior = sheetDialog.behavior
+    }
+
+    private fun dismissConfirmationBox() {
+        hapusDialog.dismiss()
+    }
+
     fun showEmpty() {
         binding.apply {
             rvContact.visibility = View.GONE
@@ -56,34 +116,11 @@ class KontakDaruratActivity : AppCompatActivity() {
         }
     }
 
-    private fun showAlert() {}
-    private fun showUpdate() {}
-
-    private fun setupView() {
-        binding = ActivityContactBinding.inflate(layoutInflater)
-        viewModel = ViewModelProvider(this)[KontakDaruratViewModel::class.java]
-        viewModel.getKontakDarurat(this)
-        setContentView(binding.root)
-        daftarKontakDaruratAdapter = DaftarKontakDaruratAdapter {}
-        binding.rvContact.apply {
-            adapter = daftarKontakDaruratAdapter
-            layoutManager = LinearLayoutManager(context, LinearLayoutManager.VERTICAL, false)
-        }
-        binding.btnAddContact.setOnClickListener {
-            showKontakPerangkat()
-        }
+    fun showAlert() {
+        Toast.makeText(this, "Gagal menghapus kontak darurat", Toast.LENGTH_SHORT).show()
     }
 
-    private fun showKontakPerangkat() {
-        val dialogView = layoutInflater.inflate(R.layout.contact_bottom_sheet, null)
-        dialog = BottomSheetDialog(this, R.style.BottomSheetDialogTheme)
-        dialog.setContentView(dialogView)
-        val recyclerView = dialogView.findViewById<RecyclerView>(R.id.rv_contact)
-        recyclerView.apply {
-            adapter = daftarKontakDaruratAdapter
-            layoutManager = LinearLayoutManager(context, LinearLayoutManager.VERTICAL, false)
-        }
-        dialog.show()
-        val bottomSheetBehavior = dialog.behavior
+    fun showUpdate() {
+        viewModel.getKontakDarurat(this)
     }
 }

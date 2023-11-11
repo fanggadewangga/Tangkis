@@ -6,7 +6,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.college.tangkis_rpl.databinding.ItemContactBinding
 import com.college.tangkis_rpl.model.KontakDarurat
 
-class DaftarKontakDaruratAdapter(private val onDeleteClick: () -> Unit) : RecyclerView.Adapter<DaftarKontakDaruratAdapter.ContactViewHolder>() {
+class DaftarKontakDaruratAdapter(private val onDeleteClick: (KontakDarurat) -> Unit) : RecyclerView.Adapter<DaftarKontakDaruratAdapter.ContactViewHolder>() {
 
     var contacts : List<KontakDarurat> = emptyList()
 
@@ -28,7 +28,7 @@ class DaftarKontakDaruratAdapter(private val onDeleteClick: () -> Unit) : Recycl
                 tvName.text = contact.nama
                 tvNumber.text = contact.nomor
                 ivDelete.setOnClickListener {
-                    onDeleteClick.invoke()
+                    onDeleteClick.invoke(contact)
                 }
             }
         }
