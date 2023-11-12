@@ -49,7 +49,7 @@ data class Mahasiswa(
         try {
             if (jumlahKontak < 5) {
                 if (!kontakCollection.whereEqualTo("nim", nim).whereEqualTo("nomor", nomor).get().await().isEmpty) {
-                    errorMessage = "Nomor kontak sudah ada sebelumnya."
+                    errorMessage = "Nomor telah ditambahkan sebelumnya."
                 } else {
                     val kontakBaru = hashMapOf(
                         "nim" to nim,

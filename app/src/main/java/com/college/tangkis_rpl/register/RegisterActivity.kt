@@ -27,31 +27,53 @@ class RegisterActivity : AppCompatActivity() {
             btnRegister.setOnClickListener {
                 submit()
             }
+            validate()
         }
     }
 
     private fun submit() {
-        val isValid = validate()
-        if (isValid)
-            viewModel.register(
-                binding.edtName.text.toString(),
-                binding.edtNim.text.toString(),
-                binding.edtPassword.text.toString(),
-                this
-            )
+        viewModel.register(
+            binding.edtName.text.toString(),
+            binding.edtNim.text.toString(),
+            binding.edtPassword.text.toString(),
+            this
+        )
     }
 
-    private fun validate(): Boolean {
-        val nama = binding.edtName.text.toString()
-        val nim = binding.edtNim.text.toString()
-        val password = binding.edtPassword.text.toString()
-        var errorMessage = ""
+    private fun validate() {
+        binding.edtName.apply {
+            val text = this.text.toString().trim()
+            if (text.isEmpty()) {
+                this.error = "Data tidak boleh kosong"
 
-        if (nama.isEmpty() || nim.isEmpty() || password.isEmpty()) {
-            errorMessage = "Data tidak boleh kosong"
-            Toast.makeText(this, errorMessage, Toast.LENGTH_SHORT).show()
+            }
+            else {
+                binding.btnRegister.isEnabled = false
+                this.error = null
+            }
         }
-        return errorMessage == ""
+        binding.edtNim.apply {
+            val text = this.text.toString().trim()
+            if (text.isEmpty()) {
+                this.error = "Data tidak boleh kosong"
+
+            }
+            else {
+                binding.btnRegister.isEnabled = false
+                this.error = null
+            }
+        }
+        binding.edtPassword.apply {
+            val text = this.text.toString().trim()
+            if (text.isEmpty()) {
+                binding.btnRegister.isEnabled = false
+                this.error = "Data tidak boleh kosong"
+            }
+            else {
+                this.error = null
+                binding.btnRegister.isEnabled = true
+            }
+        }
     }
 
     fun showErrorMessage(errorMessage: String) {

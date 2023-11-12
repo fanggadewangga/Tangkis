@@ -31,9 +31,9 @@
     <ImageView
         android:id="@+id/iv_desc_register"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_height="80dp"
         android:layout_marginTop="8dp"
-        android:src="@drawable/iv_desc_register"
+        android:src="@drawable/iv_register_description"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/tv_title"
         android:importantForAccessibility="no"
@@ -85,6 +85,7 @@
         <com.google.android.material.textfield.TextInputEditText
             android:id="@+id/edt_password"
             android:layout_width="match_parent"
+            android:inputType="textPassword"
             android:layout_height="wrap_content"
             android:fontFamily="@font/roboto_regular"
             android:textSize="16dp" />
