@@ -1,7 +1,6 @@
 package com.college.tangkis_rpl.model
 
 import android.util.Log
-import com.college.tangkis_rpl.firebase.Firebase
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
 import kotlinx.coroutines.tasks.await
@@ -40,6 +39,7 @@ class AuthHandler {
                             .set(userMap)
                             .await()
                     }
+                    firebaseAuthentication.signOut()
                     return ""
                 } else {
                     return "User registration failed"

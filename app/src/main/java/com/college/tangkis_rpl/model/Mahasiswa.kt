@@ -2,7 +2,6 @@ package com.college.tangkis_rpl.model
 
 import android.telephony.SmsManager
 import android.util.Log
-import com.college.tangkis_rpl.firebase.Firebase
 import com.google.android.gms.maps.model.LatLng
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
@@ -15,7 +14,6 @@ data class Mahasiswa(
     val password: String = "",
 ) {
     suspend fun getProfilData(): Mahasiswa? {
-        Log.d("Get Data Mahasiswa", "Masuk")
         var mahasiswa: Mahasiswa? = null
         val firebaseAuthentication = FirebaseAuth.getInstance()
         val firebaseFirestore = FirebaseFirestore.getInstance()
@@ -32,7 +30,6 @@ data class Mahasiswa(
                     val namaMahasiswa = document.getString("nama")
                     val password = document.getString("password")
                     mahasiswa = Mahasiswa(nimMahasiswa!!, namaMahasiswa!!, password!!)
-                    Log.d("Get Data Mahasiswa", mahasiswa.toString())
                 }
             }
         } catch (exception: Exception) {
@@ -41,59 +38,48 @@ data class Mahasiswa(
         return mahasiswa
     }
 
-    fun tambahKontak(kontak: KontakDarurat): String? {
-        var errorMessage: String? = ""
+    suspend fun tambahKontak(nama: String, nomor: String): String {
+        var errorMessage = ""
         val firebaseAuthentication = FirebaseAuth.getInstance()
         val firebaseFirestore = FirebaseFirestore.getInstance()
         val nim = firebaseAuthentication.currentUser!!.email!!.substringBefore("@")
-        var jumlahKontak = 0
         val kontakCollection = firebaseFirestore.collection("KontakDarurat")
-        kontakCollection.whereEqualTo("nim", nim).get()
-            .addOnSuccessListener { querySnapshot ->
-                jumlahKontak = querySnapshot.size()
-            }
+        val jumlahKontak = kontakCollection.whereEqualTo("nim", nim).get().await().size()
 
-        if (jumlahKontak < 5) {
-            val kontakCollection = firebaseFirestore.collection("KontakDarurat")
-            val nomorKontakBaru = kontak.nomor
-
-            if (!kontakCollection.whereEqualTo("nim", nim).whereEqualTo("nomor", nomorKontakBaru)
-                    .get().result.isEmpty
-            ) {
-                errorMessage = "Nomor kontak sudah ada sebelumnya."
+        try {
+            if (jumlahKontak < 5) {
+                if (!kontakCollection.whereEqualTo("nim", nim).whereEqualTo("nomor", nomor).get().await().isEmpty) {
+                    errorMessage = "Nomor kontak sudah ada sebelumnya."
+                } else {
+                    val kontakBaru = hashMapOf(
+                        "nim" to nim,
+                        "nomor" to nomor,
+                        "nama" to nama
+                    )
+                    kontakCollection.add(kontakBaru).await()
+                }
             } else {
-                val kontakBaru = hashMapOf(
-                    "nim" to nim,
-                    "nomor" to kontak.nomor,
-                    "nama" to kontak.nama
-                )
-
-                kontakCollection.add(kontakBaru)
-                    .addOnFailureListener {
-                        errorMessage = "Gagal menambahkan kontak darurat."
-                    }
+                errorMessage = "Hanya dapat menambahkan maksimal 5 kontak darurat."
             }
-        } else {
-            errorMessage = "Hanya dapat menambahkan maksimal 5 kontak darurat."
+        } catch (e: Exception) {
+            errorMessage = "Gagal menambahkan kontak darurat"
         }
         return errorMessage
     }
 
     suspend fun deleteKontak(nomor: String): Boolean {
-        Log.d("HAPUS KONTAK", "MASUK")
         var isError = false
         val firebaseAuthentication = FirebaseAuth.getInstance()
         val firebaseFirestore = FirebaseFirestore.getInstance()
         val kontakCollection = firebaseFirestore.collection("KontakDarurat")
 
-        try {Log.d("HAPUS KONTAK", "MASUK TRY")
+        try {
             val nim = firebaseAuthentication.currentUser!!.email!!.substringBefore("@")
             val querySnapshot = kontakCollection
                 .whereEqualTo("nim", nim)
                 .whereEqualTo("nomor", nomor)
                 .get()
                 .await()
-            Log.d("HAPUS KONTAK", nomor)
 
             if (!querySnapshot.isEmpty) {
                 for (document in querySnapshot) {
@@ -104,14 +90,12 @@ data class Mahasiswa(
             }
         } catch (exception: Exception) {
             isError = true
-            Log.d("HAPUS KONTAK", exception.message.toString())
         }
 
         return isError
     }
 
     suspend fun getKontakDarurat(): List<KontakDarurat> {
-        Log.d("GET DAFTAR KONTAK", "MASUK")
         val firebaseAuthentication = FirebaseAuth.getInstance()
         val firebaseFirestore = FirebaseFirestore.getInstance()
         val kontakCollection = firebaseFirestore.collection("KontakDarurat")
@@ -119,7 +103,6 @@ data class Mahasiswa(
         val nim = firebaseAuthentication.currentUser!!.email!!.substringBefore("@")
 
         try {
-            Log.d("GET DAFTAR KONTAK", "MASUK TRY")
             val querySnapshot = kontakCollection.whereEqualTo("nim", nim).get().await()
             for (document in querySnapshot) {
                 val nomor = document.getString("nomor")
@@ -133,7 +116,6 @@ data class Mahasiswa(
         } catch (exception: Exception) {
             Log.d("GET DAFTAR KONTAK", exception.toString())
         }
-
         return kontakDarurat.toList()
     }
 

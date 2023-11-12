@@ -15,8 +15,10 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.college.tangkis_rpl.R
 import com.college.tangkis_rpl.adapter.DaftarKontakDaruratAdapter
+import com.college.tangkis_rpl.adapter.DaftarKontakPerangkatAdapter
 import com.college.tangkis_rpl.databinding.ActivityKontakDaruratBinding
 import com.college.tangkis_rpl.model.KontakDarurat
+import com.college.tangkis_rpl.model.KontakPerangkat
 import com.google.android.material.bottomsheet.BottomSheetDialog
 import com.google.android.material.button.MaterialButton
 
@@ -25,6 +27,7 @@ class KontakDaruratActivity : AppCompatActivity() {
 
     private lateinit var binding: ActivityKontakDaruratBinding
     private lateinit var daftarKontakDaruratAdapter: DaftarKontakDaruratAdapter
+    private lateinit var daftarKontakPerangkatAdapter: DaftarKontakPerangkatAdapter
     private lateinit var viewModel: KontakDaruratViewModel
     private lateinit var sheetDialog: BottomSheetDialog
     private lateinit var hapusDialog: Dialog
@@ -32,15 +35,6 @@ class KontakDaruratActivity : AppCompatActivity() {
     @SuppressLint("NotifyDataSetChanged")
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setupView()
-    }
-
-    override fun onSupportNavigateUp(): Boolean {
-        onBackPressed()
-        return super.onSupportNavigateUp()
-    }
-
-    private fun setupView() {
         binding = ActivityKontakDaruratBinding.inflate(layoutInflater)
         viewModel = ViewModelProvider(this)[KontakDaruratViewModel::class.java]
         viewModel.getKontakDarurat(this)
@@ -52,9 +46,17 @@ class KontakDaruratActivity : AppCompatActivity() {
             adapter = daftarKontakDaruratAdapter
             layoutManager = LinearLayoutManager(context, LinearLayoutManager.VERTICAL, false)
         }
+
+        // tambahKontak
+        daftarKontakPerangkatAdapter = DaftarKontakPerangkatAdapter{ pilihKontak(it) }
         binding.btnAddContact.setOnClickListener {
-            showKontakPerangkat()
+            showDaftarKontakPerangkat()
         }
+    }
+
+    override fun onSupportNavigateUp(): Boolean {
+        onBackPressed()
+        return super.onSupportNavigateUp()
     }
 
     private fun showConfirmationBox(kontakDarurat: KontakDarurat) {
@@ -69,13 +71,9 @@ class KontakDaruratActivity : AppCompatActivity() {
         namaKontak.text = kontakDarurat.nama
         btnBatal.setOnClickListener {
              confirm(false, kontakDarurat)
-            // confirm = false
-//            dismissConfirmationBox()
         }
         btnHapus.setOnClickListener {
             confirm(true, kontakDarurat)
-            // confirm = true
-//            dismissConfirmationBox()
         }
         hapusDialog.show()
     }
@@ -96,17 +94,21 @@ class KontakDaruratActivity : AppCompatActivity() {
         }
     }
 
-    private fun showKontakPerangkat() {
+    private fun showDaftarKontakPerangkat() {
+        viewModel.getDaftarKontakPerangkat(this)
+    }
+
+    fun showDaftarKontakPerangkat(daftarKontakPerangkat: List<KontakPerangkat>) {
+        daftarKontakPerangkatAdapter.daftarKontakPerangkat = daftarKontakPerangkat
         val dialogView = layoutInflater.inflate(R.layout.contact_bottom_sheet, null)
         sheetDialog = BottomSheetDialog(this, R.style.BottomSheetDialogTheme)
         sheetDialog.setContentView(dialogView)
         val recyclerView = dialogView.findViewById<RecyclerView>(R.id.rv_contact)
         recyclerView.apply {
-            adapter = daftarKontakDaruratAdapter
+            adapter = daftarKontakPerangkatAdapter
             layoutManager = LinearLayoutManager(context, LinearLayoutManager.VERTICAL, false)
         }
         sheetDialog.show()
-        val bottomSheetBehavior = sheetDialog.behavior
     }
 
     private fun dismissConfirmationBox() {
@@ -127,5 +129,15 @@ class KontakDaruratActivity : AppCompatActivity() {
 
     fun showUpdate() {
         viewModel.getKontakDarurat(this)
+        daftarKontakDaruratAdapter.notifyDataSetChanged()
+    }
+
+    private fun pilihKontak(kontakPerangkat: KontakPerangkat) {
+        viewModel.pilihKontak(kontakPerangkat.nama, kontakPerangkat.nomor, this)
+        sheetDialog.dismiss()
+    }
+
+    fun showErrorMessage(errorMessage: String) {
+        Toast.makeText(this, errorMessage, Toast.LENGTH_SHORT).show()
     }
 }

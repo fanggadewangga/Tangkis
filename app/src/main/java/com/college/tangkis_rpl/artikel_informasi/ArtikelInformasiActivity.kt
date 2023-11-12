@@ -25,9 +25,9 @@ class ArtikelInformasiActivity : AppCompatActivity() {
 
     private fun showArtikelInformasi() {
         binding.apply {
-            tvTitleArticleDetail.text = judulArtikel
-            tvDateArticleDetail.text = tanggalArtikel
-            tvDescArticleDetail.text = kontenArtikel
+            tvTitleArticle.text = judulArtikel
+            tvDatePost.text = tanggalArtikel
+            tvContentArticle.text = kontenArtikel
             ivArticleDetail.setImageResource(gambarArtikel)
         }
     }

@@ -28,17 +28,16 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/iv_app_logo" />
 
-<!--    <ImageView
+    <ImageView
         android:id="@+id/iv_desc_register"
-        android:layout_width="match_parent"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="-34dp"
         android:layout_marginTop="8dp"
         android:src="@drawable/iv_desc_register"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/tv_title"
         android:importantForAccessibility="no"
-        android:contentDescription="TODO" />-->
+        android:contentDescription="TODO" />
 
     <com.google.android.material.textfield.TextInputLayout
         android:id="@+id/til_name"
@@ -46,7 +45,7 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="16dp"
         android:hint="Nama Lengkap"
-        app:layout_constraintTop_toBottomOf="@id/tv_title">
+        app:layout_constraintTop_toBottomOf="@id/iv_desc_register">
 
         <com.google.android.material.textfield.TextInputEditText
             android:id="@+id/edt_name"

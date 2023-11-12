@@ -5,7 +5,6 @@ import android.content.Context
 import android.content.Intent
 import android.content.pm.PackageManager
 import android.location.Location
-import android.util.Log
 import androidx.core.content.ContextCompat
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
@@ -16,7 +15,6 @@ import com.google.android.gms.location.LocationServices
 import com.google.android.gms.maps.model.LatLng
 import kotlinx.coroutines.launch
 
-@Suppress("DEPRECATION")
 class PesanDaruratViewModel : ViewModel() {
     private var fusedLocationClient: FusedLocationProviderClient? = null
 
@@ -47,7 +45,7 @@ class PesanDaruratViewModel : ViewModel() {
         filkomLocation.latitude = -7.954056949829905
         filkomLocation.longitude = 112.61448436435153
         val distance = filkomLocation.distanceTo(mahasiswaLocation) / 1000
-        return distance <= 5.0
+        return distance <= 3.0
     }
 
     fun cancelPesanDarurat(activity: PesanDaruratActivity) {
@@ -74,8 +72,6 @@ class PesanDaruratViewModel : ViewModel() {
                         longitude = location.longitude
                         intent.putExtra("latitude", latitude)
                         intent.putExtra("longitude", longitude)
-                        Log.d("LOCATION INTENT", latitude.toString())
-                        Log.d("LOCATION INTENT", longitude.toString())
                     }
                 }
             }
@@ -84,7 +80,6 @@ class PesanDaruratViewModel : ViewModel() {
             if (kontakDarurat.isNotEmpty()) {
                 mahasiswa.sendPesanDarurat(kontakDarurat, LatLng(latitude, longitude))
                 intentKontakDarurat.addAll(kontakDarurat.map { it.nama })
-                Log.d("KONTAK DARURAT ARGUMENT", kontakDarurat.size.toString())
                 intent.putStringArrayListExtra("kontak_darurat", ArrayList(intentKontakDarurat))
                 activity.startActivity(intent)
             }
