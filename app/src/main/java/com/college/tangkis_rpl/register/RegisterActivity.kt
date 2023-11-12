@@ -5,6 +5,7 @@ import android.os.Bundle
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.ViewModelProvider
+import com.college.tangkis_rpl.MainActivity
 import com.college.tangkis_rpl.databinding.ActivityRegisterBinding
 import com.college.tangkis_rpl.login.LoginActivity
 
@@ -59,7 +60,8 @@ class RegisterActivity : AppCompatActivity() {
     }
 
     fun show() {
-        val intent = Intent(this, LoginActivity::class.java)
+//        val intent = Intent(this, LoginActivity::class.java)
+        val intent = Intent(this, MainActivity::class.java)
         startActivity(intent)
     }
 }

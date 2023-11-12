@@ -4,6 +4,8 @@ import android.telephony.SmsManager
 import android.util.Log
 import com.college.tangkis_rpl.firebase.Firebase
 import com.google.android.gms.maps.model.LatLng
+import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.firestore.FirebaseFirestore
 import kotlinx.coroutines.tasks.await
 
 @Suppress("DEPRECATION")
@@ -15,9 +17,8 @@ data class Mahasiswa(
     suspend fun getProfilData(): Mahasiswa? {
         Log.d("Get Data Mahasiswa", "Masuk")
         var mahasiswa: Mahasiswa? = null
-        val firebase = Firebase()
-        val firebaseAuthentication = firebase.firebaseAuth
-        val firebaseFirestore = firebase.firebaseFirestore
+        val firebaseAuthentication = FirebaseAuth.getInstance()
+        val firebaseFirestore = FirebaseFirestore.getInstance()
         val nim = firebaseAuthentication.currentUser!!.email!!.substringBefore("@")
 
         try {
@@ -41,9 +42,8 @@ data class Mahasiswa(
 
     fun tambahKontak(kontak: KontakDarurat): String? {
         var errorMessage: String? = ""
-        val firebase = Firebase()
-        val firebaseAuthentication = firebase.firebaseAuth
-        val firebaseFirestore = firebase.firebaseFirestore
+        val firebaseAuthentication = FirebaseAuth.getInstance()
+        val firebaseFirestore = FirebaseFirestore.getInstance()
         val nim = firebaseAuthentication.currentUser!!.email!!.substringBefore("@")
         var jumlahKontak = 0
         val kontakCollection = firebaseFirestore.collection("KontakDarurat")
@@ -81,9 +81,8 @@ data class Mahasiswa(
     suspend fun deleteKontak(nomor: String): Boolean {
         Log.d("HAPUS KONTAK", "MASUK")
         var isError = false
-        val firebase = Firebase()
-        val firebaseAuthentication = firebase.firebaseAuth
-        val firebaseFirestore = firebase.firebaseFirestore
+        val firebaseAuthentication = FirebaseAuth.getInstance()
+        val firebaseFirestore = FirebaseFirestore.getInstance()
 
         try {Log.d("HAPUS KONTAK", "MASUK TRY")
             val nim = firebaseAuthentication.currentUser!!.email!!.substringBefore("@")
@@ -111,9 +110,8 @@ data class Mahasiswa(
 
     suspend fun getKontakDarurat(): List<KontakDarurat> {
         Log.d("GET DAFTAR KONTAK", "MASUK")
-        val firebase = Firebase()
-        val firebaseFirestore = firebase.firebaseFirestore
-        val firebaseAuthentication = firebase.firebaseAuth
+        val firebaseAuthentication = FirebaseAuth.getInstance()
+        val firebaseFirestore = FirebaseFirestore.getInstance()
         val kontakCollection = firebaseFirestore.collection("KontakDarurat")
         val kontakDarurat = mutableListOf<KontakDarurat>()
         val nim = firebaseAuthentication.currentUser!!.email!!.substringBefore("@")
@@ -155,8 +153,7 @@ data class Mahasiswa(
     }
 
     fun logout() {
-        val firebase = Firebase()
-        val firebaseAuth = firebase.firebaseAuth
+        val firebaseAuth = FirebaseAuth.getInstance()
         firebaseAuth.signOut()
     }
 }
