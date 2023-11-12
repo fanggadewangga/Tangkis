@@ -2,14 +2,15 @@ package com.college.tangkis_rpl.model
 
 import android.util.Log
 import com.college.tangkis_rpl.firebase.Firebase
+import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.firestore.FirebaseFirestore
 import kotlinx.coroutines.tasks.await
 
 class AuthHandler {
     suspend fun register(nama: String, nim: String, password: String): String {
         Log.d("Register", "Masuk")
-        val firebase = Firebase()
-        val firebaseAuthentication = firebase.firebaseAuth
-        val firebaseFirestore = firebase.firebaseFirestore
+        val firebaseAuthentication = FirebaseAuth.getInstance()
+        val firebaseFirestore = FirebaseFirestore.getInstance()
 
         // Cek apakah NIM mahasiswa FILKOM dan panjang password
         if (!Regex("""^\d{2}515\d*$""").matches(nim) || password.length < 8) {
@@ -50,9 +51,8 @@ class AuthHandler {
     }
 
     suspend fun getUser(nim: String, password: String): String {
-        val firebase = Firebase()
-        val firebaseAuthentication = firebase.firebaseAuth
-        val firebaseFirestore = firebase.firebaseFirestore
+        val firebaseAuthentication = FirebaseAuth.getInstance()
+        val firebaseFirestore = FirebaseFirestore.getInstance()
         val document = firebaseFirestore.collection("Mahasiswa").document(nim).get().await()
 
         return if (document != null && document.exists()) {
@@ -73,8 +73,7 @@ class AuthHandler {
     }
 
     fun checkLoginStatus(): Boolean {
-        val firebase = Firebase()
-        val firebaseAuthentication = firebase.firebaseAuth
+        val firebaseAuthentication = FirebaseAuth.getInstance()
         val currentUser = firebaseAuthentication.currentUser
         var isLogin = false
         if (currentUser != null) {

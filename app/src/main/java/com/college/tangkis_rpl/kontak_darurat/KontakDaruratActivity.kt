@@ -68,17 +68,22 @@ class KontakDaruratActivity : AppCompatActivity() {
         val namaKontak: TextView = hapusDialog.findViewById(R.id.tv_contact_name)
         namaKontak.text = kontakDarurat.nama
         btnBatal.setOnClickListener {
-            // confirm()
+             confirm(false, kontakDarurat)
             // confirm = false
-            dismissConfirmationBox()
+//            dismissConfirmationBox()
         }
         btnHapus.setOnClickListener {
-            // confirm()
+            confirm(true, kontakDarurat)
             // confirm = true
-            dismissConfirmationBox()
-            viewModel.deleteKontak(kontakDarurat.nomor, this)
+//            dismissConfirmationBox()
         }
         hapusDialog.show()
+    }
+
+    private fun confirm(confirm: Boolean, kontakDarurat: KontakDarurat) {
+        dismissConfirmationBox()
+        if (confirm)
+            viewModel.deleteKontak(kontakDarurat.nomor, this)
     }
 
     fun showDaftarKontak(daftarKontak: List<KontakDarurat>) {
