@@ -19,11 +19,12 @@ data class Mahasiswa(
         var mahasiswa: Mahasiswa? = null
         val firebaseAuthentication = FirebaseAuth.getInstance()
         val firebaseFirestore = FirebaseFirestore.getInstance()
+        val mahasiswaCollection = firebaseFirestore.collection("Mahasiswa")
         val nim = firebaseAuthentication.currentUser!!.email!!.substringBefore("@")
 
         try {
             val querySnapshot =
-                firebaseFirestore.collection("Mahasiswa").whereEqualTo("nim", nim).get().await()
+                mahasiswaCollection.whereEqualTo("nim", nim).get().await()
             Log.d("Get Data Mahasiswa", querySnapshot.toString())
             if (!querySnapshot.isEmpty) {
                 for (document in querySnapshot.documents) {
@@ -83,10 +84,11 @@ data class Mahasiswa(
         var isError = false
         val firebaseAuthentication = FirebaseAuth.getInstance()
         val firebaseFirestore = FirebaseFirestore.getInstance()
+        val kontakCollection = firebaseFirestore.collection("KontakDarurat")
 
         try {Log.d("HAPUS KONTAK", "MASUK TRY")
             val nim = firebaseAuthentication.currentUser!!.email!!.substringBefore("@")
-            val querySnapshot = firebaseFirestore.collection("KontakDarurat")
+            val querySnapshot = kontakCollection
                 .whereEqualTo("nim", nim)
                 .whereEqualTo("nomor", nomor)
                 .get()
