@@ -28,41 +28,29 @@ class LoginActivity : AppCompatActivity() {
             btnLogin.setOnClickListener {
                 submit()
             }
-           validate()
         }
     }
 
     private fun submit() {
-        viewModel.getUser(
-            nim = binding.edtNim.text.toString(),
-            password = binding.edtPassword.text.toString(),
-            activity = this
-        )
+        val isValid = validate()
+        if (isValid)
+            viewModel.getUser(
+                nim = binding.edtNim.text.toString(),
+                password = binding.edtPassword.text.toString(),
+                activity = this
+            )
     }
 
-    private fun validate() {
-        binding.edtNim.apply {
-            val text = this.text.toString().trim()
-            if (text.isEmpty()) {
-                this.error = "Data tidak boleh kosong"
+    private fun validate(): Boolean {
+        val nim = binding.edtNim.text.toString()
+        val password = binding.edtPassword.text.toString()
+        var errorMessage = ""
 
-            }
-            else {
-                binding.btnLogin.isEnabled = false
-                this.error = null
-            }
+        if (nim.isEmpty() || password.isEmpty()) {
+            errorMessage = "Data tidak boleh kosong"
+            Toast.makeText(this, errorMessage, Toast.LENGTH_SHORT).show()
         }
-        binding.edtPassword.apply {
-            val text = this.text.toString().trim()
-            if (text.isEmpty()) {
-                binding.btnLogin.isEnabled = false
-                this.error = "Data tidak boleh kosong"
-            }
-            else {
-                this.error = null
-                binding.btnLogin.isEnabled = true
-            }
-        }
+        return errorMessage == ""
     }
 
     fun showAlert(message: String) {

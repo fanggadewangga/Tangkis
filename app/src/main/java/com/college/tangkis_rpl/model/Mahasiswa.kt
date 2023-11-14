@@ -123,7 +123,7 @@ data class Mahasiswa(
         val smsManager = SmsManager.getDefault()
         val mahasiswa = getProfilData()
         val message =
-            "Dikirim secara otomatis oleh Tangkis: Tangani Kekerasan Seksual: \n\n\nAnda menerima pesan ini karena nomor Anda tercantum sebagai kontak darurat ${mahasiswa?.nama}. \n\n ${mahasiswa?.nama!!.split(" ")[0]} menggunakan fitur pesan darurat di aplikasi Tangkis dan memerlukan bantuan. \n\n ${mahasiswa.nama.split(" ")[0]} membagikan lokasi dengan Anda: https://www.google.com/maps?q=${lokasi.latitude},${lokasi.longitude}. \n\n\nHubungi ${mahasiswa.nama.split(" ")[0]} langsung untuk mendapat pembaruan."
+            "Dikirim secara otomatis oleh Tangkis: Tangani Kekerasan Seksual: \n\n\nAnda menerima pesan ini karena nomor Anda tercantum sebagai kontak darurat ${mahasiswa?.nama}. \n\n ${mahasiswa?.nama!!.split(" ")[0]} menggunakan fitur pesan darurat di aplikasi Tangkis dan memerlukan bantuan. \n\n ${mahasiswa.nama.split(" ")[0]} membagikan lokasi dengan Anda: https://www.google.com/maps/search/?api=1&query=${lokasi.latitude}%2C${lokasi.longitude} \n\n\nHubungi ${mahasiswa.nama.split(" ")[0]} langsung untuk mendapat pembaruan."
         val parts = smsManager.divideMessage(message)
         daftarKontakDarurat.forEach {
             smsManager.sendMultipartTextMessage(

@@ -36,6 +36,11 @@ class HomeFragment : Fragment() {
         return binding.root
     }
 
+    override fun onResume() {
+        viewModel.getKontakDarurat(this)
+        super.onResume()
+    }
+
     private fun getDaftarArtikelInformasi() {
        articleAdapter.artikelInformasis = viewModel.getDaftarArtikelInformasi()
     }

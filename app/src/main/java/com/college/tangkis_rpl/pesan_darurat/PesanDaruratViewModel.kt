@@ -5,6 +5,7 @@ import android.content.Context
 import android.content.Intent
 import android.content.pm.PackageManager
 import android.location.Location
+import android.util.Log
 import androidx.core.content.ContextCompat
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
@@ -26,11 +27,14 @@ class PesanDaruratViewModel : ViewModel() {
                 activity
             )
         ) {
+            Log.d("LOCATION", "DIIZINKAN")
             fusedLocationClient!!.lastLocation.addOnSuccessListener { location: Location? ->
                 if (location != null) {
                     val latitude = location.latitude
                     val longitude = location.longitude
                     val valid = validateLocation(latitude, longitude)
+                    Log.d("LATITUDE", latitude.toString())
+                    Log.d("LONGITUDE", longitude.toString())
                     activity.activateButton(valid)
                 }
             }

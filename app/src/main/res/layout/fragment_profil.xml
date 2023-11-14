@@ -3,6 +3,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    xmlns:tools="http://schemas.android.com/tools"
     android:padding="16dp"
     android:orientation="vertical"
     android:gravity="center_horizontal"
@@ -18,7 +19,7 @@
         <ImageView
             android:id="@+id/iv_profile"
             android:layout_width="wrap_content"
-            android:layout_height="240dp"
+            android:layout_height="180dp"
             android:src="@drawable/iv_profile"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
@@ -43,13 +44,13 @@
                android:text="Nama Lengkap"
                android:layout_marginBottom="8dp"
                style="@style/TitleSmall"
-               android:textColor="@color/material_dynamic_neutral50"
+               android:textColor="@color/md_theme_light_outline"
                />
            <TextView
                android:id="@id/tv_name"
                android:layout_width="match_parent"
                android:layout_height="wrap_content"
-               android:text="Nama Lengkap"
+               tools:text="Nama Lengkap"
                android:layout_marginBottom="16dp"
                style="@style/TitleMedium"
                android:textColor="@color/md_theme_light_scrim"
@@ -64,13 +65,13 @@
                android:text="Nomor Induk Mahasiswa"
                android:layout_marginBottom="8dp"
                style="@style/TitleSmall"
-               android:textColor="@color/material_dynamic_neutral50"
+               android:textColor="@color/md_theme_light_outline"
                />
            <TextView
                android:id="@+id/tv_nim"
                android:layout_width="match_parent"
                android:layout_height="wrap_content"
-               android:text="NIM"
+               tools:text="NIM"
                android:layout_marginBottom="16dp"
                style="@style/TitleMedium"
                android:textColor="@color/md_theme_light_scrim"
