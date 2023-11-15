@@ -83,7 +83,7 @@ class PesanDaruratViewModel : ViewModel() {
             val kontakDarurat = mahasiswa.getKontakDarurat()
             if (kontakDarurat.isNotEmpty()) {
                 mahasiswa.sendPesanDarurat(kontakDarurat, LatLng(latitude, longitude))
-                intentKontakDarurat.addAll(kontakDarurat.map { it.nama })
+                intentKontakDarurat.addAll(kontakDarurat.map { it.getNama() })
                 intent.putStringArrayListExtra("kontak_darurat", ArrayList(intentKontakDarurat))
                 activity.startActivity(intent)
             }

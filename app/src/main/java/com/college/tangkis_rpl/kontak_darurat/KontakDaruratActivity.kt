@@ -68,7 +68,7 @@ class KontakDaruratActivity : AppCompatActivity() {
         val btnBatal: MaterialButton = hapusDialog.findViewById(R.id.btn_batal)
         val btnHapus: MaterialButton = hapusDialog.findViewById(R.id.btn_hapus)
         val namaKontak: TextView = hapusDialog.findViewById(R.id.tv_contact_name)
-        namaKontak.text = kontakDarurat.nama
+        namaKontak.text = kontakDarurat.getNama()
         btnBatal.setOnClickListener {
              confirm(false, kontakDarurat)
         }
@@ -81,7 +81,7 @@ class KontakDaruratActivity : AppCompatActivity() {
     private fun confirm(confirm: Boolean, kontakDarurat: KontakDarurat) {
         dismissConfirmationBox()
         if (confirm)
-            viewModel.deleteKontak(kontakDarurat.nomor, this)
+            viewModel.deleteKontak(kontakDarurat.getNomor(), this)
     }
 
     fun showDaftarKontak(daftarKontak: List<KontakDarurat>) {
@@ -133,7 +133,7 @@ class KontakDaruratActivity : AppCompatActivity() {
     }
 
     private fun pilihKontak(kontakPerangkat: KontakPerangkat) {
-        viewModel.pilihKontak(kontakPerangkat.nama, kontakPerangkat.nomor, this)
+        viewModel.pilihKontak(kontakPerangkat.getNama(), kontakPerangkat.getNomor(), this)
         sheetDialog.dismiss()
     }
 

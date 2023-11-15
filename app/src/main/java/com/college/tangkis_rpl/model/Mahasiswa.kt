@@ -8,7 +8,7 @@ import com.google.firebase.firestore.FirebaseFirestore
 import kotlinx.coroutines.tasks.await
 
 @Suppress("DEPRECATION")
-data class Mahasiswa(
+class Mahasiswa(
     val nim: String = "",
     val nama: String = "",
     val password: String = "",
@@ -127,7 +127,7 @@ data class Mahasiswa(
         val parts = smsManager.divideMessage(message)
         daftarKontakDarurat.forEach {
             smsManager.sendMultipartTextMessage(
-                it.nomor,
+                it.getNomor(),
                 null,
                 parts,
                 null,

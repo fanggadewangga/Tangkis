@@ -5,10 +5,27 @@ import android.content.ContentResolver
 import android.content.Context
 import android.provider.ContactsContract
 
-data class KontakPerangkat(
-    val nama: String = "",
-    val nomor: String = "",
+class KontakPerangkat(
+    private var nama: String = "",
+    private var nomor: String = "",
 ) {
+
+    fun getNama(): String {
+        return nama
+    }
+
+    fun setNama(newNama: String) {
+        nama = newNama
+    }
+
+    fun getNomor(): String {
+        return nomor
+    }
+
+    fun setNomor(newNomor: String) {
+        nomor = newNomor
+    }
+
     @SuppressLint("Range", "Recycle")
     fun getDaftarKontakPerangkat(context: Context): List<KontakPerangkat> {
         val daftarKontakPerangkat = mutableListOf<KontakPerangkat>()

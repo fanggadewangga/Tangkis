@@ -2,13 +2,52 @@ package com.college.tangkis_rpl.model
 
 import com.college.tangkis_rpl.R
 
-data class ArtikelInformasi(
-    val idArtikel: String = "",
-    val judul: String = "",
-    val image: Int = 0,
-    val konten: String = "",
-    val tanggalUnggah: String = "",
+class ArtikelInformasi(
+    private var idArtikel: String = "",
+    private var judul: String = "",
+    private var image: Int = 0,
+    private var konten: String = "",
+    private var tanggalUnggah: String = "",
 ) {
+    fun getIdArtikel(): String {
+        return idArtikel
+    }
+
+    fun getJudul(): String {
+        return judul
+    }
+
+    fun getImage(): Int {
+        return image
+    }
+
+    fun getKonten(): String {
+        return konten
+    }
+
+    fun getTanggalUnggah(): String {
+        return tanggalUnggah
+    }
+
+    fun setIdArtikel(newIdArtikel: String) {
+        idArtikel = newIdArtikel
+    }
+
+    fun setJudul(newJudul: String) {
+        judul = newJudul
+    }
+
+    fun setImage(newImage: Int) {
+        image = newImage
+    }
+
+    fun setKonten(newKonten: String) {
+        konten = newKonten
+    }
+
+    fun setTanggalUnggah(newTanggalUnggah: String) {
+        tanggalUnggah = newTanggalUnggah
+    }
 
     fun getDaftarArtikel() = listOf(
         ArtikelInformasi(

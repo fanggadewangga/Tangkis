@@ -10,10 +10,10 @@ class ArtikelInformasiViewModel: ViewModel() {
         val artikelInformasi = ArtikelInformasi()
         val artikelDipilih = artikelInformasi.getArtikelInformasi(idArtikel)!!
         val intent = Intent(home.requireActivity(), ArtikelInformasiActivity::class.java)
-        intent.putExtra("judul", artikelDipilih.judul)
-        intent.putExtra("tanggal", artikelDipilih.tanggalUnggah)
-        intent.putExtra("gambar", artikelDipilih.image)
-        intent.putExtra("konten", artikelDipilih.konten)
+        intent.putExtra("judul", artikelDipilih.getJudul())
+        intent.putExtra("tanggal", artikelDipilih.getTanggalUnggah())
+        intent.putExtra("gambar", artikelDipilih.getImage())
+        intent.putExtra("konten", artikelDipilih.getKonten())
         home.requireActivity().startActivity(intent)
     }
 }

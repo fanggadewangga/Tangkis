@@ -19,28 +19,6 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
-    <ImageView
-        android:id="@+id/ic_location"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="16dp"
-        android:layout_marginTop="4dp"
-        android:importantForAccessibility="no"
-        android:src="@drawable/ic_location_marker"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/tv_header"
-        app:tint="@color/white" />
-
-    <TextView
-        android:id="@+id/tv_location"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Gedung F, Fakultas Ilmu Komputer"
-        android:textColor="@color/white"
-        app:layout_constraintBottom_toBottomOf="@id/ic_location"
-        app:layout_constraintStart_toEndOf="@id/ic_location"
-        app:layout_constraintTop_toTopOf="@id/ic_location" />
-
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
@@ -50,7 +28,7 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/tv_location">
+        app:layout_constraintTop_toBottomOf="@id/tv_header">
 
         <ScrollView
             android:layout_width="match_parent"

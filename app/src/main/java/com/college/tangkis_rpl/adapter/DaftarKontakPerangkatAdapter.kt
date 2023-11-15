@@ -26,8 +26,8 @@ class DaftarKontakPerangkatAdapter(private val pilihKontak:(KontakPerangkat) -> 
         RecyclerView.ViewHolder(view.root) {
         fun bind(kontakPerangkat: KontakPerangkat) {
             view.apply {
-                tvName.text = kontakPerangkat.nama
-                tvNumber.text = kontakPerangkat.nomor
+                tvName.text = kontakPerangkat.getNama()
+                tvNumber.text = kontakPerangkat.getNomor()
                 ivDelete.visibility = View.GONE
             }
             itemView.setOnClickListener { pilihKontak.invoke(kontakPerangkat) }

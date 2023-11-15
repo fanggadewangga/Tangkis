@@ -24,8 +24,8 @@ class HomeKontakDaruratAdapter: RecyclerView.Adapter<HomeKontakDaruratAdapter.Em
     inner class EmergencyContactViewHolder(private val view: ItemContactHomeBinding): RecyclerView.ViewHolder(view.root) {
         fun bind(contact: KontakDarurat) {
             view.apply {
-                tvName.text = contact.nama
-                tvNumber.text = contact.nomor
+                tvName.text = contact.getNama()
+                tvNumber.text = contact.getNomor()
             }
         }
     }

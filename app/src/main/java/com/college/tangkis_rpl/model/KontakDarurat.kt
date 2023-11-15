@@ -1,8 +1,24 @@
 package com.college.tangkis_rpl.model
 
-import kotlinx.serialization.Serializable
+class KontakDarurat(
+    private var nama: String = "",
+    private var nomor: String = "",
+) {
 
-data class KontakDarurat(
-    val nama: String = "",
-    val nomor: String = "",
-)
+    fun getNama(): String {
+        return nama
+    }
+
+    fun setNama(newNama: String) {
+        nama = newNama
+    }
+
+    fun getNomor(): String {
+        return nomor
+    }
+
+    fun setNomor(newNomor: String) {
+        nomor = newNomor
+    }
+}
+

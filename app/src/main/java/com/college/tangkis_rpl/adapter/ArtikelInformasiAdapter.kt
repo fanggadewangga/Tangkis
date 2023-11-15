@@ -27,17 +27,17 @@ class ArtikelInformasiAdapter(private val onClick: (String) -> Unit) : RecyclerV
         RecyclerView.ViewHolder(view.root) {
         fun bind(artikelInformasi: ArtikelInformasi) {
             view.apply {
-                tvTitle.text = artikelInformasi.judul
-                tvContent.text = artikelInformasi.konten
+                tvTitle.text = artikelInformasi.getJudul()
+                tvContent.text = artikelInformasi.getKonten()
             }
             itemView.let {
                 Glide.with(it.context)
-                    .load(artikelInformasi.image)
+                    .load(artikelInformasi.getImage())
                     .apply(RequestOptions.centerCropTransform())
                     .into(view.ivArticle)
             }
             itemView.setOnClickListener {
-                onClick.invoke(artikelInformasi.idArtikel)
+                onClick.invoke(artikelInformasi.getIdArtikel())
             }
         }
     }
