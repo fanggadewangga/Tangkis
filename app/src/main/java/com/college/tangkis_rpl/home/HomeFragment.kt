@@ -53,7 +53,7 @@ class HomeFragment : Fragment() {
 
     fun showDataMahasiswa(mahasiswa: Mahasiswa) {
         binding.apply {
-            tvHeader.text = "Selamat datang ${mahasiswa?.nama}"
+            tvHeader.text = "Selamat datang ${mahasiswa?.getNama()}"
         }
     }
 

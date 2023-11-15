@@ -5,6 +5,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.college.tangkis_rpl.MainActivity
 import com.college.tangkis_rpl.model.AuthHandler
+import com.college.tangkis_rpl.register.RegisterActivity
 import kotlinx.coroutines.launch
 
 class LoginViewModel : ViewModel() {
@@ -27,5 +28,10 @@ class LoginViewModel : ViewModel() {
         val intent = Intent(activity, MainActivity::class.java)
         if (isLogin)
             activity.startActivity(intent)
+    }
+
+    fun showRegisterPage(activity: LoginActivity) {
+        val intent = Intent(activity, RegisterActivity::class.java)
+        activity.startActivity(intent)
     }
 }

@@ -9,45 +9,6 @@ class ArtikelInformasi(
     private var konten: String = "",
     private var tanggalUnggah: String = "",
 ) {
-    fun getIdArtikel(): String {
-        return idArtikel
-    }
-
-    fun getJudul(): String {
-        return judul
-    }
-
-    fun getImage(): Int {
-        return image
-    }
-
-    fun getKonten(): String {
-        return konten
-    }
-
-    fun getTanggalUnggah(): String {
-        return tanggalUnggah
-    }
-
-    fun setIdArtikel(newIdArtikel: String) {
-        idArtikel = newIdArtikel
-    }
-
-    fun setJudul(newJudul: String) {
-        judul = newJudul
-    }
-
-    fun setImage(newImage: Int) {
-        image = newImage
-    }
-
-    fun setKonten(newKonten: String) {
-        konten = newKonten
-    }
-
-    fun setTanggalUnggah(newTanggalUnggah: String) {
-        tanggalUnggah = newTanggalUnggah
-    }
 
     fun getDaftarArtikel() = listOf(
         ArtikelInformasi(
@@ -125,5 +86,46 @@ class ArtikelInformasi(
             }
         }
         return null
+    }
+
+
+    fun getIdArtikel(): String {
+        return idArtikel
+    }
+
+    fun getJudul(): String {
+        return judul
+    }
+
+    fun getImage(): Int {
+        return image
+    }
+
+    fun getKonten(): String {
+        return konten
+    }
+
+    fun getTanggalUnggah(): String {
+        return tanggalUnggah
+    }
+
+    fun setIdArtikel(newIdArtikel: String) {
+        idArtikel = newIdArtikel
+    }
+
+    fun setJudul(newJudul: String) {
+        judul = newJudul
+    }
+
+    fun setImage(newImage: Int) {
+        image = newImage
+    }
+
+    fun setKonten(newKonten: String) {
+        konten = newKonten
+    }
+
+    fun setTanggalUnggah(newTanggalUnggah: String) {
+        tanggalUnggah = newTanggalUnggah
     }
 }

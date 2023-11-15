@@ -8,7 +8,7 @@ import com.college.tangkis_rpl.model.Mahasiswa
 import kotlinx.coroutines.launch
 
 class ProfileViewModel : ViewModel() {
-    fun getProfile(profileFragment: ProfileFragment) {
+    fun getProfilData(profileFragment: ProfileFragment) {
         viewModelScope.launch {
             var mahasiswa: Mahasiswa? = Mahasiswa()
             mahasiswa = mahasiswa?.getProfilData()

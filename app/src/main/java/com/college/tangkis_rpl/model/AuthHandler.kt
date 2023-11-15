@@ -7,20 +7,21 @@ import kotlinx.coroutines.tasks.await
 
 class AuthHandler {
     suspend fun register(nama: String, nim: String, password: String): String {
+        var errorMessage = ""
         Log.d("Register", "Masuk")
         val firebaseAuthentication = FirebaseAuth.getInstance()
         val firebaseFirestore = FirebaseFirestore.getInstance()
 
         // Cek apakah NIM mahasiswa FILKOM dan panjang password
         if (!Regex("""^\d{2}515\d*$""").matches(nim) || password.length < 8) {
-            return "Data tidak valid!"
+            errorMessage =  "Data tidak valid!"
         }
 
         try {
             val document = firebaseFirestore.collection("Mahasiswa").document(nim).get().await()
 
             if (document != null && document.exists()) {
-                return "NIM telah terdaftar"
+                errorMessage =  "NIM telah terdaftar"
             } else {
                 val authResult = firebaseAuthentication.createUserWithEmailAndPassword(
                     "$nim@tangkis.com",
@@ -40,27 +41,26 @@ class AuthHandler {
                             .await()
                     }
                     firebaseAuthentication.signOut()
-                    return ""
-                } else {
-                    return "User registration failed"
                 }
             }
         } catch (e: Exception) {
-            return "Error during registration"
+            e.printStackTrace()
         }
+        return errorMessage
     }
 
     suspend fun getUser(nim: String, password: String): String {
+        var errorMessage = ""
         val firebaseAuthentication = FirebaseAuth.getInstance()
         val firebaseFirestore = FirebaseFirestore.getInstance()
         val document = firebaseFirestore.collection("Mahasiswa").document(nim).get().await()
 
-        return if (document != null && document.exists()) {
+        errorMessage = if (document != null && document.exists()) {
             try {
                 val authResult =
                     firebaseAuthentication.signInWithEmailAndPassword("$nim@tangkis.com", password)
                         .await()
-                if (authResult.user != null) {
+                if (authResult.user == null) {
                     ""
                 } else
                     "Password salah"
@@ -70,6 +70,8 @@ class AuthHandler {
         } else {
             "NIM tidak terdaftar"
         }
+
+        return errorMessage
     }
 
     fun checkLoginStatus(): Boolean {
@@ -78,7 +80,6 @@ class AuthHandler {
         var isLogin = false
         if (currentUser != null) {
             isLogin = true
-            Log.d("Current User Email", currentUser.email!!.substringBefore("@"))
         }
         return isLogin
     }

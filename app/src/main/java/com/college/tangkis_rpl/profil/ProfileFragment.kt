@@ -1,7 +1,6 @@
 package com.college.tangkis_rpl.profil
 
 import android.app.Dialog
-import android.content.Intent
 import android.graphics.Color
 import android.graphics.drawable.ColorDrawable
 import android.os.Bundle
@@ -13,7 +12,6 @@ import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import com.college.tangkis_rpl.R
 import com.college.tangkis_rpl.databinding.FragmentProfilBinding
-import com.college.tangkis_rpl.login.LoginActivity
 import com.college.tangkis_rpl.model.Mahasiswa
 import com.google.android.material.button.MaterialButton
 
@@ -28,7 +26,7 @@ class ProfileFragment : Fragment() {
     ): View {
         viewModel = ViewModelProvider(this.requireActivity())[ProfileViewModel::class.java]
         binding = FragmentProfilBinding.inflate(layoutInflater)
-        viewModel.getProfile(this)
+        viewModel.getProfilData(this)
 
         // Logout
         binding.tvLogout.setOnClickListener {
@@ -52,8 +50,8 @@ class ProfileFragment : Fragment() {
 
     fun showProfil(profile: Mahasiswa) {
         binding.apply {
-            tvName.text = profile.nama
-            tvNim.text = profile.nim
+            tvName.text = profile.getNama()
+            tvNim.text = profile.getNim()
         }
     }
 
@@ -66,26 +64,22 @@ class ProfileFragment : Fragment() {
         val btnBatal: MaterialButton = logoutDialog.findViewById(R.id.btn_batal)
         val btnHapus: MaterialButton = logoutDialog.findViewById(R.id.btn_hapus)
         btnBatal.setOnClickListener {
+            confirm(false, logoutDialog)
             dismissConfirmationBox(logoutDialog)
         }
         btnHapus.setOnClickListener {
-            confirm(logoutDialog)
+            confirm(true, logoutDialog)
         }
         logoutDialog.show()
     }
 
-    private fun confirm(dialog: Dialog) {
-        dialog.dismiss()
-        viewModel.logout(this)
+    private fun confirm(confirm: Boolean, dialog: Dialog) {
+        dismissConfirmationBox(dialog)
+        if (confirm)
+            viewModel.logout(this)
     }
 
     private fun dismissConfirmationBox(dialog: Dialog) {
         dialog.dismiss()
-    }
-
-    fun showLoginPage() {
-        val intent = Intent(this.requireActivity(), LoginActivity::class.java)
-        this.requireActivity().startActivity(intent)
-        this.requireActivity().finish()
     }
 }

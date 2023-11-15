@@ -7,7 +7,6 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.ViewModelProvider
 import com.college.tangkis_rpl.MainActivity
 import com.college.tangkis_rpl.databinding.ActivityLoginBinding
-import com.college.tangkis_rpl.register.RegisterActivity
 
 class LoginActivity : AppCompatActivity() {
 
@@ -22,8 +21,7 @@ class LoginActivity : AppCompatActivity() {
         viewModel.checkLoginStatus(this)
         binding.apply {
             tvRegister.setOnClickListener {
-                val intent = Intent(this@LoginActivity, RegisterActivity::class.java)
-                startActivity(intent)
+               viewModel.showRegisterPage(this@LoginActivity)
             }
             btnLogin.setOnClickListener {
                 submit()

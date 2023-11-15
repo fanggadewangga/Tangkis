@@ -9,10 +9,35 @@ import kotlinx.coroutines.tasks.await
 
 @Suppress("DEPRECATION")
 class Mahasiswa(
-    val nim: String = "",
-    val nama: String = "",
-    val password: String = "",
+    private var nim: String = "",
+    private var nama: String = "",
+    private var password: String = "",
 ) {
+
+    fun getNim(): String {
+        return nim
+    }
+
+    fun setNim(newNim: String) {
+        nim = newNim
+    }
+
+    fun getNama(): String {
+        return nama
+    }
+
+    fun setNama(newNama: String) {
+        nama = newNama
+    }
+
+    fun getPassword(): String {
+        return password
+    }
+
+    fun setPassword(newPassword: String) {
+        password = newPassword
+    }
+
     suspend fun getProfilData(): Mahasiswa? {
         var mahasiswa: Mahasiswa? = null
         val firebaseAuthentication = FirebaseAuth.getInstance()
