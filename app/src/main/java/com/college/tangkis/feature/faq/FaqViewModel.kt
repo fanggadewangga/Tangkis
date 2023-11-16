@@ -1,7 +1,7 @@
 package com.college.tangkis.feature.faq
 
 import androidx.lifecycle.ViewModel
-import com.college.tangkis.domain.model.Faq
+import com.college.tangkis.domain.model.faq.Faq
 import dagger.hilt.android.lifecycle.HiltViewModel
 import javax.inject.Inject
 

@@ -2,8 +2,6 @@ package com.college.tangkis.data.repository.contact
 
 import android.util.Log
 import com.college.tangkis.data.Resource
-import com.college.tangkis.data.source.remote.model.request.contact.ContactRequest
-import com.college.tangkis.data.source.remote.model.response.contact.ContactResponse
 import com.college.tangkis.data.source.local.TangkisDatastore
 import com.college.tangkis.data.source.remote.ApiService
 import kotlinx.coroutines.Dispatchers
@@ -36,7 +34,7 @@ class ContactRepositoryImpl @Inject constructor(
         }
     }.flowOn(Dispatchers.IO)
 
-    override suspend fun getContacts(): Flow<Resource<List<com.college.tangkis.data.source.remote.model.response.contact.ContactResponse>>> = flow {
+    override suspend fun getContacts(): Flow<Resource<List<com.college.tangkis.data.source.remote.model.response.contact.EmergencyContactResponse>>> = flow {
         emit(Resource.Loading())
         try {
             val token = "Bearer ${datastore.readBearerToken().first()}"

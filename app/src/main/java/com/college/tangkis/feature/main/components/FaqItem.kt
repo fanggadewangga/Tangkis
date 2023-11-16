@@ -28,7 +28,7 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.ColorFilter
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
-import com.college.tangkis.domain.model.Faq
+import com.college.tangkis.domain.model.faq.Faq
 import com.college.tangkis.theme.Typography
 import com.college.tangkis.theme.md_theme_light_primaryContainer
 import com.college.tangkis.theme.md_theme_light_secondary

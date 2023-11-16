@@ -5,8 +5,7 @@ import com.college.tangkis.data.source.remote.model.request.user.UserLoginReques
 import com.college.tangkis.data.source.remote.model.request.user.UserPasswordRequest
 import com.college.tangkis.data.source.remote.model.request.user.UserRegisterRequest
 import com.college.tangkis.data.source.remote.model.request.user.UserWhatsappRequest
-import com.college.tangkis.data.source.remote.model.response.user.UserResponse
-import com.college.tangkis.domain.model.User
+import com.college.tangkis.domain.model.user.User
 import kotlinx.coroutines.flow.Flow
 
 interface UserRepository {

@@ -12,7 +12,7 @@ import com.college.tangkis.data.source.remote.model.request.user.UserRegisterReq
 import com.college.tangkis.data.source.remote.model.request.user.UserWhatsappRequest
 import com.college.tangkis.data.source.remote.model.response.token.TokenResponse
 import com.college.tangkis.data.source.remote.model.response.user.UserResponse
-import com.college.tangkis.domain.model.User
+import com.college.tangkis.domain.model.user.User
 import com.college.tangkis.util.toUser
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.first

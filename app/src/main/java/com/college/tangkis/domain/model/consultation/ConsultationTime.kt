@@ -1,4 +1,4 @@
-package com.college.tangkis.domain.model
+package com.college.tangkis.domain.model.consultation
 
 data class ConsultationTime(
     val consultationTimeId: String,

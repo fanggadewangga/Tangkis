@@ -3,7 +3,7 @@ package com.college.tangkis.data.source.remote.model.response.contact
 import kotlinx.serialization.Serializable
 
 @Serializable
-data class ContactResponse(
+data class EmergencyContactResponse(
     val contactId: String,
     val name: String,
     val number: String,

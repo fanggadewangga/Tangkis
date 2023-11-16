@@ -1,4 +1,4 @@
-package com.college.tangkis.domain.model
+package com.college.tangkis.domain.model.contact
 
 data class DeviceContact(
     val name: String,

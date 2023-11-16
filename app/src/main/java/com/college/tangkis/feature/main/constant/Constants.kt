@@ -1,6 +1,6 @@
 package com.college.tangkis.feature.main.constant
 
-import com.college.tangkis.domain.model.ConsultationTime
+import com.college.tangkis.domain.model.consultation.ConsultationTime
 import com.google.android.gms.maps.model.LatLng
 
 object Constants {

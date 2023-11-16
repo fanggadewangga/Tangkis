@@ -1,4 +1,4 @@
-package com.college.model.response.article
+package com.college.tangkis.data.source.remote.model.response.article
 
 import kotlinx.serialization.Serializable
 

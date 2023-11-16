@@ -56,6 +56,6 @@ class RepositoryModule {
     @Provides
     fun provideActivityRepository(
         datastore: TangkisDatastore,
-        apiService: ApiService,
-    ): ActivityRepository = ActivityRepositoryImpl(datastore, apiService)
+        remoteDataSource: RemoteDataSource
+    ): ActivityRepository = ActivityRepositoryImpl(datastore, remoteDataSource)
 }

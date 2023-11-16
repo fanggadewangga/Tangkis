@@ -2,10 +2,6 @@ package com.college.tangkis.data.repository.report
 
 import android.util.Log
 import com.college.tangkis.data.Resource
-import com.college.tangkis.data.source.remote.model.request.report.ReportRequest
-import com.college.tangkis.data.source.remote.model.response.report.AddReportResponse
-import com.college.tangkis.data.source.remote.model.response.report.ReportDetailResponse
-import com.college.tangkis.data.source.remote.model.response.report.ReportResponse
 import com.college.tangkis.data.source.local.TangkisDatastore
 import com.college.tangkis.data.source.remote.ApiService
 import kotlinx.coroutines.Dispatchers
@@ -38,7 +34,7 @@ class ReportRepositoryImpl @Inject constructor(
         }
     }.flowOn(Dispatchers.IO)
 
-    override suspend fun getReports(): Flow<Resource<List<com.college.tangkis.data.source.remote.model.response.report.ReportResponse>>> =
+    override suspend fun getReports(): Flow<Resource<List<com.college.tangkis.data.source.remote.model.response.report.ReportListResponse>>> =
         flow {
             emit(Resource.Loading())
             try {

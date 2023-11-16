@@ -1,4 +1,4 @@
-package com.college.tangkis.domain.model
+package com.college.tangkis.domain.model.user
 
 data class User(
     val nim: String,

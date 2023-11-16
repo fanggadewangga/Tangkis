@@ -1,14 +1,13 @@
 package com.college.tangkis.feature.activity
 
 import androidx.compose.foundation.gestures.DraggableState
-import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.college.tangkis.data.Resource
-import com.college.tangkis.data.source.remote.model.response.activity.ActivityResponse
 import com.college.tangkis.data.repository.activity.ActivityRepository
+import com.college.tangkis.domain.model.activity.Activity
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
@@ -29,10 +28,10 @@ class ActivityViewModel @Inject constructor(private val activityRepository: Acti
     private val _dragState = MutableLiveData<DraggableState>(draggableState)
     val dragState: LiveData<DraggableState> = _dragState
 
-    private val _inProgressActivityState = MutableStateFlow<Resource<List<com.college.tangkis.data.source.remote.model.response.activity.ActivityResponse>>>(Resource.Empty())
+    private val _inProgressActivityState = MutableStateFlow<Resource<List<Activity>>>(Resource.Empty())
     val inProgressActivityState = _inProgressActivityState.asStateFlow()
 
-    private val _historyActivityState = MutableStateFlow<Resource<List<com.college.tangkis.data.source.remote.model.response.activity.ActivityResponse>>>(Resource.Empty())
+    private val _historyActivityState = MutableStateFlow<Resource<List<Activity>>>(Resource.Empty())
     val historyActivityState = _historyActivityState.asStateFlow()
 
     fun updateTabIndexBasedOnSwipe() {

@@ -11,8 +11,8 @@ import com.college.tangkis.data.repository.article.ArticleRepository
 import com.college.tangkis.data.repository.contact.ContactRepository
 import com.college.tangkis.data.repository.user.UserRepository
 import com.college.tangkis.data.source.remote.model.response.article.ArticleListResponse
-import com.college.tangkis.data.source.remote.model.response.contact.ContactResponse
-import com.college.tangkis.domain.model.User
+import com.college.tangkis.data.source.remote.model.response.contact.EmergencyContactResponse
+import com.college.tangkis.domain.model.user.User
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
@@ -33,7 +33,7 @@ class HomeViewModel @Inject constructor(
     private val _userState = MutableStateFlow<Resource<User>>(Resource.Loading())
     val userState = _userState.asStateFlow()
 
-    private val _contactState = MutableStateFlow<Resource<List<ContactResponse>>>(Resource.Loading())
+    private val _contactState = MutableStateFlow<Resource<List<EmergencyContactResponse>>>(Resource.Loading())
     val contactState = _contactState.asStateFlow()
 
     private val _articleState = MutableStateFlow<Resource<List<ArticleListResponse>>>(Resource.Loading())

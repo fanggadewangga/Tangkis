@@ -21,7 +21,7 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
 import coil.compose.AsyncImage
 import com.college.tangkis.R
-import com.college.tangkis.domain.model.DeviceContact
+import com.college.tangkis.domain.model.contact.DeviceContact
 import com.college.tangkis.theme.Typography
 import com.college.tangkis.theme.md_theme_light_primary
 

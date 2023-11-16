@@ -1,9 +1,8 @@
 package com.college.tangkis.data.repository.article
 
 import android.util.Log
-import com.college.model.response.article.ArticleResponse
+import com.college.tangkis.data.source.remote.model.response.article.ArticleResponse
 import com.college.tangkis.data.Resource
-import com.college.tangkis.data.source.remote.model.response.article.ArticleListResponse
 import com.college.tangkis.data.source.local.TangkisDatastore
 import com.college.tangkis.data.source.remote.ApiService
 import kotlinx.coroutines.Dispatchers
