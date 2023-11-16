@@ -96,20 +96,20 @@ interface ApiService {
         @Header("Authorization") token: String,
         @Path("nim") nim: String,
         @Body body: ReportRequest,
-    ): BaseResponse<AddReportResponse>
+    ): NetworkResponse<BaseResponse<AddReportResponse>, ErrorResponse>
 
     @GET("/user/{nim}/report")
     suspend fun getReports(
         @Header("Authorization") token: String,
         @Path("nim") nim: String,
-    ): BaseResponse<List<ReportListResponse>>
+    ): NetworkResponse<BaseResponse<List<ReportListResponse>>, ErrorResponse>
 
     @GET("/user/{nim}/report/{reportId}")
     suspend fun getReportDetail(
         @Header("Authorization") token: String,
         @Path("nim") nim: String,
         @Path("reportId") reportId: String,
-    ): BaseResponse<ReportDetailResponse>
+    ): NetworkResponse<BaseResponse<ReportDetailResponse>, ErrorResponse>
 
     // Consultation
     @POST("/user/{nim}/consultation")

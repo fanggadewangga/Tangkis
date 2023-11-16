@@ -1,6 +1,7 @@
 package com.college.tangkis.data.source.remote
 
 import com.college.tangkis.data.source.remote.model.request.contact.ContactRequest
+import com.college.tangkis.data.source.remote.model.request.report.ReportRequest
 import com.college.tangkis.data.source.remote.model.request.user.UserLoginRequest
 import com.college.tangkis.data.source.remote.model.request.user.UserPasswordRequest
 import com.college.tangkis.data.source.remote.model.request.user.UserRegisterRequest
@@ -9,6 +10,9 @@ import com.college.tangkis.data.source.remote.model.response.BaseResponse
 import com.college.tangkis.data.source.remote.model.response.ErrorResponse
 import com.college.tangkis.data.source.remote.model.response.activity.ActivityResponse
 import com.college.tangkis.data.source.remote.model.response.contact.EmergencyContactResponse
+import com.college.tangkis.data.source.remote.model.response.report.AddReportResponse
+import com.college.tangkis.data.source.remote.model.response.report.ReportDetailResponse
+import com.college.tangkis.data.source.remote.model.response.report.ReportListResponse
 import com.college.tangkis.data.source.remote.model.response.token.TokenResponse
 import com.college.tangkis.data.source.remote.model.response.user.UserResponse
 import com.haroldadmin.cnradapter.NetworkResponse
@@ -58,6 +62,19 @@ class RemoteDataSource(
 
     suspend fun deleteContact(token: String, nim: String, contactId: String) = object : BaseRemoteResponse<String>() {
         override suspend fun call(): NetworkResponse<BaseResponse<String>, ErrorResponse> = apiService.deleteContact(token, nim, contactId)
+    }.asFlow()
+
+    // Report
+    suspend fun postReport(token: String, nim: String, body: ReportRequest) = object : BaseRemoteResponse<AddReportResponse>() {
+        override suspend fun call(): NetworkResponse<BaseResponse<AddReportResponse>, ErrorResponse> = apiService.postReport(token, nim, body)
+    }.asFlow()
+
+    suspend fun getReports(token: String, nim: String) = object : BaseRemoteResponse<List<ReportListResponse>>() {
+        override suspend fun call(): NetworkResponse<BaseResponse<List<ReportListResponse>>, ErrorResponse> = apiService.getReports(token, nim)
+    }.asFlow()
+
+    suspend fun getReportDetail(token: String, nim: String, reportId: String) = object : BaseRemoteResponse<ReportDetailResponse>() {
+        override suspend fun call(): NetworkResponse<BaseResponse<ReportDetailResponse>, ErrorResponse> = apiService.getReportDetail(token, nim, reportId)
     }.asFlow()
 
     // Activity

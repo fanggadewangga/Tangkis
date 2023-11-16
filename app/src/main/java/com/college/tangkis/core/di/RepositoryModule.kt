@@ -50,8 +50,8 @@ class RepositoryModule {
     @Provides
     fun provideReportRepository(
         datastore: TangkisDatastore,
-        apiService: ApiService,
-    ): ReportRepository = ReportRepositoryImpl(datastore, apiService)
+        remoteDataSource: RemoteDataSource
+    ): ReportRepository = ReportRepositoryImpl(datastore, remoteDataSource)
 
     @Provides
     fun provideActivityRepository(
