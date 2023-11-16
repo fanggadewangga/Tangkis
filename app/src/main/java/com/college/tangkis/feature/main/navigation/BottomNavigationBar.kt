@@ -40,19 +40,26 @@ fun BottomNavigationBar(navController: NavController) {
         navigationItems.forEach { item ->
             NavigationBarItem(
                 colors = NavigationBarItemDefaults.colors(
-                    selectedIconColor = Color.White,
-                    selectedTextColor = Color.White,
-                    unselectedTextColor = Color.White,
-                    unselectedIconColor = Color.White,
+                    selectedIconColor = md_theme_light_primary,
+                    selectedTextColor = md_theme_light_primary,
+                    unselectedTextColor = Color.Gray,
+                    unselectedIconColor = Color.Gray,
                     indicatorColor = Color.White
                 ),
                 icon = {
-                    Icon(
-                        painter = painterResource(id = item.icon),
-                        contentDescription = item.label,
-                        tint = if (currentRoute == item.route) md_theme_light_primary else Color.Gray,
-                        modifier = Modifier.size(24.dp)
-                    )
+                    if (currentRoute == item.route)
+                        Icon(
+                            painter = painterResource(id = item.icon),
+                            contentDescription = item.label,
+                            tint = md_theme_light_primary,
+                            modifier = Modifier.size(24.dp)
+                        )
+                    else
+                        Icon(
+                            painter = painterResource(id = item.icon),
+                            contentDescription = item.label,
+                            modifier = Modifier.size(24.dp)
+                        )
                 },
                 label = {
                     AppText(

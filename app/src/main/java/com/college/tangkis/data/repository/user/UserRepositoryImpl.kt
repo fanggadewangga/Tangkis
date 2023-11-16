@@ -44,25 +44,8 @@ class UserRepositoryImpl @Inject constructor(
 
     override suspend fun deleteNIM() = datastore.deleteNIM()
 
-/*    override suspend fun login(body: UserLoginRequest): Flow<Resource<String>> = flow {
-        emit(Resource.Loading())
-        when(val response = apiService.login(body)) {
-            is NetworkResponse.Success -> {
-                emit(Resource.Success(response.body.message))
-                Log.d("Token", response.body.data!!.toString())
-                saveBearerToken(response.body.data!!.token)
-                saveNIM(body.nim)
-            }
-            is NetworkResponse.Error -> {
-                emit(Resource.Error(response.body?.message))
-            }
-        }
-    }*/
-
     override suspend fun login(body: UserLoginRequest): Flow<Resource<Unit>> = object : NetworkBoundRequest<TokenResponse?>() {
-        override suspend fun createCall(): Flow<RemoteResponse<TokenResponse?>> {
-            return remoteDataSource.login(body)
-        }
+        override suspend fun createCall(): Flow<RemoteResponse<TokenResponse?>> = remoteDataSource.login(body)
         override suspend fun saveCallResult(data: TokenResponse?) {
             if (data != null) {
                 datastore.saveBearerToken(data.token)

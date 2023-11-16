@@ -49,6 +49,8 @@ import com.college.tangkis.theme.md_theme_light_primaryContainer
 import com.college.tangkis.theme.md_theme_light_secondary
 import com.college.tangkis.theme.status_diproses_background
 import com.college.tangkis.theme.status_diproses_text
+import com.college.tangkis.theme.status_selesai_background
+import com.college.tangkis.theme.status_selesai_text
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -185,13 +187,13 @@ fun ReportDetailScreen(navController: NavController, reportId: String) {
                                 .width(80.dp)
                                 .height(28.dp)
                                 .clip(RoundedCornerShape(8.dp))
-                                .background(status_diproses_background),
+                                .background(if (reportDetail.progress == "Diproses") status_diproses_background else status_selesai_background),
                             contentAlignment = Alignment.Center
                         ) {
                             AppText(
                                 text = reportDetail.progress,
                                 textStyle = Typography.labelStatus(),
-                                color = status_diproses_text,
+                                color = if (reportDetail.progress == "Diproses") status_diproses_text else status_selesai_text,
                                 modifier = Modifier
                                     .padding(horizontal = 12.dp, vertical = 3.dp)
                             )

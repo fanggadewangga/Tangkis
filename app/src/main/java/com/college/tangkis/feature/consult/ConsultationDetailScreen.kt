@@ -45,6 +45,8 @@ import com.college.tangkis.feature.main.components.AppText
 import com.college.tangkis.theme.Typography
 import com.college.tangkis.theme.consulationDetail_containerBackground
 import com.college.tangkis.theme.md_theme_light_primary
+import com.college.tangkis.theme.status_diproses_background
+import com.college.tangkis.theme.status_diproses_text
 import com.college.tangkis.theme.status_selesai_background
 import com.college.tangkis.theme.status_selesai_text
 
@@ -147,13 +149,13 @@ fun ConsultationDetailScreen(navController: NavController, consultationId: Strin
                                 .width(80.dp)
                                 .height(28.dp)
                                 .clip(RoundedCornerShape(8.dp))
-                                .background(status_selesai_background),
+                                .background(if (data.progress == "Diproses") status_diproses_background else status_selesai_background),
                             contentAlignment = Alignment.Center
                         ) {
                             AppText(
                                 text = data.progress,
                                 textStyle = Typography.labelLarge(),
-                                color = status_selesai_text,
+                                color = if (data.progress == "Diproses") status_diproses_text else status_selesai_text,
                                 modifier = Modifier
                                     .padding(horizontal = 12.dp, vertical = 3.dp)
                             )
