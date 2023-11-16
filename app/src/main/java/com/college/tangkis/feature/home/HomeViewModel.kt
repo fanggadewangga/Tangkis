@@ -10,7 +10,7 @@ import com.college.tangkis.data.Resource
 import com.college.tangkis.data.repository.article.ArticleRepository
 import com.college.tangkis.data.repository.contact.ContactRepository
 import com.college.tangkis.data.repository.user.UserRepository
-import com.college.tangkis.data.source.remote.model.response.article.ArticleListResponse
+import com.college.tangkis.domain.model.article.ArticleList
 import com.college.tangkis.domain.model.contact.EmergencyContact
 import com.college.tangkis.domain.model.user.User
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -36,7 +36,7 @@ class HomeViewModel @Inject constructor(
     private val _contactState = MutableStateFlow<Resource<List<EmergencyContact>>>(Resource.Loading())
     val contactState = _contactState.asStateFlow()
 
-    private val _articleState = MutableStateFlow<Resource<List<ArticleListResponse>>>(Resource.Loading())
+    private val _articleState = MutableStateFlow<Resource<List<ArticleList>>>(Resource.Loading())
     val articleState = _articleState.asStateFlow()
 
     fun getAddressFromCoordinate(context: Context) {

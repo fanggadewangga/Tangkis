@@ -10,6 +10,8 @@ import com.college.tangkis.data.source.remote.model.request.user.UserWhatsappReq
 import com.college.tangkis.data.source.remote.model.response.BaseResponse
 import com.college.tangkis.data.source.remote.model.response.ErrorResponse
 import com.college.tangkis.data.source.remote.model.response.activity.ActivityResponse
+import com.college.tangkis.data.source.remote.model.response.article.ArticleListResponse
+import com.college.tangkis.data.source.remote.model.response.article.ArticleDetailResponse
 import com.college.tangkis.data.source.remote.model.response.consultation.AddConsultationResponse
 import com.college.tangkis.data.source.remote.model.response.consultation.ConsultationDetailResponse
 import com.college.tangkis.data.source.remote.model.response.consultation.ConsultationListResponse
@@ -92,6 +94,19 @@ class RemoteDataSource(
 
     suspend fun getConsultationDetail(token: String, nim: String, consultationId: String) = object : BaseRemoteResponse<ConsultationDetailResponse>() {
         override suspend fun call(): NetworkResponse<BaseResponse<ConsultationDetailResponse>, ErrorResponse> = apiService.getConsultationDetail(token, nim, consultationId)
+    }.asFlow()
+
+    // Article
+    suspend fun getArticles(token: String) = object : BaseRemoteResponse<List<ArticleListResponse>>() {
+        override suspend fun call(): NetworkResponse<BaseResponse<List<ArticleListResponse>>, ErrorResponse> = apiService.getArticles(token)
+    }.asFlow()
+
+    suspend fun searchArticle(token: String, query: String) = object : BaseRemoteResponse<List<ArticleListResponse>>() {
+        override suspend fun call(): NetworkResponse<BaseResponse<List<ArticleListResponse>>, ErrorResponse> = apiService.searchArticle(token, query)
+    }.asFlow()
+
+    suspend fun getArticleDetail(token: String, articleId: String) = object : BaseRemoteResponse<ArticleDetailResponse>() {
+        override suspend fun call(): NetworkResponse<BaseResponse<ArticleDetailResponse>, ErrorResponse> = apiService.getArticleDetail(token, articleId)
     }.asFlow()
 
     // Activity

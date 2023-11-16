@@ -26,13 +26,13 @@ import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import coil.compose.AsyncImage
 import com.college.tangkis.R
-import com.college.tangkis.data.source.remote.model.response.article.ArticleListResponse
+import com.college.tangkis.domain.model.article.ArticleList
 import com.college.tangkis.theme.Typography
 
 @Composable
 fun HomeArticleItem(
     modifier: Modifier = Modifier,
-    article: com.college.tangkis.data.source.remote.model.response.article.ArticleListResponse,
+    article: ArticleList,
     onClick: (String) -> Unit,
 ) {
     Card(
@@ -94,7 +94,7 @@ fun HomeArticleItem(
 @Composable
 fun ArticleItem(
     modifier: Modifier = Modifier,
-    article: com.college.tangkis.data.source.remote.model.response.article.ArticleListResponse,
+    article: ArticleList,
     onClick: (String) -> Unit,
 ) {
     Column(modifier = modifier.clickable { onClick(article.articleId) }) {

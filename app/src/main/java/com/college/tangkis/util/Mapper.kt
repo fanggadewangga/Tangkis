@@ -1,6 +1,8 @@
 package com.college.tangkis.util
 
 import com.college.tangkis.data.source.remote.model.response.activity.ActivityResponse
+import com.college.tangkis.data.source.remote.model.response.article.ArticleDetailResponse
+import com.college.tangkis.data.source.remote.model.response.article.ArticleListResponse
 import com.college.tangkis.data.source.remote.model.response.consultation.AddConsultationResponse
 import com.college.tangkis.data.source.remote.model.response.consultation.ConsultationDetailResponse
 import com.college.tangkis.data.source.remote.model.response.consultation.ConsultationListResponse
@@ -10,6 +12,8 @@ import com.college.tangkis.data.source.remote.model.response.report.ReportDetail
 import com.college.tangkis.data.source.remote.model.response.report.ReportListResponse
 import com.college.tangkis.data.source.remote.model.response.user.UserResponse
 import com.college.tangkis.domain.model.activity.Activity
+import com.college.tangkis.domain.model.article.ArticleDetail
+import com.college.tangkis.domain.model.article.ArticleList
 import com.college.tangkis.domain.model.consultation.AddConsultation
 import com.college.tangkis.domain.model.consultation.ConsultationDetail
 import com.college.tangkis.domain.model.consultation.ConsultationList
@@ -86,4 +90,19 @@ fun ConsultationDetailResponse.toConsultation() = ConsultationDetail(
     this.time,
     this.createdAt,
     this.updatedAt
+)
+
+fun ArticleListResponse.toArticleList() = ArticleList(
+    this.articleId,
+    this.title,
+    this.content,
+    this.imageUrl
+)
+
+fun ArticleDetailResponse.toArticleDetail() = ArticleDetail(
+    this.articleId,
+    this.title,
+    this.content,
+    this.imageUrl,
+    this.date
 )

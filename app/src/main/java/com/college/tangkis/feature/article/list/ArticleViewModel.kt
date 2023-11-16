@@ -4,8 +4,8 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.college.tangkis.data.Resource
-import com.college.tangkis.data.source.remote.model.response.article.ArticleListResponse
 import com.college.tangkis.data.repository.article.ArticleRepository
+import com.college.tangkis.domain.model.article.ArticleList
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
@@ -17,7 +17,7 @@ class ArticleViewModel @Inject constructor(private val articleRepository: Articl
     val isError = mutableStateOf(false)
     val searchQuery = mutableStateOf("")
 
-    private val _articleState = MutableStateFlow<Resource<List<com.college.tangkis.data.source.remote.model.response.article.ArticleListResponse>>>(Resource.Loading())
+    private val _articleState = MutableStateFlow<Resource<List<ArticleList>>>(Resource.Loading())
     val articleState = _articleState.asStateFlow()
 
     private fun getArticle() {

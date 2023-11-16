@@ -11,7 +11,7 @@ import com.college.tangkis.data.source.remote.model.response.BaseResponse
 import com.college.tangkis.data.source.remote.model.response.ErrorResponse
 import com.college.tangkis.data.source.remote.model.response.activity.ActivityResponse
 import com.college.tangkis.data.source.remote.model.response.article.ArticleListResponse
-import com.college.tangkis.data.source.remote.model.response.article.ArticleResponse
+import com.college.tangkis.data.source.remote.model.response.article.ArticleDetailResponse
 import com.college.tangkis.data.source.remote.model.response.consultation.AddConsultationResponse
 import com.college.tangkis.data.source.remote.model.response.consultation.ConsultationDetailResponse
 import com.college.tangkis.data.source.remote.model.response.consultation.ConsultationListResponse
@@ -136,19 +136,19 @@ interface ApiService {
     @GET("/article")
     suspend fun getArticles(
         @Header("Authorization") token: String,
-    ): BaseResponse<List<ArticleListResponse>>
+    ): NetworkResponse<BaseResponse<List<ArticleListResponse>>, ErrorResponse>
 
     @GET("/article")
     suspend fun searchArticle(
         @Header("Authorization") token: String,
         @Query("q") query: String,
-    ): BaseResponse<List<ArticleListResponse>>
+    ): NetworkResponse<BaseResponse<List<ArticleListResponse>>, ErrorResponse>
 
     @GET("/article/{articleId}")
     suspend fun getArticleDetail(
         @Header("Authorization") token: String,
         @Path("articleId") articleId: String,
-    ): BaseResponse<ArticleResponse>
+    ): NetworkResponse<BaseResponse<ArticleDetailResponse>, ErrorResponse>
 
     // Activity
     @GET("/user/{nim}/activity/progress")
