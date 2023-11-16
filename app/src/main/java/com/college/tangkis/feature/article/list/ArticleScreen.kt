@@ -9,7 +9,6 @@ import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Search
-import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
@@ -31,6 +30,7 @@ import com.college.tangkis.data.Resource
 import com.college.tangkis.feature.main.components.AppSearchField
 import com.college.tangkis.feature.main.components.AppText
 import com.college.tangkis.feature.main.components.ArticleItem
+import com.college.tangkis.feature.main.components.ArticleItemShimmer
 import com.college.tangkis.feature.main.components.ErrorLayout
 import com.college.tangkis.feature.main.route.Screen
 import com.college.tangkis.theme.Typography
@@ -96,8 +96,10 @@ fun ArticleScreen(navController: NavController) {
 
             when (articleState.value) {
                 is Resource.Loading -> {
-                    Box(contentAlignment = Alignment.Center, modifier = Modifier.fillMaxSize()) {
-                        CircularProgressIndicator(color = md_theme_light_primary)
+                    LazyColumn(modifier = Modifier.padding(top = 16.dp)) {
+                        items(7) {
+                            ArticleItemShimmer()
+                        }
                     }
                 }
 

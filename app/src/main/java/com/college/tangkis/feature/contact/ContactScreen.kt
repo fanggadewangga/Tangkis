@@ -23,7 +23,6 @@ import androidx.compose.material.ModalBottomSheetValue
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Search
 import androidx.compose.material.rememberModalBottomSheetState
-import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
@@ -53,6 +52,7 @@ import com.college.tangkis.feature.main.components.AppDialog
 import com.college.tangkis.feature.main.components.AppSearchField
 import com.college.tangkis.feature.main.components.AppText
 import com.college.tangkis.feature.main.components.EmergencyContactItem
+import com.college.tangkis.feature.main.components.EmergencyContactItemShimmer
 import com.college.tangkis.feature.main.components.ErrorLayout
 import com.college.tangkis.feature.main.components.LocalContactItem
 import com.college.tangkis.theme.Typography
@@ -269,11 +269,16 @@ fun ContactScreen(navController: NavController) {
 
                 when (contactState.value) {
                     is Resource.Loading -> {
-                        Box(
-                            contentAlignment = Alignment.BottomCenter,
-                            modifier = Modifier.fillMaxWidth()
+                        LazyColumn(
+                            modifier = Modifier.padding(
+                                start = 16.dp,
+                                top = topPadding + 16.dp,
+                                end = 16.dp
+                            )
                         ) {
-                            CircularProgressIndicator(color = md_theme_light_primary)
+                            items(5) {
+                                EmergencyContactItemShimmer(modifier = Modifier.padding(top = 8.dp))
+                            }
                         }
                     }
 

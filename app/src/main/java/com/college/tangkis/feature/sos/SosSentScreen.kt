@@ -53,6 +53,7 @@ import com.college.tangkis.data.Resource
 import com.college.tangkis.feature.main.components.AppButton
 import com.college.tangkis.feature.main.components.AppText
 import com.college.tangkis.feature.main.components.ContactReceiverItem
+import com.college.tangkis.feature.main.components.ContactReceiverItemShimmer
 import com.college.tangkis.feature.main.utils.getCurrentLocation
 import com.college.tangkis.theme.Typography
 import com.college.tangkis.theme.md_theme_light_primary
@@ -309,7 +310,11 @@ fun SosSentScreen(navController: NavController) {
                 )
                 Spacer(modifier = Modifier.height(16.dp))
                 LazyRow(modifier = Modifier.padding(horizontal = 16.dp)) {
-                    if (contactState.value is Resource.Success)
+                    if (contactState.value is Resource.Loading) {
+                        items(5) {
+                            ContactReceiverItemShimmer(modifier = Modifier.padding(end = 8.dp))
+                        }
+                    } else if (contactState.value is Resource.Success)
                         items(contactState.value.data!!) { contact ->
                             ContactReceiverItem(
                                 contactName = contact.name,

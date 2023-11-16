@@ -47,7 +47,9 @@ import com.college.tangkis.R
 import com.college.tangkis.data.Resource
 import com.college.tangkis.feature.main.components.AppText
 import com.college.tangkis.feature.main.components.EmergencyContactItem
+import com.college.tangkis.feature.main.components.EmergencyContactItemShimmer
 import com.college.tangkis.feature.main.components.HomeArticleItem
+import com.college.tangkis.feature.main.components.HomeArticleItemShimmer
 import com.college.tangkis.feature.main.components.ServiceItem
 import com.college.tangkis.feature.main.navigation.BottomNavigationBar
 import com.college.tangkis.feature.main.route.Screen
@@ -55,6 +57,9 @@ import com.college.tangkis.feature.main.utils.getCurrentLocation
 import com.college.tangkis.theme.Typography
 import com.college.tangkis.theme.md_theme_light_primary
 import com.college.tangkis.theme.md_theme_light_secondary
+import com.google.accompanist.placeholder.PlaceholderHighlight
+import com.google.accompanist.placeholder.placeholder
+import com.google.accompanist.placeholder.shimmer
 import com.google.accompanist.systemuicontroller.rememberSystemUiController
 
 @Composable
@@ -163,11 +168,18 @@ fun HomeScreen(navController: NavController) {
 
                         // username
                         AppText(
-                            text = if (userState.value is Resource.Success) "Selamat datang ${userState.value.data!!.name}" else "",
+                            text = if (userState.value is Resource.Success) "Selamat datang ${userState.value.data!!.name}" else "Username",
                             textStyle = Typography.titleMedium(),
                             color = Color.White,
                             maxLine = 1,
-                            overflow = TextOverflow.Ellipsis
+                            overflow = TextOverflow.Ellipsis,
+                            modifier = Modifier.placeholder(
+                                visible = userState.value is Resource.Loading,
+                                color = Color.LightGray,
+                                highlight = PlaceholderHighlight
+                                    .shimmer(highlightColor = Color.White),
+                                shape = RoundedCornerShape(8.dp)
+                            )
                         )
 
                         // location
@@ -258,7 +270,15 @@ fun HomeScreen(navController: NavController) {
                     )
 
                     Spacer(modifier = Modifier.height(16.dp))
-                    if (contactState.value is Resource.Success)
+                    if (contactState.value is Resource.Loading)
+                        repeat(5) {
+                            EmergencyContactItemShimmer(
+                                modifier = Modifier
+                                    .fillMaxWidth()
+                                    .padding(bottom = 8.dp)
+                            )
+                        }
+                    else if (contactState.value is Resource.Success)
                         contactState.value.data!!.forEach { contact ->
                             EmergencyContactItem(
                                 contact = contact,
@@ -294,7 +314,11 @@ fun HomeScreen(navController: NavController) {
 
                     Spacer(modifier = Modifier.height(16.dp))
                     LazyRow {
-                        if (articleState.value is Resource.Success)
+                        if (articleState.value is Resource.Loading)
+                            items(3) {
+                                HomeArticleItemShimmer(modifier = Modifier.padding(end = 16.dp))
+                            }
+                        else if (articleState.value is Resource.Success)
                             items(articleState.value.data!!) { article ->
                                 HomeArticleItem(
                                     article = article,

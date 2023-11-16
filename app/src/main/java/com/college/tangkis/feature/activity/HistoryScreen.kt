@@ -9,7 +9,6 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
-import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.ui.Alignment
@@ -20,9 +19,9 @@ import androidx.navigation.NavController
 import com.college.tangkis.R
 import com.college.tangkis.data.Resource
 import com.college.tangkis.feature.main.components.ActivityItem
+import com.college.tangkis.feature.main.components.ActivityItemShimmer
 import com.college.tangkis.feature.main.components.ErrorLayout
 import com.college.tangkis.feature.main.route.Screen
-import com.college.tangkis.theme.md_theme_light_primary
 
 @Composable
 fun HistoryScreen(viewModel: ActivityViewModel, navController: NavController) {
@@ -55,8 +54,10 @@ fun HistoryScreen(viewModel: ActivityViewModel, navController: NavController) {
 
         when (historyActivityState.value) {
             is Resource.Loading -> {
-                Box(contentAlignment = Alignment.Center, modifier = Modifier.fillMaxSize()) {
-                    CircularProgressIndicator(color = md_theme_light_primary)
+                LazyColumn(modifier = Modifier.padding(top = 16.dp)) {
+                    items(5) {
+                        ActivityItemShimmer()
+                    }
                 }
             }
 

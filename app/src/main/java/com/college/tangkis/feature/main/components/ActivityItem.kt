@@ -79,6 +79,7 @@ fun ActivityItem(
 
 @Composable
 fun StatusBox(
+    modifier: Modifier = Modifier,
     progress: String,
 ) {
     val backgroundColor: Color =
@@ -87,7 +88,7 @@ fun StatusBox(
 
     Box(
         contentAlignment = Alignment.Center,
-        modifier = Modifier
+        modifier = modifier
             .background(color = backgroundColor, shape = RoundedCornerShape(8.dp))
             .width(80.dp)
             .height(28.dp)
