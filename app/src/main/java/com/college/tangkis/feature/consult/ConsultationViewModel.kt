@@ -11,7 +11,8 @@ import androidx.lifecycle.viewModelScope
 import com.college.tangkis.data.Resource
 import com.college.tangkis.data.repository.consultation.ConsultationRepository
 import com.college.tangkis.data.repository.user.UserRepository
-import com.college.tangkis.data.source.remote.model.response.consultation.AddConsultationResponse
+import com.college.tangkis.data.source.remote.model.request.consultation.ConsultationRequest
+import com.college.tangkis.domain.model.consultation.AddConsultation
 import com.college.tangkis.domain.model.user.User
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -47,7 +48,7 @@ class ConsultationViewModel @Inject constructor(
     private val _userState = MutableStateFlow<Resource<User>>(Resource.Loading())
     val userState = _userState.asStateFlow()
 
-    private val _addConsultationState = MutableStateFlow<Resource<AddConsultationResponse?>>(Resource.Empty())
+    private val _addConsultationState = MutableStateFlow<Resource<AddConsultation>>(Resource.Empty())
     val addConsultationState = _addConsultationState.asStateFlow()
 
     private fun getUserData() {
@@ -64,7 +65,7 @@ class ConsultationViewModel @Inject constructor(
     fun addConsultation() {
         viewModelScope.launch {
             val consultationBody =
-                com.college.tangkis.data.source.remote.model.request.consultation.ConsultationRequest(
+                ConsultationRequest(
                     story = story.value,
                     counselorChoice = selectedCounselingType.intValue,
                     consultationType = selectedCounselingType.intValue,

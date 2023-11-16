@@ -117,20 +117,20 @@ interface ApiService {
         @Header("Authorization") token: String,
         @Path("nim") nim: String,
         @Body body: ConsultationRequest,
-    ): BaseResponse<AddConsultationResponse>
+    ): NetworkResponse<BaseResponse<AddConsultationResponse>, ErrorResponse>
 
     @GET("/user/{nim}/consultation")
     suspend fun getConsultations(
         @Header("Authorization") token: String,
         @Path("nim") nim: String,
-    ): BaseResponse<List<ConsultationListResponse>>
+    ): NetworkResponse<BaseResponse<List<ConsultationListResponse>>, ErrorResponse>
 
     @GET("/user/{nim}/consultation/{consultationId}")
     suspend fun getConsultationDetail(
         @Header("Authorization") token: String,
         @Path("nim") nim: String,
         @Path("consultationId") consultationId: String,
-    ): BaseResponse<ConsultationDetailResponse>
+    ): NetworkResponse<BaseResponse<ConsultationDetailResponse>, ErrorResponse>
 
     // Article
     @GET("/article")

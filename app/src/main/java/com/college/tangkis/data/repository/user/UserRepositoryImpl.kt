@@ -16,7 +16,6 @@ import com.college.tangkis.domain.model.user.User
 import com.college.tangkis.util.toUser
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.first
-import kotlinx.coroutines.flow.firstOrNull
 import javax.inject.Inject
 
 class UserRepositoryImpl @Inject constructor(
@@ -75,7 +74,7 @@ class UserRepositoryImpl @Inject constructor(
             NetworkOnlyResource<User, UserResponse?>() {
             override suspend fun createCall(): Flow<RemoteResponse<UserResponse?>> {
                 val token = "Bearer ${datastore.readBearerToken().first()}"
-                val nim = datastore.readNIM().firstOrNull().orEmpty()
+                val nim = datastore.readNIM().first()
                 return remoteDataSource.getUserDetail(token, nim)
             }
 
@@ -87,7 +86,7 @@ class UserRepositoryImpl @Inject constructor(
         object : NetworkOnlyResource<Unit, String?>() {
             override suspend fun createCall(): Flow<RemoteResponse<String?>> {
                 val token = "Bearer ${datastore.readBearerToken().first()}"
-                val nim = datastore.readNIM().firstOrNull().orEmpty()
+                val nim = datastore.readNIM().first()
                 return remoteDataSource.changePassword(token, nim, body)
             }
 

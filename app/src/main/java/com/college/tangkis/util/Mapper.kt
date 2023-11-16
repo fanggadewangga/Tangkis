@@ -1,12 +1,18 @@
 package com.college.tangkis.util
 
 import com.college.tangkis.data.source.remote.model.response.activity.ActivityResponse
+import com.college.tangkis.data.source.remote.model.response.consultation.AddConsultationResponse
+import com.college.tangkis.data.source.remote.model.response.consultation.ConsultationDetailResponse
+import com.college.tangkis.data.source.remote.model.response.consultation.ConsultationListResponse
 import com.college.tangkis.data.source.remote.model.response.contact.EmergencyContactResponse
 import com.college.tangkis.data.source.remote.model.response.report.AddReportResponse
 import com.college.tangkis.data.source.remote.model.response.report.ReportDetailResponse
 import com.college.tangkis.data.source.remote.model.response.report.ReportListResponse
 import com.college.tangkis.data.source.remote.model.response.user.UserResponse
 import com.college.tangkis.domain.model.activity.Activity
+import com.college.tangkis.domain.model.consultation.AddConsultation
+import com.college.tangkis.domain.model.consultation.ConsultationDetail
+import com.college.tangkis.domain.model.consultation.ConsultationList
 import com.college.tangkis.domain.model.contact.EmergencyContact
 import com.college.tangkis.domain.model.report.AddReport
 import com.college.tangkis.domain.model.report.ReportDetail
@@ -56,4 +62,28 @@ fun ReportDetailResponse.toReportDetail() = ReportDetail(
     this.consultationId,
     this.progress,
     this.date
+)
+
+fun AddConsultationResponse.toAddConsultation() = AddConsultation(
+    this.consultationId
+)
+
+fun ConsultationListResponse.toConsultationList() = ConsultationList(
+    this.consultationId,
+    this.title,
+    this.updatedAt
+)
+
+fun ConsultationDetailResponse.toConsultation() = ConsultationDetail(
+    this.consultationId,
+    this.title,
+    this.uid,
+    this.story,
+    this.progress,
+    this.counselorChoice,
+    this.consultationType,
+    this.date,
+    this.time,
+    this.createdAt,
+    this.updatedAt
 )
