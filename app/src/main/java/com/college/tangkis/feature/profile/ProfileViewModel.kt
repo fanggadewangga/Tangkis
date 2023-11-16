@@ -4,8 +4,8 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.college.tangkis.data.Resource
-import com.college.tangkis.data.model.response.user.UserResponse
 import com.college.tangkis.data.repository.user.UserRepository
+import com.college.tangkis.domain.model.User
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
@@ -18,10 +18,10 @@ class ProfileViewModel @Inject constructor(private val userRepository: UserRepos
     val isError = mutableStateOf(false)
     val showLogoutDialog = mutableStateOf(false)
 
-    private val _profileState = MutableStateFlow<Resource<UserResponse?>>(Resource.Loading())
+    private val _profileState = MutableStateFlow<Resource<User>>(Resource.Loading())
     val profileState = _profileState.asStateFlow()
 
-    private val _logoutState = MutableStateFlow<Resource<String>>(Resource.Empty())
+    private val _logoutState = MutableStateFlow<Resource<Unit>>(Resource.Empty())
     val logoutState = _logoutState.asStateFlow()
 
     private fun getProfileData() {

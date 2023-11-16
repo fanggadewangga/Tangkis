@@ -2,23 +2,20 @@ package com.college.tangkis.feature.home
 
 import android.content.Context
 import android.location.Geocoder
-import android.util.Log
-import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.mutableDoubleStateOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.college.tangkis.data.Resource
-import com.college.tangkis.data.model.response.article.ArticleListResponse
-import com.college.tangkis.data.model.response.contact.ContactResponse
-import com.college.tangkis.data.model.response.user.UserResponse
 import com.college.tangkis.data.repository.article.ArticleRepository
 import com.college.tangkis.data.repository.contact.ContactRepository
 import com.college.tangkis.data.repository.user.UserRepository
+import com.college.tangkis.data.source.remote.model.response.article.ArticleListResponse
+import com.college.tangkis.data.source.remote.model.response.contact.ContactResponse
+import com.college.tangkis.domain.model.User
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
-import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
@@ -33,7 +30,7 @@ class HomeViewModel @Inject constructor(
     val userLonState = mutableDoubleStateOf(0.0)
     val userAddress = mutableStateOf("")
 
-    private val _userState = MutableStateFlow<Resource<UserResponse?>>(Resource.Loading())
+    private val _userState = MutableStateFlow<Resource<User>>(Resource.Loading())
     val userState = _userState.asStateFlow()
 
     private val _contactState = MutableStateFlow<Resource<List<ContactResponse>>>(Resource.Loading())

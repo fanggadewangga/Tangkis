@@ -12,7 +12,7 @@ abstract class NetworkOnlyResource<ResultType, RequestType> {
     private val result: Flow<Resource<ResultType>> = flow {
         emit(Resource.Loading())
         when (val apiResponse = createCall().first()) {
-            is RemoteResponse.Success<RequestType> -> {
+            is RemoteResponse.Success -> {
                 Log.d("Network only resource", apiResponse.data.toString())
                 emit(Resource.Success(mapTransform(apiResponse.data)))
             }

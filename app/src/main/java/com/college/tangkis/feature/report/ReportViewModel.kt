@@ -9,12 +9,10 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.college.tangkis.data.Resource
-import com.college.tangkis.data.model.request.consultation.ConsultationRequest
-import com.college.tangkis.data.model.request.report.ReportRequest
-import com.college.tangkis.data.model.response.report.AddReportResponse
-import com.college.tangkis.data.model.response.user.UserResponse
 import com.college.tangkis.data.repository.report.ReportRepository
 import com.college.tangkis.data.repository.user.UserRepository
+import com.college.tangkis.data.source.remote.model.response.report.AddReportResponse
+import com.college.tangkis.domain.model.User
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
@@ -45,7 +43,7 @@ class ReportViewModel @Inject constructor(
         DateTimeFormatter.ofPattern("MM/dd/yyy").format(pickedDate.value)
     }
 
-    private val _userState = MutableStateFlow<Resource<UserResponse?>>(Resource.Loading())
+    private val _userState = MutableStateFlow<Resource<User>>(Resource.Loading())
     val userState = _userState.asStateFlow()
 
     private val _reportState = MutableStateFlow<Resource<AddReportResponse?>>(Resource.Empty())
@@ -64,16 +62,18 @@ class ReportViewModel @Inject constructor(
     @SuppressLint("NewApi")
     fun sentReport() {
         viewModelScope.launch {
-            var consultationBody: ConsultationRequest? = null
+            var consultationBody: com.college.tangkis.data.source.remote.model.request.consultation.ConsultationRequest? = null
             if (isNeedAccompaniment.value) {
-                consultationBody = ConsultationRequest(
-                    story = story.value,
-                    consultationType = accompanimentTypeIndex.intValue,
-                    date = formattedDate.value,
-                    time = selectedTimeId.value
-                )
+                consultationBody =
+                    com.college.tangkis.data.source.remote.model.request.consultation.ConsultationRequest(
+                        story = story.value,
+                        consultationType = accompanimentTypeIndex.intValue,
+                        date = formattedDate.value,
+                        time = selectedTimeId.value
+                    )
             }
-            val reportBody = ReportRequest(
+            val reportBody =
+                com.college.tangkis.data.source.remote.model.request.report.ReportRequest(
                     story = story.value,
                     isNeedConsultation = isNeedAccompaniment.value,
                     consultation = consultationBody

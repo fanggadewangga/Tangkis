@@ -10,7 +10,7 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.college.tangkis.data.Resource
-import com.college.tangkis.data.model.response.contact.ContactResponse
+import com.college.tangkis.data.source.remote.model.response.contact.ContactResponse
 import com.college.tangkis.data.repository.contact.ContactRepository
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -30,7 +30,7 @@ class SosViewModel @Inject constructor(private val contactRepository: ContactRep
     val userAddress = mutableStateOf("")
     val isSMSPermissionGranted = mutableStateOf(false)
 
-    private val _contactState = MutableStateFlow<Resource<List<ContactResponse>>>(Resource.Loading())
+    private val _contactState = MutableStateFlow<Resource<List<com.college.tangkis.data.source.remote.model.response.contact.ContactResponse>>>(Resource.Loading())
     val contactState = _contactState.asStateFlow()
 
     fun getAddressFromCoordinate(context: Context) {

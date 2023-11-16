@@ -18,13 +18,13 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
 import coil.compose.AsyncImage
 import com.college.tangkis.R
-import com.college.tangkis.data.model.response.contact.ContactResponse
+import com.college.tangkis.data.source.remote.model.response.contact.ContactResponse
 import com.college.tangkis.theme.Typography
 
 @Composable
 fun EmergencyContactItem(
     modifier: Modifier = Modifier,
-    contact: ContactResponse,
+    contact: com.college.tangkis.data.source.remote.model.response.contact.ContactResponse,
     isDeletable: Boolean = false,
     onDeleteClicked: ((String, String) -> Unit)? = null
 ) {

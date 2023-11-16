@@ -2,7 +2,7 @@ package com.college.tangkis.data.repository.activity
 
 import android.util.Log
 import com.college.tangkis.data.Resource
-import com.college.tangkis.data.model.response.activity.ActivityResponse
+import com.college.tangkis.data.source.remote.model.response.activity.ActivityResponse
 import com.college.tangkis.data.source.local.TangkisDatastore
 import com.college.tangkis.data.source.remote.ApiService
 import kotlinx.coroutines.flow.Flow
@@ -14,7 +14,7 @@ class ActivityRepositoryImpl @Inject constructor(
     private val datastore: TangkisDatastore,
     private val apiService: ApiService,
 ) : ActivityRepository {
-    override suspend fun getInProgressActivity(): Flow<Resource<List<ActivityResponse>>> = flow {
+    override suspend fun getInProgressActivity(): Flow<Resource<List<com.college.tangkis.data.source.remote.model.response.activity.ActivityResponse>>> = flow {
         emit(Resource.Loading())
         try {
             val token = "Bearer ${datastore.readBearerToken().first()}"
@@ -33,7 +33,7 @@ class ActivityRepositoryImpl @Inject constructor(
         }
     }
 
-    override suspend fun getHistoryActivity(): Flow<Resource<List<ActivityResponse>>> = flow {
+    override suspend fun getHistoryActivity(): Flow<Resource<List<com.college.tangkis.data.source.remote.model.response.activity.ActivityResponse>>> = flow {
         emit(Resource.Loading())
         try {
             val token = "Bearer ${datastore.readBearerToken().first()}"

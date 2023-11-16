@@ -3,7 +3,7 @@ package com.college.tangkis.data.repository.article
 import android.util.Log
 import com.college.model.response.article.ArticleResponse
 import com.college.tangkis.data.Resource
-import com.college.tangkis.data.model.response.article.ArticleListResponse
+import com.college.tangkis.data.source.remote.model.response.article.ArticleListResponse
 import com.college.tangkis.data.source.local.TangkisDatastore
 import com.college.tangkis.data.source.remote.ApiService
 import kotlinx.coroutines.Dispatchers
@@ -17,7 +17,7 @@ class ArticleRepositoryImpl @Inject constructor(
     private val datastore: TangkisDatastore,
     private val apiService: ApiService,
 ) : ArticleRepository {
-    override suspend fun getArticles(query: String?): Flow<Resource<List<ArticleListResponse>>> =
+    override suspend fun getArticles(query: String?): Flow<Resource<List<com.college.tangkis.data.source.remote.model.response.article.ArticleListResponse>>> =
         flow {
             emit(Resource.Loading())
             try {

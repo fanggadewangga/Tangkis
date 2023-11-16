@@ -21,7 +21,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
-import com.college.tangkis.data.model.response.activity.ActivityResponse
+import com.college.tangkis.data.source.remote.model.response.activity.ActivityResponse
 import com.college.tangkis.theme.Typography
 import com.college.tangkis.theme.status_diproses_background
 import com.college.tangkis.theme.status_diproses_text
@@ -32,7 +32,7 @@ import com.college.tangkis.theme.status_selesai_text
 @Composable
 fun ActivityItem(
     modifier: Modifier = Modifier,
-    activity: ActivityResponse,
+    activity: com.college.tangkis.data.source.remote.model.response.activity.ActivityResponse,
     navigateToReportDetail: () -> Unit,
     navigateToConsultationDetail: () -> Unit,
 ) {

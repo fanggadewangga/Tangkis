@@ -5,7 +5,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.college.model.response.article.ArticleResponse
 import com.college.tangkis.data.Resource
-import com.college.tangkis.data.model.response.article.ArticleListResponse
+import com.college.tangkis.data.source.remote.model.response.article.ArticleListResponse
 import com.college.tangkis.data.repository.article.ArticleRepository
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow

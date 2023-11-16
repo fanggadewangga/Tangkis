@@ -2,10 +2,10 @@ package com.college.tangkis.data.repository.report
 
 import android.util.Log
 import com.college.tangkis.data.Resource
-import com.college.tangkis.data.model.request.report.ReportRequest
-import com.college.tangkis.data.model.response.report.AddReportResponse
-import com.college.tangkis.data.model.response.report.ReportDetailResponse
-import com.college.tangkis.data.model.response.report.ReportResponse
+import com.college.tangkis.data.source.remote.model.request.report.ReportRequest
+import com.college.tangkis.data.source.remote.model.response.report.AddReportResponse
+import com.college.tangkis.data.source.remote.model.response.report.ReportDetailResponse
+import com.college.tangkis.data.source.remote.model.response.report.ReportResponse
 import com.college.tangkis.data.source.local.TangkisDatastore
 import com.college.tangkis.data.source.remote.ApiService
 import kotlinx.coroutines.Dispatchers
@@ -19,7 +19,7 @@ class ReportRepositoryImpl @Inject constructor(
     private val datastore: TangkisDatastore,
     private val apiService: ApiService,
 ) : ReportRepository {
-    override suspend fun addReport(body: ReportRequest): Flow<Resource<AddReportResponse?>> = flow {
+    override suspend fun addReport(body: com.college.tangkis.data.source.remote.model.request.report.ReportRequest): Flow<Resource<com.college.tangkis.data.source.remote.model.response.report.AddReportResponse?>> = flow {
         emit(Resource.Loading())
         try {
             val token = "Bearer ${datastore.readBearerToken().first()}"
@@ -38,7 +38,7 @@ class ReportRepositoryImpl @Inject constructor(
         }
     }.flowOn(Dispatchers.IO)
 
-    override suspend fun getReports(): Flow<Resource<List<ReportResponse>>> =
+    override suspend fun getReports(): Flow<Resource<List<com.college.tangkis.data.source.remote.model.response.report.ReportResponse>>> =
         flow {
             emit(Resource.Loading())
             try {
@@ -58,7 +58,7 @@ class ReportRepositoryImpl @Inject constructor(
             }
         }.flowOn(Dispatchers.IO)
 
-    override suspend fun getReportDetail(reportId: String): Flow<Resource<ReportDetailResponse>> =
+    override suspend fun getReportDetail(reportId: String): Flow<Resource<com.college.tangkis.data.source.remote.model.response.report.ReportDetailResponse>> =
         flow {
             emit(Resource.Loading())
             try {

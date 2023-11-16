@@ -26,9 +26,8 @@ class RepositoryModule {
     @Provides
     fun provideUserRepository(
         datastore: TangkisDatastore,
-        apiService: ApiService,
         remoteDataSource: RemoteDataSource
-    ): UserRepository = UserRepositoryImpl(datastore, apiService, remoteDataSource)
+    ): UserRepository = UserRepositoryImpl(datastore, remoteDataSource)
 
     @Provides
     fun provideArticleRepository(

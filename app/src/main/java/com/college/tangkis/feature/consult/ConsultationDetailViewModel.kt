@@ -4,7 +4,7 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.college.tangkis.data.Resource
-import com.college.tangkis.data.model.response.consultation.ConsultationDetailResponse
+import com.college.tangkis.data.source.remote.model.response.consultation.ConsultationDetailResponse
 import com.college.tangkis.data.repository.consultation.ConsultationRepository
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -16,7 +16,7 @@ import javax.inject.Inject
 class ConsultationDetailViewModel @Inject constructor(private val consultationRepository: ConsultationRepository) : ViewModel() {
     val isError = mutableStateOf(true)
 
-    private val _consultationDetailState = MutableStateFlow<Resource<ConsultationDetailResponse>>(Resource.Loading())
+    private val _consultationDetailState = MutableStateFlow<Resource<com.college.tangkis.data.source.remote.model.response.consultation.ConsultationDetailResponse>>(Resource.Loading())
     val consultationDetailState = _consultationDetailState.asStateFlow()
 
     fun getConsultationDetail(consultationId: String = "") {

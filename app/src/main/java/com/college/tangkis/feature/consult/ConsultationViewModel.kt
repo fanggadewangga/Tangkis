@@ -9,11 +9,10 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.college.tangkis.data.Resource
-import com.college.tangkis.data.model.request.consultation.ConsultationRequest
-import com.college.tangkis.data.model.response.consultation.AddConsultationResponse
-import com.college.tangkis.data.model.response.user.UserResponse
 import com.college.tangkis.data.repository.consultation.ConsultationRepository
 import com.college.tangkis.data.repository.user.UserRepository
+import com.college.tangkis.data.source.remote.model.response.consultation.AddConsultationResponse
+import com.college.tangkis.domain.model.User
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
@@ -45,7 +44,7 @@ class ConsultationViewModel @Inject constructor(
         DateTimeFormatter.ofPattern("MM/dd/yyy").format(pickedDate.value)
     }
 
-    private val _userState = MutableStateFlow<Resource<UserResponse?>>(Resource.Loading())
+    private val _userState = MutableStateFlow<Resource<User>>(Resource.Loading())
     val userState = _userState.asStateFlow()
 
     private val _addConsultationState = MutableStateFlow<Resource<AddConsultationResponse?>>(Resource.Empty())
@@ -64,13 +63,14 @@ class ConsultationViewModel @Inject constructor(
     @SuppressLint("NewApi")
     fun addConsultation() {
         viewModelScope.launch {
-            val consultationBody = ConsultationRequest(
-                story = story.value,
-                counselorChoice = selectedCounselingType.intValue,
-                consultationType = selectedCounselingType.intValue,
-                date = formattedDate.value,
-                time = selectedTimeId.value
-            )
+            val consultationBody =
+                com.college.tangkis.data.source.remote.model.request.consultation.ConsultationRequest(
+                    story = story.value,
+                    counselorChoice = selectedCounselingType.intValue,
+                    consultationType = selectedCounselingType.intValue,
+                    date = formattedDate.value,
+                    time = selectedTimeId.value
+                )
             consultationRepository.addConsultation(consultationBody).collect {
                 _addConsultationState.value = it
             }

@@ -1,11 +1,12 @@
 package com.college.tangkis.data.repository.user
 
 import com.college.tangkis.data.Resource
-import com.college.tangkis.data.model.request.user.UserLoginRequest
-import com.college.tangkis.data.model.request.user.UserPasswordRequest
-import com.college.tangkis.data.model.request.user.UserRegisterRequest
-import com.college.tangkis.data.model.request.user.UserWhatsappRequest
-import com.college.tangkis.data.model.response.user.UserResponse
+import com.college.tangkis.data.source.remote.model.request.user.UserLoginRequest
+import com.college.tangkis.data.source.remote.model.request.user.UserPasswordRequest
+import com.college.tangkis.data.source.remote.model.request.user.UserRegisterRequest
+import com.college.tangkis.data.source.remote.model.request.user.UserWhatsappRequest
+import com.college.tangkis.data.source.remote.model.response.user.UserResponse
+import com.college.tangkis.domain.model.User
 import kotlinx.coroutines.flow.Flow
 
 interface UserRepository {
@@ -18,9 +19,9 @@ interface UserRepository {
     suspend fun deleteToken()
     suspend fun deleteNIM()
     suspend fun login(body: UserLoginRequest): Flow<Resource<Unit>>
-    suspend fun register(body: UserRegisterRequest): Flow<Resource<String>>
-    suspend fun getUserDetail(): Flow<Resource<UserResponse?>>
-    suspend fun changePassword(body: UserPasswordRequest): Flow<Resource<String>>
-    suspend fun changeWhatsapp(newWhatsapp: UserWhatsappRequest): Flow<Resource<String>>
-    suspend fun logout(): Flow<Resource<String>>
+    suspend fun register(body: UserRegisterRequest): Flow<Resource<Unit>>
+    suspend fun getUserDetail(): Flow<Resource<User>>
+    suspend fun changePassword(body: UserPasswordRequest): Flow<Resource<Unit>>
+    suspend fun changeWhatsapp(newWhatsapp: UserWhatsappRequest): Flow<Resource<Unit>>
+    suspend fun logout(): Flow<Resource<Unit>>
 }
