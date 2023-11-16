@@ -1,16 +1,16 @@
 package com.college.tangkis.util
 
-import com.college.tangkis.data.source.remote.model.response.activity.ActivityResponse
-import com.college.tangkis.data.source.remote.model.response.article.ArticleDetailResponse
-import com.college.tangkis.data.source.remote.model.response.article.ArticleListResponse
-import com.college.tangkis.data.source.remote.model.response.consultation.AddConsultationResponse
-import com.college.tangkis.data.source.remote.model.response.consultation.ConsultationDetailResponse
-import com.college.tangkis.data.source.remote.model.response.consultation.ConsultationListResponse
-import com.college.tangkis.data.source.remote.model.response.contact.EmergencyContactResponse
-import com.college.tangkis.data.source.remote.model.response.report.AddReportResponse
-import com.college.tangkis.data.source.remote.model.response.report.ReportDetailResponse
-import com.college.tangkis.data.source.remote.model.response.report.ReportListResponse
-import com.college.tangkis.data.source.remote.model.response.user.UserResponse
+import com.college.tangkis.data.source.remote.api.model.response.activity.ActivityResponse
+import com.college.tangkis.data.source.remote.api.model.response.article.ArticleDetailResponse
+import com.college.tangkis.data.source.remote.api.model.response.article.ArticleListResponse
+import com.college.tangkis.data.source.remote.api.model.response.consultation.AddConsultationResponse
+import com.college.tangkis.data.source.remote.api.model.response.consultation.ConsultationDetailResponse
+import com.college.tangkis.data.source.remote.api.model.response.consultation.ConsultationListResponse
+import com.college.tangkis.data.source.remote.api.model.response.contact.EmergencyContactResponse
+import com.college.tangkis.data.source.remote.api.model.response.report.AddReportResponse
+import com.college.tangkis.data.source.remote.api.model.response.report.ReportDetailResponse
+import com.college.tangkis.data.source.remote.api.model.response.report.ReportListResponse
+import com.college.tangkis.data.source.remote.api.model.response.user.UserResponse
 import com.college.tangkis.domain.model.activity.Activity
 import com.college.tangkis.domain.model.article.ArticleDetail
 import com.college.tangkis.domain.model.article.ArticleList

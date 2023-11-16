@@ -13,7 +13,6 @@ import com.college.tangkis.data.repository.report.ReportRepositoryImpl
 import com.college.tangkis.data.repository.user.UserRepository
 import com.college.tangkis.data.repository.user.UserRepositoryImpl
 import com.college.tangkis.data.source.local.TangkisDatastore
-import com.college.tangkis.data.source.remote.ApiService
 import com.college.tangkis.data.source.remote.RemoteDataSource
 import dagger.Module
 import dagger.Provides

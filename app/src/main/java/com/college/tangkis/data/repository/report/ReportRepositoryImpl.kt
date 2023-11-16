@@ -1,14 +1,14 @@
 package com.college.tangkis.data.repository.report
 
+import com.college.tangkis.core.base.NetworkOnlyResource
 import com.college.tangkis.data.Resource
 import com.college.tangkis.data.source.local.TangkisDatastore
-import com.college.tangkis.data.source.remote.NetworkOnlyResource
 import com.college.tangkis.data.source.remote.RemoteDataSource
 import com.college.tangkis.data.source.remote.RemoteResponse
-import com.college.tangkis.data.source.remote.model.request.report.ReportRequest
-import com.college.tangkis.data.source.remote.model.response.report.AddReportResponse
-import com.college.tangkis.data.source.remote.model.response.report.ReportDetailResponse
-import com.college.tangkis.data.source.remote.model.response.report.ReportListResponse
+import com.college.tangkis.data.source.remote.api.model.request.report.ReportRequest
+import com.college.tangkis.data.source.remote.api.model.response.report.AddReportResponse
+import com.college.tangkis.data.source.remote.api.model.response.report.ReportDetailResponse
+import com.college.tangkis.data.source.remote.api.model.response.report.ReportListResponse
 import com.college.tangkis.domain.model.report.AddReport
 import com.college.tangkis.domain.model.report.ReportDetail
 import com.college.tangkis.domain.model.report.ReportList

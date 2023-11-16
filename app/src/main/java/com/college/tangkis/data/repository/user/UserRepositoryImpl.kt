@@ -1,17 +1,17 @@
 package com.college.tangkis.data.repository.user
 
+import com.college.tangkis.core.base.NetworkBoundRequest
+import com.college.tangkis.core.base.NetworkOnlyResource
 import com.college.tangkis.data.Resource
 import com.college.tangkis.data.source.local.TangkisDatastore
-import com.college.tangkis.data.source.remote.NetworkBoundRequest
-import com.college.tangkis.data.source.remote.NetworkOnlyResource
 import com.college.tangkis.data.source.remote.RemoteDataSource
 import com.college.tangkis.data.source.remote.RemoteResponse
-import com.college.tangkis.data.source.remote.model.request.user.UserLoginRequest
-import com.college.tangkis.data.source.remote.model.request.user.UserPasswordRequest
-import com.college.tangkis.data.source.remote.model.request.user.UserRegisterRequest
-import com.college.tangkis.data.source.remote.model.request.user.UserWhatsappRequest
-import com.college.tangkis.data.source.remote.model.response.token.TokenResponse
-import com.college.tangkis.data.source.remote.model.response.user.UserResponse
+import com.college.tangkis.data.source.remote.api.model.request.user.UserLoginRequest
+import com.college.tangkis.data.source.remote.api.model.request.user.UserPasswordRequest
+import com.college.tangkis.data.source.remote.api.model.request.user.UserRegisterRequest
+import com.college.tangkis.data.source.remote.api.model.request.user.UserWhatsappRequest
+import com.college.tangkis.data.source.remote.api.model.response.token.TokenResponse
+import com.college.tangkis.data.source.remote.api.model.response.user.UserResponse
 import com.college.tangkis.domain.model.user.User
 import com.college.tangkis.util.toUser
 import kotlinx.coroutines.flow.Flow

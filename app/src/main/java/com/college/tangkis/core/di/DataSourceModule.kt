@@ -1,6 +1,6 @@
 package com.college.tangkis.core.di
 
-import com.college.tangkis.data.source.remote.ApiService
+import com.college.tangkis.data.source.remote.api.service.ApiService
 import com.college.tangkis.data.source.remote.RemoteDataSource
 import dagger.Module
 import dagger.Provides

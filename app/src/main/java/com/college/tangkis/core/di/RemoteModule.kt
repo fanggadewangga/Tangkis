@@ -1,6 +1,6 @@
 package com.college.tangkis.core.di
 
-import com.college.tangkis.data.source.remote.ApiService
+import com.college.tangkis.data.source.remote.api.service.ApiService
 import com.college.tangkis.feature.main.constant.Constants.BASE_URL
 import com.haroldadmin.cnradapter.NetworkResponseAdapterFactory
 import com.jakewharton.retrofit2.converter.kotlinx.serialization.asConverterFactory

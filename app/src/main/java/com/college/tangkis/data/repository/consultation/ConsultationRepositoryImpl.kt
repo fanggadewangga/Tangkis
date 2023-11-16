@@ -1,14 +1,14 @@
 package com.college.tangkis.data.repository.consultation
 
+import com.college.tangkis.core.base.NetworkOnlyResource
 import com.college.tangkis.data.Resource
 import com.college.tangkis.data.source.local.TangkisDatastore
-import com.college.tangkis.data.source.remote.NetworkOnlyResource
 import com.college.tangkis.data.source.remote.RemoteDataSource
 import com.college.tangkis.data.source.remote.RemoteResponse
-import com.college.tangkis.data.source.remote.model.request.consultation.ConsultationRequest
-import com.college.tangkis.data.source.remote.model.response.consultation.AddConsultationResponse
-import com.college.tangkis.data.source.remote.model.response.consultation.ConsultationDetailResponse
-import com.college.tangkis.data.source.remote.model.response.consultation.ConsultationListResponse
+import com.college.tangkis.data.source.remote.api.model.request.consultation.ConsultationRequest
+import com.college.tangkis.data.source.remote.api.model.response.consultation.AddConsultationResponse
+import com.college.tangkis.data.source.remote.api.model.response.consultation.ConsultationDetailResponse
+import com.college.tangkis.data.source.remote.api.model.response.consultation.ConsultationListResponse
 import com.college.tangkis.domain.model.consultation.AddConsultation
 import com.college.tangkis.domain.model.consultation.ConsultationDetail
 import com.college.tangkis.domain.model.consultation.ConsultationList

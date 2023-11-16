@@ -11,8 +11,8 @@ import androidx.lifecycle.viewModelScope
 import com.college.tangkis.data.Resource
 import com.college.tangkis.data.repository.report.ReportRepository
 import com.college.tangkis.data.repository.user.UserRepository
-import com.college.tangkis.data.source.remote.model.request.consultation.ConsultationRequest
-import com.college.tangkis.data.source.remote.model.request.report.ReportRequest
+import com.college.tangkis.data.source.remote.api.model.request.consultation.ConsultationRequest
+import com.college.tangkis.data.source.remote.api.model.request.report.ReportRequest
 import com.college.tangkis.domain.model.report.AddReport
 import com.college.tangkis.domain.model.user.User
 import dagger.hilt.android.lifecycle.HiltViewModel

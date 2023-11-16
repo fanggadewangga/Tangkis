@@ -1,11 +1,11 @@
 package com.college.tangkis.data.repository.activity
 
+import com.college.tangkis.core.base.NetworkOnlyResource
 import com.college.tangkis.data.Resource
 import com.college.tangkis.data.source.local.TangkisDatastore
-import com.college.tangkis.data.source.remote.NetworkOnlyResource
 import com.college.tangkis.data.source.remote.RemoteDataSource
 import com.college.tangkis.data.source.remote.RemoteResponse
-import com.college.tangkis.data.source.remote.model.response.activity.ActivityResponse
+import com.college.tangkis.data.source.remote.api.model.response.activity.ActivityResponse
 import com.college.tangkis.domain.model.activity.Activity
 import com.college.tangkis.util.toActivity
 import kotlinx.coroutines.flow.Flow

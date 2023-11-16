@@ -5,8 +5,8 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.college.tangkis.data.Resource
-import com.college.tangkis.data.source.remote.model.request.user.UserLoginRequest
 import com.college.tangkis.data.repository.user.UserRepository
+import com.college.tangkis.data.source.remote.api.model.request.user.UserLoginRequest
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
@@ -33,10 +33,11 @@ class LoginViewModel @Inject constructor(private val repository: UserRepository)
         viewModelScope.launch {
             val nim = studentNumberState.value
             val password = passwordState.value
-            val body = com.college.tangkis.data.source.remote.model.request.user.UserLoginRequest(
-                nim,
-                password
-            )
+            val body =
+                UserLoginRequest(
+                    nim,
+                    password
+                )
             repository.login(body).collect {
                 _loginState.value = it
             }

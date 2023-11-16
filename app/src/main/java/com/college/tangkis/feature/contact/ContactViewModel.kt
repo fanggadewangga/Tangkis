@@ -12,7 +12,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.college.tangkis.data.Resource
 import com.college.tangkis.data.repository.contact.ContactRepository
-import com.college.tangkis.data.source.remote.model.request.contact.ContactRequest
+import com.college.tangkis.data.source.remote.api.model.request.contact.ContactRequest
 import com.college.tangkis.domain.model.contact.DeviceContact
 import com.college.tangkis.domain.model.contact.EmergencyContact
 import dagger.hilt.android.lifecycle.HiltViewModel

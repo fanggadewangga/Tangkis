@@ -1,12 +1,12 @@
 package com.college.tangkis.data.repository.contact
 
+import com.college.tangkis.core.base.NetworkOnlyResource
 import com.college.tangkis.data.Resource
 import com.college.tangkis.data.source.local.TangkisDatastore
-import com.college.tangkis.data.source.remote.NetworkOnlyResource
 import com.college.tangkis.data.source.remote.RemoteDataSource
 import com.college.tangkis.data.source.remote.RemoteResponse
-import com.college.tangkis.data.source.remote.model.request.contact.ContactRequest
-import com.college.tangkis.data.source.remote.model.response.contact.EmergencyContactResponse
+import com.college.tangkis.data.source.remote.api.model.request.contact.ContactRequest
+import com.college.tangkis.data.source.remote.api.model.response.contact.EmergencyContactResponse
 import com.college.tangkis.domain.model.contact.EmergencyContact
 import com.college.tangkis.util.toEmergencyContact
 import kotlinx.coroutines.flow.Flow

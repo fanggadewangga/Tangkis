@@ -1,7 +1,7 @@
 package com.college.tangkis.data.repository.contact
 
 import com.college.tangkis.data.Resource
-import com.college.tangkis.data.source.remote.model.request.contact.ContactRequest
+import com.college.tangkis.data.source.remote.api.model.request.contact.ContactRequest
 import com.college.tangkis.domain.model.contact.EmergencyContact
 import kotlinx.coroutines.flow.Flow
 

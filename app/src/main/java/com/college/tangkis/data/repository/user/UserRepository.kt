@@ -1,10 +1,10 @@
 package com.college.tangkis.data.repository.user
 
 import com.college.tangkis.data.Resource
-import com.college.tangkis.data.source.remote.model.request.user.UserLoginRequest
-import com.college.tangkis.data.source.remote.model.request.user.UserPasswordRequest
-import com.college.tangkis.data.source.remote.model.request.user.UserRegisterRequest
-import com.college.tangkis.data.source.remote.model.request.user.UserWhatsappRequest
+import com.college.tangkis.data.source.remote.api.model.request.user.UserLoginRequest
+import com.college.tangkis.data.source.remote.api.model.request.user.UserPasswordRequest
+import com.college.tangkis.data.source.remote.api.model.request.user.UserRegisterRequest
+import com.college.tangkis.data.source.remote.api.model.request.user.UserWhatsappRequest
 import com.college.tangkis.domain.model.user.User
 import kotlinx.coroutines.flow.Flow
 

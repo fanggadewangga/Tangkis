@@ -5,8 +5,8 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.college.tangkis.data.Resource
-import com.college.tangkis.data.source.remote.model.request.user.UserPasswordRequest
 import com.college.tangkis.data.repository.user.UserRepository
+import com.college.tangkis.data.source.remote.api.model.request.user.UserPasswordRequest
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
@@ -41,7 +41,7 @@ class ChangePasswordViewModel @Inject constructor(private val userRepository: Us
     fun changePassword() {
         viewModelScope.launch {
             val body =
-                com.college.tangkis.data.source.remote.model.request.user.UserPasswordRequest(
+                UserPasswordRequest(
                     oldPassword = currentPasswordState.value,
                     newPassword = newPasswordState.value
                 )
