@@ -6,9 +6,13 @@ import com.college.tangkis.data.model.request.user.UserLoginRequest
 import com.college.tangkis.data.model.request.user.UserPasswordRequest
 import com.college.tangkis.data.model.request.user.UserRegisterRequest
 import com.college.tangkis.data.model.request.user.UserWhatsappRequest
+import com.college.tangkis.data.model.response.token.TokenResponse
 import com.college.tangkis.data.model.response.user.UserResponse
 import com.college.tangkis.data.source.local.TangkisDatastore
 import com.college.tangkis.data.source.remote.ApiService
+import com.college.tangkis.data.source.remote.NetworkBoundRequest
+import com.college.tangkis.data.source.remote.RemoteDataSource
+import com.college.tangkis.data.source.remote.RemoteResponse
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.first
@@ -19,6 +23,7 @@ import javax.inject.Inject
 class UserRepositoryImpl @Inject constructor(
     private val datastore: TangkisDatastore,
     private val apiService: ApiService,
+    private val remoteDataSource: RemoteDataSource
 ) : UserRepository {
 
     override suspend fun savePassedOnboardStatus(isPassed: Boolean) =
@@ -39,25 +44,32 @@ class UserRepositoryImpl @Inject constructor(
 
     override suspend fun deleteNIM() = datastore.deleteNIM()
 
-    override suspend fun login(body: UserLoginRequest): Flow<Resource<String>> = flow {
+/*    override suspend fun login(body: UserLoginRequest): Flow<Resource<String>> = flow {
         emit(Resource.Loading())
-        try {
-            val response = apiService.login(body)
-            if (response.error) {
-                Log.d("Login", response.message)
-                emit(Resource.Error(response.message))
-            } else {
-                emit(Resource.Success(response.message))
-                Log.d("Token", response.data!!.token)
-                saveBearerToken(response.data.token)
+        when(val response = apiService.login(body)) {
+            is NetworkResponse.Success -> {
+                emit(Resource.Success(response.body.message))
+                Log.d("Token", response.body.data!!.toString())
+                saveBearerToken(response.body.data!!.token)
                 saveNIM(body.nim)
             }
-        } catch (e: Exception) {
-            e.printStackTrace()
-            Log.d("Login", e.message.toString())
-            emit(Resource.Error(e.message))
+            is NetworkResponse.Error -> {
+                emit(Resource.Error(response.body?.message))
+            }
         }
-    }.flowOn(Dispatchers.IO)
+    }*/
+
+    override suspend fun login(body: UserLoginRequest): Flow<Resource<Unit>> = object : NetworkBoundRequest<TokenResponse?>() {
+        override suspend fun createCall(): Flow<RemoteResponse<TokenResponse?>> {
+            return remoteDataSource.login(body)
+        }
+        override suspend fun saveCallResult(data: TokenResponse?) {
+            if (data != null) {
+                datastore.saveBearerToken(data.token)
+                datastore.saveNIM(body.nim)
+            }
+        }
+    }.asFlow()
 
     override suspend fun register(body: UserRegisterRequest): Flow<Resource<String>> = flow {
         emit(Resource.Loading())
@@ -69,7 +81,7 @@ class UserRepositoryImpl @Inject constructor(
             } else {
                 emit(Resource.Success(response.message))
                 Log.d("Token", response.data!!.token)
-                saveBearerToken(response.data!!.token)
+                saveBearerToken(response.data.token)
             }
         } catch (e: Exception) {
             e.printStackTrace()

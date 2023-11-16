@@ -16,6 +16,7 @@ android {
         targetSdk = 34
         versionCode = 1
         versionName = "1.0"
+        multiDexEnabled = true
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
         vectorDrawables {
@@ -33,6 +34,7 @@ android {
         }
     }
     compileOptions {
+        isCoreLibraryDesugaringEnabled = true
         sourceCompatibility = JavaVersion.VERSION_1_8
         targetCompatibility = JavaVersion.VERSION_1_8
     }
@@ -142,4 +144,10 @@ dependencies {
 
     // date picker
     implementation("io.github.vanpra.compose-material-dialogs:datetime:0.8.1-rc")
+
+    // desugaring
+    coreLibraryDesugaring("com.android.tools:desugar_jdk_libs_nio:2.0.4")
+
+    // network response adapter
+    implementation("com.github.haroldadmin:NetworkResponseAdapter:5.0.0")
 }

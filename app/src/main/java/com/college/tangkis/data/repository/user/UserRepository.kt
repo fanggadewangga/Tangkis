@@ -1,7 +1,6 @@
 package com.college.tangkis.data.repository.user
 
 import com.college.tangkis.data.Resource
-import com.college.tangkis.data.model.request.user.User
 import com.college.tangkis.data.model.request.user.UserLoginRequest
 import com.college.tangkis.data.model.request.user.UserPasswordRequest
 import com.college.tangkis.data.model.request.user.UserRegisterRequest
@@ -18,7 +17,7 @@ interface UserRepository {
     suspend fun readNIM(): Flow<String>
     suspend fun deleteToken()
     suspend fun deleteNIM()
-    suspend fun login(body: UserLoginRequest): Flow<Resource<String>>
+    suspend fun login(body: UserLoginRequest): Flow<Resource<Unit>>
     suspend fun register(body: UserRegisterRequest): Flow<Resource<String>>
     suspend fun getUserDetail(): Flow<Resource<UserResponse?>>
     suspend fun changePassword(body: UserPasswordRequest): Flow<Resource<String>>

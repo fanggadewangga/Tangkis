@@ -1,6 +1,5 @@
 package com.college.tangkis.feature.login
 
-import android.util.Log
 import androidx.compose.runtime.derivedStateOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.ViewModel
@@ -27,7 +26,7 @@ class LoginViewModel @Inject constructor(private val repository: UserRepository)
         passwordState.value.isNotEmpty() && passwordState.value.length < 8
     }
 
-    private val _loginState = MutableStateFlow<Resource<String>>(Resource.Empty())
+    private val _loginState = MutableStateFlow<Resource<Unit>>(Resource.Empty())
     val loginState = _loginState.asStateFlow()
 
     fun login() {

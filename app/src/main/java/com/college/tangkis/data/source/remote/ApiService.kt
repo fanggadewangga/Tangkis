@@ -9,6 +9,7 @@ import com.college.tangkis.data.model.request.user.UserPasswordRequest
 import com.college.tangkis.data.model.request.user.UserRegisterRequest
 import com.college.tangkis.data.model.request.user.UserWhatsappRequest
 import com.college.tangkis.data.model.response.BaseResponse
+import com.college.tangkis.data.model.response.ErrorResponse
 import com.college.tangkis.data.model.response.activity.ActivityResponse
 import com.college.tangkis.data.model.response.article.ArticleListResponse
 import com.college.tangkis.data.model.response.consultation.AddConsultationResponse
@@ -20,6 +21,7 @@ import com.college.tangkis.data.model.response.report.ReportDetailResponse
 import com.college.tangkis.data.model.response.report.ReportResponse
 import com.college.tangkis.data.model.response.token.TokenResponse
 import com.college.tangkis.data.model.response.user.UserResponse
+import com.haroldadmin.cnradapter.NetworkResponse
 import retrofit2.http.Body
 import retrofit2.http.DELETE
 import retrofit2.http.GET
@@ -40,7 +42,7 @@ interface ApiService {
     @POST("/login")
     suspend fun login(
         @Body body: UserLoginRequest,
-    ): BaseResponse<TokenResponse>
+    ): NetworkResponse<BaseResponse<TokenResponse>, ErrorResponse>
 
     @POST("/logout")
     suspend fun logout(

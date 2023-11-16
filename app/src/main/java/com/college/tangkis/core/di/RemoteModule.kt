@@ -2,6 +2,7 @@ package com.college.tangkis.core.di
 
 import com.college.tangkis.data.source.remote.ApiService
 import com.college.tangkis.feature.main.constant.Constants.BASE_URL
+import com.haroldadmin.cnradapter.NetworkResponseAdapterFactory
 import com.jakewharton.retrofit2.converter.kotlinx.serialization.asConverterFactory
 import dagger.Module
 import dagger.Provides
@@ -33,6 +34,7 @@ class RemoteModule {
                 .build()
 
         return Retrofit.Builder()
+            .addCallAdapterFactory(NetworkResponseAdapterFactory())
             .addConverterFactory(Json.asConverterFactory("application/json".toMediaType()))
             .baseUrl(BASE_URL)
             .client(client)

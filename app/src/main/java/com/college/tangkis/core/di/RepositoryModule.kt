@@ -14,6 +14,7 @@ import com.college.tangkis.data.repository.user.UserRepository
 import com.college.tangkis.data.repository.user.UserRepositoryImpl
 import com.college.tangkis.data.source.local.TangkisDatastore
 import com.college.tangkis.data.source.remote.ApiService
+import com.college.tangkis.data.source.remote.RemoteDataSource
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -26,7 +27,8 @@ class RepositoryModule {
     fun provideUserRepository(
         datastore: TangkisDatastore,
         apiService: ApiService,
-    ): UserRepository = UserRepositoryImpl(datastore, apiService)
+        remoteDataSource: RemoteDataSource
+    ): UserRepository = UserRepositoryImpl(datastore, apiService, remoteDataSource)
 
     @Provides
     fun provideArticleRepository(
