@@ -12,7 +12,9 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.college.tangkis.data.Resource
 import com.college.tangkis.data.repository.contact.ContactRepository
+import com.college.tangkis.data.source.remote.model.request.contact.ContactRequest
 import com.college.tangkis.domain.model.contact.DeviceContact
+import com.college.tangkis.domain.model.contact.EmergencyContact
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
@@ -36,20 +38,20 @@ class ContactViewModel @Inject constructor(private val contactRepository: Contac
     val query = mutableStateOf("")
 
     private val _getContactState =
-        MutableStateFlow<Resource<List<com.college.tangkis.data.source.remote.model.response.contact.EmergencyContactResponse>>>(Resource.Loading())
+        MutableStateFlow<Resource<List<EmergencyContact>>>(Resource.Loading())
     val getContactState = _getContactState.asStateFlow()
 
-    private val _deleteContactState = MutableStateFlow<Resource<String>>(Resource.Empty())
+    private val _deleteContactState = MutableStateFlow<Resource<Unit>>(Resource.Empty())
     val deleteContactState = _deleteContactState.asStateFlow()
 
-    private val _addContactState = MutableStateFlow<Resource<String>>(Resource.Empty())
+    private val _addContactState = MutableStateFlow<Resource<Unit>>(Resource.Empty())
     val addContactState = _addContactState.asStateFlow()
 
     fun addContacts() {
         viewModelScope.launch {
             listOfSelectedContact.forEach { contact ->
                 val body =
-                    com.college.tangkis.data.source.remote.model.request.contact.ContactRequest(
+                    ContactRequest(
                         name = contact.name,
                         number = contact.number
                     )

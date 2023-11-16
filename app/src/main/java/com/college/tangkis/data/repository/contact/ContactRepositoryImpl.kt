@@ -1,75 +1,51 @@
 package com.college.tangkis.data.repository.contact
 
-import android.util.Log
 import com.college.tangkis.data.Resource
 import com.college.tangkis.data.source.local.TangkisDatastore
-import com.college.tangkis.data.source.remote.ApiService
-import kotlinx.coroutines.Dispatchers
+import com.college.tangkis.data.source.remote.NetworkOnlyResource
+import com.college.tangkis.data.source.remote.RemoteDataSource
+import com.college.tangkis.data.source.remote.RemoteResponse
+import com.college.tangkis.data.source.remote.model.request.contact.ContactRequest
+import com.college.tangkis.data.source.remote.model.response.contact.EmergencyContactResponse
+import com.college.tangkis.domain.model.contact.EmergencyContact
+import com.college.tangkis.util.toEmergencyContact
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.first
-import kotlinx.coroutines.flow.flow
-import kotlinx.coroutines.flow.flowOn
 import javax.inject.Inject
 
 class ContactRepositoryImpl @Inject constructor(
     private val datastore: TangkisDatastore,
-    private val apiService: ApiService,
+    private val remoteDataSource: RemoteDataSource
 ) : ContactRepository {
-    override suspend fun addContact(body: com.college.tangkis.data.source.remote.model.request.contact.ContactRequest): Flow<Resource<String>> = flow {
-        emit(Resource.Loading())
-        try {
+    override suspend fun addContact(body: ContactRequest): Flow<Resource<Unit>> = object : NetworkOnlyResource<Unit, String?>() {
+        override suspend fun createCall(): Flow<RemoteResponse<String?>> {
             val token = "Bearer ${datastore.readBearerToken().first()}"
             val nim = datastore.readNIM().first()
-            val result = apiService.postContact(token, nim, body)
-            if (result.error) {
-                Log.d("Add Contact", result.message)
-                emit(Resource.Error(result.message))
-            } else {
-                Log.d("Add Contact", result.message)
-                emit(Resource.Success(result.message))
-            }
-        } catch (e: Exception) {
-            e.printStackTrace()
-            emit(Resource.Error(e.message))
+            return remoteDataSource.postContact(token, nim, body)
         }
-    }.flowOn(Dispatchers.IO)
+        override fun mapTransform(data: String?) {
+            return
+        }
+    }.asFlow()
 
-    override suspend fun getContacts(): Flow<Resource<List<com.college.tangkis.data.source.remote.model.response.contact.EmergencyContactResponse>>> = flow {
-        emit(Resource.Loading())
-        try {
+    override suspend fun getContacts(): Flow<Resource<List<EmergencyContact>>> = object : NetworkOnlyResource<List<EmergencyContact>, List<EmergencyContactResponse>?>() {
+        override suspend fun createCall(): Flow<RemoteResponse<List<EmergencyContactResponse>?>> {
             val token = "Bearer ${datastore.readBearerToken().first()}"
             val nim = datastore.readNIM().first()
-            val result = apiService.getContact(token, nim)
-            if (result.error) {
-                Log.d("Get Contact", result.message)
-                emit(Resource.Error(result.message))
-            } else {
-                Log.d("Get Contact", result.message)
-                emit(Resource.Success(result.data!!))
-            }
-        } catch (e: Exception) {
-            e.printStackTrace()
-            emit(Resource.Error(e.message))
+            return remoteDataSource.getContact(token, nim)
         }
-    }.flowOn(Dispatchers.IO)
+        override fun mapTransform(data: List<EmergencyContactResponse>?): List<EmergencyContact> = data!!.map { it.toEmergencyContact() }
+    }.asFlow()
 
 
-    override suspend fun deleteContact(contactId: String): Flow<Resource<String>> = flow {
-        emit(Resource.Loading())
-        try {
+    override suspend fun deleteContact(contactId: String): Flow<Resource<Unit>> = object : NetworkOnlyResource<Unit, String?>() {
+        override suspend fun createCall(): Flow<RemoteResponse<String?>> {
             val token = "Bearer ${datastore.readBearerToken().first()}"
             val nim = datastore.readNIM().first()
-            val result = apiService.deleteContact(token, nim, contactId)
-            if (result.error) {
-                Log.d("Delete Contact", result.message)
-                emit(Resource.Error(result.message))
-            } else {
-                Log.d("Delete Contact", result.message)
-                emit(Resource.Success(result.data!!))
-            }
-        } catch (e: Exception) {
-            e.printStackTrace()
-            emit(Resource.Error(e.message))
+            return remoteDataSource.deleteContact(token, nim, contactId)
         }
-    }.flowOn(Dispatchers.IO)
+        override fun mapTransform(data: String?) {
+            return
+        }
+    }.asFlow()
 }

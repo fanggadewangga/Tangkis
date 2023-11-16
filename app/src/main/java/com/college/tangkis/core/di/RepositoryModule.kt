@@ -44,8 +44,8 @@ class RepositoryModule {
     @Provides
     fun provideContactRepository(
         datastore: TangkisDatastore,
-        apiService: ApiService,
-    ): ContactRepository = ContactRepositoryImpl(datastore, apiService)
+        remoteDataSource: RemoteDataSource
+    ): ContactRepository = ContactRepositoryImpl(datastore, remoteDataSource)
 
     @Provides
     fun provideReportRepository(
