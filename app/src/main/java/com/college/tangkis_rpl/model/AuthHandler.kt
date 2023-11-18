@@ -15,6 +15,7 @@ class AuthHandler {
         // Cek apakah NIM mahasiswa FILKOM dan panjang password
         if (!Regex("""^\d{2}515\d*$""").matches(nim) || password.length < 8) {
             errorMessage =  "Data tidak valid!"
+            return errorMessage
         }
 
         try {
@@ -22,6 +23,7 @@ class AuthHandler {
 
             if (document != null && document.exists()) {
                 errorMessage =  "NIM telah terdaftar"
+                return errorMessage
             } else {
                 val authResult = firebaseAuthentication.createUserWithEmailAndPassword(
                     "$nim@tangkis.com",
@@ -42,6 +44,7 @@ class AuthHandler {
                     }
                     firebaseAuthentication.signOut()
                 }
+                return errorMessage
             }
         } catch (e: Exception) {
             e.printStackTrace()
@@ -55,22 +58,22 @@ class AuthHandler {
         val firebaseFirestore = FirebaseFirestore.getInstance()
         val document = firebaseFirestore.collection("Mahasiswa").document(nim).get().await()
 
-        errorMessage = if (document != null && document.exists()) {
+        if (document != null && document.exists()) {
             try {
                 val authResult =
                     firebaseAuthentication.signInWithEmailAndPassword("$nim@tangkis.com", password)
                         .await()
                 if (authResult.user == null) {
-                    ""
-                } else
-                    "Password salah"
+                    errorMessage = "Password salah"
+                    return errorMessage
+                }
             } catch (e: Exception) {
-                "Password salah"
+                e.printStackTrace()
             }
         } else {
-            "NIM tidak terdaftar"
+            errorMessage = "NIM tidak terdaftar"
+            return errorMessage
         }
-
         return errorMessage
     }
 

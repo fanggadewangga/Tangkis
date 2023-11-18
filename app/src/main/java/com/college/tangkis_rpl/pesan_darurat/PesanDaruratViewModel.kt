@@ -48,8 +48,10 @@ class PesanDaruratViewModel : ViewModel() {
         val filkomLocation = Location("FILKOM")
         filkomLocation.latitude = -7.954056949829905
         filkomLocation.longitude = 112.61448436435153
+        val isInLocation : Boolean
         val distance = filkomLocation.distanceTo(mahasiswaLocation) / 1000
-        return distance <= 3.0
+        isInLocation = distance <= 3.0
+        return isInLocation
     }
 
     fun cancelPesanDarurat(activity: PesanDaruratActivity) {
