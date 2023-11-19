@@ -1,7 +1,6 @@
 package com.college.tangkis_rpl.model
 
 import android.telephony.SmsManager
-import android.util.Log
 import com.google.android.gms.maps.model.LatLng
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
@@ -48,7 +47,6 @@ class Mahasiswa(
         try {
             val querySnapshot =
                 mahasiswaCollection.whereEqualTo("nim", nim).get().await()
-            Log.d("Get Data Mahasiswa", querySnapshot.toString())
             if (!querySnapshot.isEmpty) {
                 for (document in querySnapshot.documents) {
                     val nimMahasiswa = document.getString("nim")
@@ -58,7 +56,7 @@ class Mahasiswa(
                 }
             }
         } catch (exception: Exception) {
-            Log.e("Get Data Mahasiswa: $exception", "True")
+            exception.printStackTrace()
         }
         return mahasiswa
     }
@@ -75,6 +73,7 @@ class Mahasiswa(
             if (jumlahKontak < 5) {
                 if (!kontakCollection.whereEqualTo("nim", nim).whereEqualTo("nomor", nomor).get().await().isEmpty) {
                     errorMessage = "Nomor telah ditambahkan sebelumnya."
+                    return errorMessage
                 } else {
                     val kontakBaru = hashMapOf(
                         "nim" to nim,
@@ -85,9 +84,11 @@ class Mahasiswa(
                 }
             } else {
                 errorMessage = "Hanya dapat menambahkan maksimal 5 kontak darurat."
+                return errorMessage
             }
         } catch (e: Exception) {
             errorMessage = "Gagal menambahkan kontak darurat"
+            return errorMessage
         }
         return errorMessage
     }
@@ -112,9 +113,11 @@ class Mahasiswa(
                 }
             } else {
                 isError = true
+                return isError
             }
         } catch (exception: Exception) {
             isError = true
+            return isError
         }
 
         return isError
@@ -134,12 +137,11 @@ class Mahasiswa(
                 val nama = document.getString("nama")
                 if (nomor != null && nama != null) {
                     val kontak = KontakDarurat(nama, nomor)
-                    Log.d("GET DAFTAR KONTAK", kontak.toString())
                     kontakDarurat.add(kontak)
                 }
             }
         } catch (exception: Exception) {
-            Log.d("GET DAFTAR KONTAK", exception.toString())
+            exception.printStackTrace()
         }
         return kontakDarurat.toList()
     }
