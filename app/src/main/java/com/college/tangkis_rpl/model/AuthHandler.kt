@@ -14,7 +14,7 @@ class AuthHandler {
 
         // Cek apakah NIM mahasiswa FILKOM dan panjang password
         if (!Regex("""^\d{2}515\d*$""").matches(nim) || password.length < 8) {
-            errorMessage =  "Data tidak valid!"
+            errorMessage = "Data tidak valid!"
             return errorMessage
         }
 
@@ -22,7 +22,7 @@ class AuthHandler {
             val document = firebaseFirestore.collection("Mahasiswa").document(nim).get().await()
 
             if (document != null && document.exists()) {
-                errorMessage =  "NIM telah terdaftar"
+                errorMessage = "NIM telah terdaftar"
                 return errorMessage
             } else {
                 val authResult = firebaseAuthentication.createUserWithEmailAndPassword(
@@ -56,10 +56,11 @@ class AuthHandler {
         var errorMessage = ""
         val firebaseAuthentication = FirebaseAuth.getInstance()
         val firebaseFirestore = FirebaseFirestore.getInstance()
-        val document = firebaseFirestore.collection("Mahasiswa").document(nim).get().await()
 
-        if (document != null && document.exists()) {
-            try {
+        try {
+            val document = firebaseFirestore.collection("Mahasiswa").document(nim).get().await()
+
+            if (document != null && document.exists()) {
                 val authResult =
                     firebaseAuthentication.signInWithEmailAndPassword("$nim@tangkis.com", password)
                         .await()
@@ -67,11 +68,12 @@ class AuthHandler {
                     errorMessage = "Password salah"
                     return errorMessage
                 }
-            } catch (e: Exception) {
-                e.printStackTrace()
+            } else {
+                errorMessage = "NIM tidak terdaftar"
+                return errorMessage
             }
-        } else {
-            errorMessage = "NIM tidak terdaftar"
+        } catch (e: Exception) {
+            errorMessage = "Password salah"
             return errorMessage
         }
         return errorMessage

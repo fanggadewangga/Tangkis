@@ -6,7 +6,7 @@ import com.college.tangkis_rpl.model.KontakPerangkat
 import com.college.tangkis_rpl.model.Mahasiswa
 import kotlinx.coroutines.launch
 
-class KontakDaruratViewModel: ViewModel() {
+class KontakDaruratViewModel : ViewModel() {
     fun getKontakDarurat(activity: KontakDaruratActivity? = null) {
         viewModelScope.launch {
             val mahasiswa = Mahasiswa()
@@ -35,7 +35,7 @@ class KontakDaruratViewModel: ViewModel() {
         activity.showDaftarKontakPerangkat(daftarKontakPerangkat)
     }
 
-    fun pilihKontak(nama: String, nomor: String,activity: KontakDaruratActivity) {
+    fun pilihKontak(nama: String, nomor: String, activity: KontakDaruratActivity) {
         val mahasiswa = Mahasiswa()
         var errorMessage: String
         viewModelScope.launch {
