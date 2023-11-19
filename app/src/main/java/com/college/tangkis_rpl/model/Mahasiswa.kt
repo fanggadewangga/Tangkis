@@ -1,6 +1,7 @@
 package com.college.tangkis_rpl.model
 
 import android.telephony.SmsManager
+import android.util.Log
 import com.google.android.gms.maps.model.LatLng
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
@@ -54,10 +55,15 @@ class Mahasiswa(
                     val password = document.getString("password")
                     mahasiswa = Mahasiswa(nimMahasiswa!!, namaMahasiswa!!, password!!)
                 }
+                mahasiswa?.let { Log.d("QUERY NOT EMPTY", it.nama) }
+                return mahasiswa
             }
+            mahasiswa?.let { Log.d("QUERY EMPTY", it.nama) }
         } catch (exception: Exception) {
             exception.printStackTrace()
+            Log.d("CATCH", mahasiswa.toString())
         }
+        Log.d("RETURN", mahasiswa.toString())
         return mahasiswa
     }
 

@@ -41,8 +41,11 @@ class ProfileFragment : Fragment() {
 
     fun showAlert() {
         binding.apply {
+            tvTitleName.visibility = View.GONE
             tvName.visibility = View.GONE
+            tvTitleNim.visibility = View.GONE
             tvNim.visibility = View.GONE
+            ivProfile.visibility = View.GONE
             includeErrorProfile.ivError.visibility = View.VISIBLE
             includeErrorProfile.tvDescFailProfile.visibility = View.VISIBLE
         }

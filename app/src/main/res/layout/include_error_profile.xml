@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
     android:padding="16dp"
     android:orientation="vertical"
     android:gravity="center_horizontal"
@@ -10,7 +10,7 @@
 
    <LinearLayout
        android:layout_width="match_parent"
-       android:layout_height="0dp"
+       android:layout_height="wrap_content"
        android:orientation="vertical"
        android:gravity="center_horizontal"
        android:layout_weight="0.75">
@@ -22,6 +22,7 @@
            android:src="@drawable/iv_error"
            app:layout_constraintEnd_toEndOf="parent"
            app:layout_constraintStart_toStartOf="parent"
+           android:visibility="gone"
            app:layout_constraintTop_toTopOf="parent"
            />
 
@@ -29,6 +30,7 @@
            android:id="@+id/tv_desc_fail_profile"
            android:text="Profil gagal ditampilkan"
            android:textSize="20sp"
+           android:visibility="gone"
            android:fontFamily="@font/roboto_bold"
            android:textColor="@color/md_theme_dark_outline"
            android:layout_width="wrap_content"

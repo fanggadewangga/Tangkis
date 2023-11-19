@@ -1,6 +1,7 @@
 package com.college.tangkis_rpl.profil
 
 import android.content.Intent
+import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.college.tangkis_rpl.login.LoginActivity
@@ -12,6 +13,7 @@ class ProfileViewModel : ViewModel() {
         viewModelScope.launch {
             var mahasiswa: Mahasiswa? = Mahasiswa()
             mahasiswa = mahasiswa?.getProfilData()
+            Log.d("PROFILE VM", mahasiswa.toString())
             if (mahasiswa != null)
                 profileFragment.showProfil(mahasiswa)
             else

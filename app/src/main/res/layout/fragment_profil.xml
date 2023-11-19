@@ -27,8 +27,7 @@
 
         <include
             android:id="@+id/include_error_profile"
-            layout="@layout/include_error_profile"
-            android:visibility="gone" />
+            layout="@layout/include_error_profile" />
 
        <LinearLayout
            android:layout_width="match_parent"

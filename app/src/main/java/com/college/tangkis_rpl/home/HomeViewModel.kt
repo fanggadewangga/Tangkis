@@ -13,7 +13,7 @@ class HomeViewModel : ViewModel() {
         var mahasiswa: Mahasiswa? = Mahasiswa()
         viewModelScope.launch {
             mahasiswa = mahasiswa!!.getProfilData()
-            home.showDataMahasiswa(mahasiswa!!)
+            mahasiswa?.let { home.showDataMahasiswa(it) }
         }
     }
 
