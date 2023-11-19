@@ -1,11 +1,13 @@
 package com.college.tangkis_rpl.home
 
+import android.Manifest
 import android.annotation.SuppressLint
 import android.content.Intent
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.activity.result.contract.ActivityResultContracts
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -66,6 +68,23 @@ class HomeFragment : Fragment() {
         articleAdapter = ArtikelInformasiAdapter(onClick = { chooseArtikelInformasi(it) })
         viewModel.getDataMahasiswa(this)
         viewModel.getKontakDarurat(this)
+
+        val requestPermissionLauncher =
+            registerForActivityResult(
+                ActivityResultContracts.RequestMultiplePermissions()
+            ) { permissions ->
+
+            }
+        requestPermissionLauncher.launch(
+            arrayOf(
+                Manifest.permission.ACCESS_FINE_LOCATION,
+                Manifest.permission.ACCESS_COARSE_LOCATION,
+                Manifest.permission.CALL_PHONE,
+                Manifest.permission.READ_CONTACTS,
+                Manifest.permission.READ_PHONE_STATE,
+                Manifest.permission.SEND_SMS
+            )
+        )
 
         binding.tvSeeAllContact.setOnClickListener {
             showDaftarKontak()
