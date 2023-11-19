@@ -1,7 +1,6 @@
 package com.college.tangkis_rpl.model
 
 import android.telephony.SmsManager
-import android.util.Log
 import com.google.android.gms.maps.model.LatLng
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
@@ -55,15 +54,11 @@ class Mahasiswa(
                     val password = document.getString("password")
                     mahasiswa = Mahasiswa(nimMahasiswa!!, namaMahasiswa!!, password!!)
                 }
-                mahasiswa?.let { Log.d("QUERY NOT EMPTY", it.nama) }
                 return mahasiswa
             }
-            mahasiswa?.let { Log.d("QUERY EMPTY", it.nama) }
         } catch (exception: Exception) {
             exception.printStackTrace()
-            Log.d("CATCH", mahasiswa.toString())
         }
-        Log.d("RETURN", mahasiswa.toString())
         return mahasiswa
     }
 
@@ -136,18 +131,14 @@ class Mahasiswa(
         val kontakDarurat = mutableListOf<KontakDarurat>()
         val nim = firebaseAuthentication.currentUser!!.email!!.substringBefore("@")
 
-        try {
-            val querySnapshot = kontakCollection.whereEqualTo("nim", nim).get().await()
-            for (document in querySnapshot) {
-                val nomor = document.getString("nomor")
-                val nama = document.getString("nama")
-                if (nomor != null && nama != null) {
-                    val kontak = KontakDarurat(nama, nomor)
-                    kontakDarurat.add(kontak)
-                }
+        val querySnapshot = kontakCollection.whereEqualTo("nim", nim).get().await()
+        for (document in querySnapshot) {
+            val nomor = document.getString("nomor")
+            val nama = document.getString("nama")
+            if (nomor != null && nama != null) {
+                val kontak = KontakDarurat(nama, nomor)
+                kontakDarurat.add(kontak)
             }
-        } catch (exception: Exception) {
-            exception.printStackTrace()
         }
         return kontakDarurat.toList()
     }
