@@ -18,17 +18,10 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent">
 
-        <ImageView
-            android:id="@+id/ic_back"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="16dp"
-            android:layout_marginEnd="12dp"
-            android:src="@drawable/ic_back"
-            app:tint="@color/white" />
 
         <TextView
             android:id="@+id/tv_header"
+            android:layout_marginStart="16dp"
             style="@style/TitleLarge"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
