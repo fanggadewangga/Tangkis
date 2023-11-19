@@ -82,7 +82,7 @@ fun SosSentScreen(navController: NavController) {
     MarkerState(position = LatLng(0.0, 0.0))
     val permissionLauncher =
         rememberLauncherForActivityResult(ActivityResultContracts.RequestPermission()) { isGranted: Boolean ->
-            viewModel.isPermissionGranted.value = isGranted
+            viewModel.isLocationPermissionGranted.value = isGranted
             if (isGranted) {
                 getCurrentLocation(context) {
                     viewModel.apply {
@@ -101,7 +101,7 @@ fun SosSentScreen(navController: NavController) {
             Manifest.permission.ACCESS_FINE_LOCATION
         ),
         -> {
-            viewModel.isPermissionGranted.value = true
+            viewModel.isLocationPermissionGranted.value = true
             getCurrentLocation(context) {
                 viewModel.apply {
                     userLatState.doubleValue = it.latitude
@@ -175,7 +175,7 @@ fun SosSentScreen(navController: NavController) {
                 Spacer(modifier = Modifier.height(16.dp))
                 AppButton(
                     onClick = {
-                        val uri = Uri.parse("tel:+6281330723755")
+                        val uri = Uri.parse("tel:+628113600584")
                         val intent = Intent(Intent.ACTION_DIAL, uri)
                         context.startActivity(intent)
                     },

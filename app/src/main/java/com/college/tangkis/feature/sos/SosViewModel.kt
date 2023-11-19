@@ -24,7 +24,7 @@ class SosViewModel @Inject constructor(private val contactRepository: ContactRep
     val isSending = mutableStateOf(false)
     val isInRange = mutableStateOf(false)
     val timeLeft = mutableIntStateOf(5)
-    val isPermissionGranted = mutableStateOf(false)
+    val isLocationPermissionGranted = mutableStateOf(false)
     val userLatState = mutableDoubleStateOf(0.0)
     val userLonState = mutableDoubleStateOf(0.0)
     val userAddress = mutableStateOf("")

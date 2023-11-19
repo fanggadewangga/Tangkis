@@ -86,7 +86,11 @@ fun OnboardScreen(navController: NavController) {
                             coroutineScope.launch {
                                 viewModel.savePassedOnboardStatus()
                             }
-                            navController.navigate(Screen.Login.route)
+                            navController.navigate(Screen.Login.route) {
+                                popUpTo(Screen.OnBoard.route) {
+                                    inclusive = true
+                                }
+                            }
                         }
                     },
                     modifier = Modifier.width(96.dp)

@@ -9,15 +9,15 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.material3.BottomAppBar
-import androidx.compose.material3.ExperimentalMaterial3Api
-import androidx.compose.material3.IconButton
-import androidx.compose.material.Scaffold
 import androidx.compose.material.FabPosition
+import androidx.compose.material.Scaffold
 import androidx.compose.material.Tab
 import androidx.compose.material.TabRow
 import androidx.compose.material.TabRowDefaults.tabIndicatorOffset
+import androidx.compose.material3.BottomAppBar
+import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.FloatingActionButton
+import androidx.compose.material3.IconButton
 import androidx.compose.material3.TopAppBar
 import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.runtime.Composable
@@ -25,12 +25,12 @@ import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.ColorFilter
+import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
 import coil.compose.AsyncImage
 import com.college.tangkis.R
-import com.college.tangkis.feature.consult.ConsultationViewModel
 import com.college.tangkis.feature.main.components.AppText
 import com.college.tangkis.feature.main.navigation.BottomNavigationBar
 import com.college.tangkis.feature.main.route.Screen
@@ -101,6 +101,7 @@ fun ActivityScreen(navController: NavController){
         TabLayout(
             viewModel = viewModel,
             navController = navController,
+            bottomPadding = bottomPadding,
             modifier = Modifier.padding(top = topPadding),
         )
     }
@@ -110,6 +111,7 @@ fun ActivityScreen(navController: NavController){
 fun TabLayout(
     viewModel: ActivityViewModel,
     navController: NavController,
+    bottomPadding: Dp,
     modifier: Modifier
 ) {
     val tabIndex = viewModel.tabIndex.observeAsState()
@@ -138,8 +140,8 @@ fun TabLayout(
             }
         }
         when (tabIndex.value) {
-            0 -> InProgressScreen(viewModel = viewModel, navController = navController )
-            1 -> HistoryScreen(viewModel = viewModel, navController = navController)
+            0 -> InProgressScreen(viewModel = viewModel, navController = navController, bottomPadding = bottomPadding )
+            1 -> HistoryScreen(viewModel = viewModel, navController = navController, bottomPadding = bottomPadding )
         }
     }
 }

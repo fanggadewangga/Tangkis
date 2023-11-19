@@ -87,7 +87,7 @@ fun ReportScreen(navController: NavController) {
                         newValue = sentReportState.value.data!!.reportId
                     )
                 ) {
-                    popUpTo(Screen.SentReportSuccess.route) {
+                    popUpTo(Screen.Report.route) {
                         inclusive = true
                     }
                 }
@@ -309,10 +309,11 @@ fun AccompanimentLayout(viewModel: ReportViewModel) {
             placeHolderColor = md_theme_light_primary,
             trailingIcon = {
                 AsyncImage(
-                    model = R.drawable.ic_date,
+                    model = R.drawable.ic_today,
                     contentDescription = "Date icon",
+                    colorFilter = ColorFilter.tint(md_theme_light_primary),
                     modifier = Modifier
-                        .size(40.dp)
+                        .size(24.dp)
                         .clickable {
                             calendarState.show()
                         })

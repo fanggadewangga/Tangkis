@@ -14,7 +14,6 @@ import javax.inject.Inject
 
 @HiltViewModel
 class ArticleViewModel @Inject constructor(private val articleRepository: ArticleRepository): ViewModel() {
-    val isError = mutableStateOf(false)
     val searchQuery = mutableStateOf("")
 
     private val _articleState = MutableStateFlow<Resource<List<ArticleList>>>(Resource.Loading())

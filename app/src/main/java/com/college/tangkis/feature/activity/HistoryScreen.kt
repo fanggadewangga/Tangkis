@@ -13,6 +13,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.navigation.NavController
@@ -24,7 +25,7 @@ import com.college.tangkis.feature.main.components.ErrorLayout
 import com.college.tangkis.feature.main.route.Screen
 
 @Composable
-fun HistoryScreen(viewModel: ActivityViewModel, navController: NavController) {
+fun HistoryScreen(viewModel: ActivityViewModel, navController: NavController, bottomPadding: Dp) {
 
     val historyActivityState = viewModel.historyActivityState.collectAsStateWithLifecycle()
 
@@ -62,7 +63,7 @@ fun HistoryScreen(viewModel: ActivityViewModel, navController: NavController) {
             }
 
             is Resource.Success -> {
-                LazyColumn(modifier = Modifier.padding(top = 16.dp)) {
+                LazyColumn(modifier = Modifier.padding(top = 16.dp, bottom = bottomPadding)) {
                     if (historyActivityState.value is Resource.Success && !historyActivityState.value.data.isNullOrEmpty())
                         items(historyActivityState.value.data!!) {
                             ActivityItem(

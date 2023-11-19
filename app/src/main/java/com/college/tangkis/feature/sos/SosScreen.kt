@@ -69,30 +69,25 @@ fun SosScreen(navController: NavController) {
     val context = LocalContext.current
     val permissionLauncher =
         rememberLauncherForActivityResult(ActivityResultContracts.RequestPermission()) { isGranted: Boolean ->
+            viewModel.isLocationPermissionGranted.value = isGranted
             viewModel.isSMSPermissionGranted.value = isGranted
-        }
-    when (PackageManager.PERMISSION_GRANTED) {
-        ContextCompat.checkSelfPermission(
-            context,
-            Manifest.permission.SEND_SMS,
-        ),
-        -> {
-            viewModel.isSMSPermissionGranted.value = true
-        }
-
-        else -> {
-            SideEffect {
-                permissionLauncher.launch(Manifest.permission.SEND_SMS)
+            if (isGranted) {
+                getCurrentLocation(context) {
+                    viewModel.apply {
+                        userLatState.doubleValue = it.latitude
+                        userLonState.doubleValue = it.longitude
+                        getAddressFromCoordinate(context)
+                    }
+                }
             }
         }
-    }
     when (PackageManager.PERMISSION_GRANTED) {
         ContextCompat.checkSelfPermission(
             context,
             Manifest.permission.ACCESS_FINE_LOCATION,
         ),
         -> {
-            viewModel.isPermissionGranted.value = true
+            viewModel.isLocationPermissionGranted.value = true
             getCurrentLocation(context) {
                 viewModel.apply {
                     userLatState.doubleValue = it.latitude
@@ -108,8 +103,45 @@ fun SosScreen(navController: NavController) {
             }
         }
     }
+    when (PackageManager.PERMISSION_GRANTED) {
+        ContextCompat.checkSelfPermission(
+            context,
+            Manifest.permission.ACCESS_COARSE_LOCATION
+        ),
+        -> {
+            viewModel.isLocationPermissionGranted.value = true
+            getCurrentLocation(context) {
+                viewModel.apply {
+                    userLatState.doubleValue = it.latitude
+                    userLonState.doubleValue = it.longitude
+                    getAddressFromCoordinate(context)
+                }
+            }
+        }
 
-    LaunchedEffect(true) {
+        else -> {
+            SideEffect {
+                permissionLauncher.launch(Manifest.permission.ACCESS_COARSE_LOCATION)
+            }
+        }
+    }
+    when (PackageManager.PERMISSION_GRANTED) {
+        ContextCompat.checkSelfPermission(
+            context,
+            Manifest.permission.SEND_SMS,
+        ),
+        -> {
+            viewModel.isSMSPermissionGranted.value = true
+        }
+
+        else -> {
+            SideEffect {
+                permissionLauncher.launch(Manifest.permission.SEND_SMS)
+            }
+        }
+    }
+
+    LaunchedEffect(viewModel.isLocationPermissionGranted.value) {
         val userLocation = Location("User")
         val filkomLocation = Location("Filkom")
         userLocation.apply {
@@ -126,6 +158,11 @@ fun SosScreen(navController: NavController) {
 
     LaunchedEffect(!viewModel.isSMSPermissionGranted.value) {
         permissionLauncher.launch(Manifest.permission.SEND_SMS)
+    }
+
+    LaunchedEffect(!viewModel.isLocationPermissionGranted.value) {
+        permissionLauncher.launch(Manifest.permission.ACCESS_FINE_LOCATION)
+        permissionLauncher.launch(Manifest.permission.ACCESS_COARSE_LOCATION)
     }
 
     LaunchedEffect(key1 = viewModel.timeLeft.intValue, key2 = viewModel.isSending.value) {
@@ -310,7 +347,7 @@ fun SosScreen(navController: NavController) {
                         contentDescription = "SOS",
                         modifier = Modifier
                             .size(240.dp)
-                            .padding(24.dp)
+                            .padding(56.dp)
                     )
                 }
             }

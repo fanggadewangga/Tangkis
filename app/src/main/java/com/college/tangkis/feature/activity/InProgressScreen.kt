@@ -13,6 +13,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.navigation.NavController
@@ -27,6 +28,7 @@ import com.college.tangkis.feature.main.route.Screen
 fun InProgressScreen(
     viewModel: ActivityViewModel,
     navController: NavController,
+    bottomPadding: Dp,
 ) {
     val inProgressActivityState = viewModel.inProgressActivityState.collectAsStateWithLifecycle()
 
@@ -64,7 +66,7 @@ fun InProgressScreen(
             }
 
             is Resource.Success -> {
-                LazyColumn(modifier = Modifier.padding(top = 16.dp)) {
+                LazyColumn(modifier = Modifier.padding(top = 16.dp, bottom = bottomPadding)) {
                     if (inProgressActivityState.value is Resource.Success && !inProgressActivityState.value.data.isNullOrEmpty())
                         items(inProgressActivityState.value.data!!) {
                             ActivityItem(

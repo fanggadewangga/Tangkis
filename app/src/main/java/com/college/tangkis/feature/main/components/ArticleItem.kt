@@ -25,7 +25,6 @@ import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import coil.compose.AsyncImage
-import com.college.tangkis.R
 import com.college.tangkis.domain.model.article.ArticleList
 import com.college.tangkis.theme.Typography
 
@@ -50,7 +49,7 @@ fun HomeArticleItem(
         ) {
             Box(modifier = Modifier.fillMaxWidth()) {
                 AsyncImage(
-                    model = R.drawable.iv_dummy_article,
+                    model = article.imageUrl,
                     contentDescription = "Article image",
                     contentScale = ContentScale.Crop,
                     modifier = Modifier
@@ -59,8 +58,8 @@ fun HomeArticleItem(
                         .background(
                             brush = Brush.verticalGradient(
                                 colors = listOf(Color.Transparent, Color.Black),
-                                startY = 220.toFloat() / 3,
-                                endY = 220.toFloat()
+                                startY = 120.toFloat() / 3,
+                                endY = 120.toFloat()
                             )
                         )
                 )
@@ -104,7 +103,7 @@ fun ArticleItem(
         ) {
             // Image
             AsyncImage(
-                model = R.drawable.iv_dummy_article,
+                model = article.imageUrl,
                 contentDescription = "Article item",
                 contentScale = ContentScale.Crop,
                 modifier = Modifier

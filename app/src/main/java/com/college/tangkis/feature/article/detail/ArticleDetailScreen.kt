@@ -116,7 +116,7 @@ fun ArticleDetailScreen(navController: NavController, articleId: String) {
                     // Image
                     Box(modifier = Modifier.fillMaxWidth()) {
                         AsyncImage(
-                            model = R.drawable.iv_dummy_article,
+                            model = data.imageUrl,
                             contentScale = ContentScale.Crop,
                             contentDescription = "Article image",
                             modifier = Modifier.fillMaxWidth()

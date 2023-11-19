@@ -2,6 +2,7 @@ package com.college.tangkis.feature.profile
 
 import android.widget.Toast
 import androidx.compose.foundation.background
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
@@ -10,16 +11,21 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.layout.width
+import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.FabPosition
 import androidx.compose.material.Scaffold
 import androidx.compose.material3.BottomAppBar
 import androidx.compose.material3.Card
+import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.FloatingActionButton
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.rememberCoroutineScope
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Alignment.Companion.CenterHorizontally
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -39,6 +45,7 @@ import com.college.tangkis.feature.main.components.ErrorLayout
 import com.college.tangkis.feature.main.navigation.BottomNavigationBar
 import com.college.tangkis.feature.main.route.Screen
 import com.college.tangkis.theme.Typography
+import com.college.tangkis.theme.md_theme_light_primary
 import com.college.tangkis.theme.md_theme_light_secondary
 import es.dmoral.toasty.Toasty
 import kotlinx.coroutines.delay
@@ -49,25 +56,29 @@ fun ProfileScreen(navController: NavController) {
 
     val viewModel = hiltViewModel<ProfileViewModel>()
     val screenHeight = LocalConfiguration.current.screenHeightDp
+    val screenWidth = LocalConfiguration.current.screenWidthDp
     val profileState = viewModel.profileState.collectAsStateWithLifecycle()
     val logoutState = viewModel.logoutState.collectAsStateWithLifecycle()
     val coroutineScope = rememberCoroutineScope()
     val context = LocalContext.current
 
     LaunchedEffect(logoutState.value) {
-        when(logoutState.value) {
+        when (logoutState.value) {
             is Resource.Success -> {
                 Toasty.success(context, "Berhasil logout!", Toast.LENGTH_SHORT).show()
                 coroutineScope.launch {
                     delay(1500L)
                 }
                 navController.navigate(Screen.Login.route) {
-                    popUpTo(Screen.Profile.route) {
+                    popUpTo(Screen.Home.route) {
                         inclusive = true
                     }
                 }
             }
-            is  Resource.Error -> Toasty.error(context, "Terjadi kesalahan", Toast.LENGTH_SHORT).show()
+
+            is Resource.Error -> Toasty.error(context, "Terjadi kesalahan", Toast.LENGTH_SHORT)
+                .show()
+
             else -> {}
         }
     }
@@ -105,6 +116,7 @@ fun ProfileScreen(navController: NavController) {
             modifier = Modifier
                 .fillMaxSize()
                 .background(Color(0xFFF1F0F0))
+                .verticalScroll(rememberScrollState())
         ) {
 
             // Top Section
@@ -113,11 +125,17 @@ fun ProfileScreen(navController: NavController) {
                     .fillMaxWidth()
                     .background(Color.White)
                     .padding(horizontal = 16.dp)
-                    .height((screenHeight * 0.67).dp)
+                    .height((screenHeight * 0.65).dp)
             ) {
 
                 when (profileState.value) {
-                    is Resource.Loading -> {}
+                    is Resource.Loading -> Box(
+                        contentAlignment = Alignment.Center,
+                        modifier = Modifier.fillMaxSize()
+                    ) {
+                        CircularProgressIndicator(color = md_theme_light_primary)
+                    }
+
                     is Resource.Error -> {
                         Spacer(modifier = Modifier.height(48.dp))
                         ErrorLayout(
@@ -132,11 +150,11 @@ fun ProfileScreen(navController: NavController) {
                         AsyncImage(
                             model = R.drawable.iv_profile,
                             contentDescription = "Profile Illustration",
-                            modifier = Modifier.align(CenterHorizontally)
+                            modifier = Modifier.align(CenterHorizontally).width((screenHeight * 0.4).dp)
                         )
 
                         // User Info
-                        Spacer(modifier = Modifier.height(16.dp))
+                        Spacer(modifier = Modifier.height(12.dp))
                         AppText(
                             text = "Nama Lengkap",
                             textStyle = Typography.titleSmall(),
@@ -204,7 +222,7 @@ fun ProfileScreen(navController: NavController) {
                     .fillMaxWidth()
                     .background(Color.White)
                     .padding(horizontal = 16.dp)
-                    .height((screenHeight * 0.5).dp)
+                    .height((screenHeight * 0.3).dp)
             ) {
                 Spacer(modifier = Modifier.height(24.dp))
                 AppText(text = "Akun", textStyle = Typography.titleLarge())
