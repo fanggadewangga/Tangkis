@@ -24,7 +24,7 @@ import androidx.compose.ui.unit.dp
 import com.college.tangkis.domain.model.activity.Activity
 import com.college.tangkis.theme.Typography
 import com.college.tangkis.theme.status_diproses_background
-import com.college.tangkis.theme.status_diproses_text
+import com.college.tangkis.theme.yellow
 import com.college.tangkis.theme.status_selesai_background
 import com.college.tangkis.theme.status_selesai_text
 
@@ -84,7 +84,7 @@ fun StatusBox(
 ) {
     val backgroundColor: Color =
         if (progress == "Diproses") status_diproses_background else status_selesai_background
-    val textColor: Color = if (progress == "Diproses") status_diproses_text else status_selesai_text
+    val textColor: Color = if (progress == "Diproses") yellow else status_selesai_text
 
     Box(
         contentAlignment = Alignment.Center,

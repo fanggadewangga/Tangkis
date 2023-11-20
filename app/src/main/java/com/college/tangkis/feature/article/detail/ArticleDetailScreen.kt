@@ -107,7 +107,7 @@ fun ArticleDetailScreen(navController: NavController, articleId: String) {
                 Column(
                     modifier = Modifier
                         .fillMaxSize()
-                        .padding(top = topPadding)
+                        .padding(top = topPadding, bottom = 16.dp)
                         .verticalScroll(
                             rememberScrollState()
                         )

@@ -48,7 +48,7 @@ import com.college.tangkis.theme.md_theme_light_primary
 import com.college.tangkis.theme.md_theme_light_primaryContainer
 import com.college.tangkis.theme.md_theme_light_secondary
 import com.college.tangkis.theme.status_diproses_background
-import com.college.tangkis.theme.status_diproses_text
+import com.college.tangkis.theme.yellow
 import com.college.tangkis.theme.status_selesai_background
 import com.college.tangkis.theme.status_selesai_text
 
@@ -193,7 +193,7 @@ fun ReportDetailScreen(navController: NavController, reportId: String) {
                             AppText(
                                 text = reportDetail.progress,
                                 textStyle = Typography.labelStatus(),
-                                color = if (reportDetail.progress == "Diproses") status_diproses_text else status_selesai_text,
+                                color = if (reportDetail.progress == "Diproses") yellow else status_selesai_text,
                                 modifier = Modifier
                                     .padding(horizontal = 12.dp, vertical = 3.dp)
                             )

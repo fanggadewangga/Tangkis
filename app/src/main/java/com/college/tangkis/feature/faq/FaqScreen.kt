@@ -1,6 +1,7 @@
 package com.college.tangkis.feature.faq
 
 import android.annotation.SuppressLint
+import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.lazy.LazyColumn
@@ -94,6 +95,7 @@ fun FaqScreen(navController: NavController) {
 
         LazyColumn(
             modifier = Modifier
+                .background(Color.White)
                 .padding(
                     top = topPadding + 16.dp,
                     start = 16.dp,

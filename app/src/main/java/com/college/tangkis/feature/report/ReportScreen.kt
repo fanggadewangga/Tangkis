@@ -23,10 +23,10 @@ import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.ExposedDropdownMenuBox
 import androidx.compose.material3.ExposedDropdownMenuDefaults
 import androidx.compose.material3.IconButton
+import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.RadioButton
 import androidx.compose.material3.RadioButtonDefaults
 import androidx.compose.material3.Scaffold
-import androidx.compose.material3.TextField
 import androidx.compose.material3.TextFieldDefaults
 import androidx.compose.material3.TopAppBar
 import androidx.compose.material3.TopAppBarDefaults
@@ -34,6 +34,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.ColorFilter
 import androidx.compose.ui.platform.LocalContext
@@ -142,10 +143,33 @@ fun ReportScreen(navController: NavController) {
                 else
                     AppButton(
                         onClick = {
-                            if (viewModel.screenIndex.intValue == 1 && viewModel.isNeedAccompaniment.value)
-                                viewModel.screenIndex.intValue = 2
-                            else
-                                viewModel.sentReport()
+                            // Handle user doesn't need accompaniment
+                            if (!viewModel.isNeedAccompaniment.value) {
+                                if (viewModel.story.value.isEmpty())
+                                    // Handle report story empty
+                                    Toasty.warning(context, "Isi form terlebih dahulu ya!", Toast.LENGTH_SHORT).show()
+                                else
+                                    viewModel.sentReport()
+                            }
+
+                            // Handle user need accompaniment
+                            else if (viewModel.isNeedAccompaniment.value) {
+                                if (viewModel.screenIndex.intValue == 1) {
+                                    if (viewModel.story.value.isEmpty())
+                                        // Handle report story empty
+                                        Toasty.warning(context, "Isi form terlebih dahulu ya!", Toast.LENGTH_SHORT).show()
+                                    else
+                                        viewModel.screenIndex.intValue = 2
+                                }
+                                else {
+                                    // Handle date and accompaniment time if empty
+                                    if (viewModel.dateState.value.isEmpty() || viewModel.selectedTimeIndex.intValue == 100)
+                                        Toasty.warning(context, "Isi form terlebih dahulu ya!", Toast.LENGTH_SHORT).show()
+                                    // Send report if text field needed not empty
+                                    else
+                                        viewModel.sentReport()
+                                }
+                            }
                         },
                         modifier = Modifier
                             .fillMaxWidth()
@@ -425,10 +449,12 @@ fun AccompanimentLayout(viewModel: ReportViewModel) {
                 modifier = Modifier
                     .fillMaxWidth()
                     .background(Color.White)
+                    .clip(RoundedCornerShape(8.dp))
             ) {
-                TextField(
+                OutlinedTextField(
                     value = if (viewModel.selectedTimeIndex.intValue == 100) "Tentukan Jam" else "${CONSULTATION_TIME[viewModel.selectedTimeIndex.intValue].startTime} - ${CONSULTATION_TIME[viewModel.selectedTimeIndex.intValue].endTime}",
                     onValueChange = {},
+                    shape = RoundedCornerShape(8.dp),
                     readOnly = true,
                     colors = TextFieldDefaults.textFieldColors(
                         containerColor = Color.White,
@@ -441,7 +467,8 @@ fun AccompanimentLayout(viewModel: ReportViewModel) {
                         .menuAnchor()
                         .fillMaxWidth()
                         .background(Color.White)
-                        .border(width = 1.dp, color = md_theme_light_primary)
+                        .border(width = 1.dp, color = md_theme_light_primary, shape = RoundedCornerShape(8.dp))
+                        .clip(RoundedCornerShape(8.dp))
                 )
 
                 ExposedDropdownMenu(
@@ -449,7 +476,7 @@ fun AccompanimentLayout(viewModel: ReportViewModel) {
                     onDismissRequest = { viewModel.isDropdownExpanded.value = false },
                     modifier = Modifier
                         .fillMaxWidth()
-                        .background(Color.White)
+                        .background(color = Color.White, shape = RoundedCornerShape(8.dp))
                 ) {
                     CONSULTATION_TIME.forEachIndexed { index, item ->
                         DropdownMenuItem(

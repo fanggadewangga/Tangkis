@@ -49,7 +49,7 @@ fun AppTextField(
     showWarningMessage: Boolean = false,
     warningMessage: String = "Field tidak boleh kosong!",
     placeHolder: String,
-    textStyle: TextStyle = Typography.bodyMedium(),
+    textStyle: TextStyle = Typography.bodyLarge(),
     value: String,
     onValueChange: (String) -> Unit,
     isPassword: Boolean = false,

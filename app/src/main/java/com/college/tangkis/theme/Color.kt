@@ -64,11 +64,8 @@ val md_theme_dark_scrim = Color(0xFF000000)
 
 
 val seed = Color(0xFF5E2B83)
-
-val consulationDetail_containerBackground = Color(0xFFF6EEFC)
-
-val status_diproses_text = Color(0xFFFFB805)
+val primary95 = Color(0xFFF6EEFC)
+val yellow = Color(0xFFFFB805)
 val status_diproses_background = Color(0xFFFFF6CD)
-
 val status_selesai_text = Color(0xFF2BD900)
 val status_selesai_background = Color(0xFFCEFFCD)

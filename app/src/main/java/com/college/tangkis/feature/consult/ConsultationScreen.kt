@@ -23,10 +23,10 @@ import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.ExposedDropdownMenuBox
 import androidx.compose.material3.ExposedDropdownMenuDefaults
 import androidx.compose.material3.IconButton
+import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.RadioButton
 import androidx.compose.material3.RadioButtonDefaults
 import androidx.compose.material3.Scaffold
-import androidx.compose.material3.TextField
 import androidx.compose.material3.TextFieldDefaults
 import androidx.compose.material3.TopAppBar
 import androidx.compose.material3.TopAppBarDefaults
@@ -34,6 +34,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.ColorFilter
 import androidx.compose.ui.platform.LocalContext
@@ -142,10 +143,22 @@ fun ConsultationScreen(navController: NavController) {
                 else
                     AppButton(
                         onClick = {
-                            if (viewModel.screenIndex.intValue == 1)
-                                viewModel.screenIndex.intValue = 2
-                            else
-                                viewModel.addConsultation()
+                            if (viewModel.story.value.isEmpty())
+                                // Handle report story empty
+                                Toasty.warning(context, "Isi form terlebih dahulu ya!", Toast.LENGTH_SHORT).show()
+                            else {
+                                // Handle navigation
+                                if (viewModel.screenIndex.intValue == 1)
+                                    viewModel.screenIndex.intValue = 2
+                                else {
+                                    // Handle consultation date and time if empty
+                                    if (viewModel.dateState.value.isEmpty() || viewModel.selectedTimeIndex.intValue == 100)
+                                        Toasty.warning(context, "Isi form terlebih dahulu ya!", Toast.LENGTH_SHORT).show()
+                                    // Add consultation if there's no empty text field
+                                    else
+                                        viewModel.addConsultation()
+                                }
+                            }
                         },
                         modifier = Modifier
                             .fillMaxWidth()
@@ -423,10 +436,12 @@ fun ConsultationLayout(viewModel: ConsultationViewModel) {
                 modifier = Modifier
                     .fillMaxWidth()
                     .background(Color.White)
+                    .clip(RoundedCornerShape(8.dp))
             ) {
-                TextField(
+                OutlinedTextField(
                     value = if (viewModel.selectedTimeIndex.intValue == 100) "Tentukan Jam" else "${Constants.CONSULTATION_TIME[viewModel.selectedTimeIndex.intValue].startTime} - ${Constants.CONSULTATION_TIME[viewModel.selectedTimeIndex.intValue].endTime}",
                     onValueChange = {},
+                    shape = RoundedCornerShape(8.dp),
                     readOnly = true,
                     colors = TextFieldDefaults.textFieldColors(
                         containerColor = Color.White,
@@ -439,7 +454,8 @@ fun ConsultationLayout(viewModel: ConsultationViewModel) {
                         .menuAnchor()
                         .fillMaxWidth()
                         .background(Color.White)
-                        .border(width = 1.dp, color = md_theme_light_primary)
+                        .border(width = 1.dp, color = md_theme_light_primary, shape = RoundedCornerShape(8.dp))
+                        .clip(RoundedCornerShape(8.dp))
                 )
 
                 ExposedDropdownMenu(
@@ -447,7 +463,7 @@ fun ConsultationLayout(viewModel: ConsultationViewModel) {
                     onDismissRequest = { viewModel.isDropdownExpanded.value = false },
                     modifier = Modifier
                         .fillMaxWidth()
-                        .background(Color.White)
+                        .background(color = Color.White, shape = RoundedCornerShape(8.dp))
                 ) {
                     Constants.CONSULTATION_TIME.forEachIndexed { index, item ->
                         DropdownMenuItem(

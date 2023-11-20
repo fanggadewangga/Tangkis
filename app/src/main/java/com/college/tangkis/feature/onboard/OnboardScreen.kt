@@ -1,5 +1,6 @@
 package com.college.tangkis.feature.onboard
 
+import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
@@ -70,7 +71,11 @@ fun OnboardScreen(navController: NavController) {
                         coroutineScope.launch {
                             viewModel.savePassedOnboardStatus()
                         }
-                        navController.navigate(Screen.Home.route)
+                        navController.navigate(Screen.Login.route) {
+                            popUpTo(Screen.OnBoard.route) {
+                                inclusive = true
+                            }
+                        }
                     }
                 )
 
@@ -110,6 +115,7 @@ fun OnboardScreen(navController: NavController) {
         Box(
             modifier = Modifier
                 .fillMaxSize()
+                .background(Color.White)
                 .padding(bottom = bottomPadding)
         ) {
             Column(

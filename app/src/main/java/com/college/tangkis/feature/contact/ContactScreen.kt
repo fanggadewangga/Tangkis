@@ -5,6 +5,7 @@ import android.content.pm.PackageManager
 import android.widget.Toast
 import androidx.activity.compose.rememberLauncherForActivityResult
 import androidx.activity.result.contract.ActivityResultContracts
+import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -297,11 +298,13 @@ fun ContactScreen(navController: NavController) {
                         else
                         // Contact item
                             LazyColumn(
-                                modifier = Modifier.padding(
-                                    start = 16.dp,
-                                    top = topPadding + 16.dp,
-                                    end = 16.dp
-                                )
+                                modifier = Modifier
+                                    .padding(
+                                        start = 16.dp,
+                                        top = topPadding + 16.dp,
+                                        end = 16.dp
+                                    )
+                                    .background(Color.White)
                             ) {
                                 if (contactState.value is Resource.Success)
                                     items(contactState.value.data!!) { contact ->

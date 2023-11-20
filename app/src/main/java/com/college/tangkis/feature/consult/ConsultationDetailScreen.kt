@@ -43,10 +43,10 @@ import com.college.tangkis.R
 import com.college.tangkis.data.Resource
 import com.college.tangkis.feature.main.components.AppText
 import com.college.tangkis.theme.Typography
-import com.college.tangkis.theme.consulationDetail_containerBackground
+import com.college.tangkis.theme.primary95
 import com.college.tangkis.theme.md_theme_light_primary
 import com.college.tangkis.theme.status_diproses_background
-import com.college.tangkis.theme.status_diproses_text
+import com.college.tangkis.theme.yellow
 import com.college.tangkis.theme.status_selesai_background
 import com.college.tangkis.theme.status_selesai_text
 
@@ -155,7 +155,7 @@ fun ConsultationDetailScreen(navController: NavController, consultationId: Strin
                             AppText(
                                 text = data.progress,
                                 textStyle = Typography.labelLarge(),
-                                color = if (data.progress == "Diproses") status_diproses_text else status_selesai_text,
+                                color = if (data.progress == "Diproses") yellow else status_selesai_text,
                                 modifier = Modifier
                                     .padding(horizontal = 12.dp, vertical = 3.dp)
                             )
@@ -206,7 +206,7 @@ fun ConsultationDetailScreen(navController: NavController, consultationId: Strin
                                 .width(380.dp)
                                 .height(56.dp)
                                 .clip(RoundedCornerShape(8.dp))
-                                .background(consulationDetail_containerBackground),
+                                .background(primary95),
                             contentAlignment = Alignment.CenterStart
                         ) {
                             AppText(
@@ -253,7 +253,7 @@ fun ConsultationDetailScreen(navController: NavController, consultationId: Strin
                                 .width(380.dp)
                                 .height(56.dp)
                                 .clip(RoundedCornerShape(8.dp))
-                                .background(consulationDetail_containerBackground),
+                                .background(primary95),
                             contentAlignment = Alignment.CenterStart
                         ) {
                             AppText(
@@ -300,7 +300,7 @@ fun ConsultationDetailScreen(navController: NavController, consultationId: Strin
                                 .width(380.dp)
                                 .height(56.dp)
                                 .clip(RoundedCornerShape(8.dp))
-                                .background(consulationDetail_containerBackground),
+                                .background(primary95),
                             contentAlignment = Alignment.CenterStart
                         ) {
                             AppText(

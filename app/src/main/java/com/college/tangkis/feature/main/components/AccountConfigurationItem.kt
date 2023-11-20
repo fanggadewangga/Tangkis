@@ -16,7 +16,7 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
 import coil.compose.AsyncImage
 import com.college.tangkis.theme.Typography
-import com.college.tangkis.theme.md_theme_light_primaryContainer
+import com.college.tangkis.theme.primary95
 
 @Composable
 fun AccountConfigurationItem(
@@ -33,7 +33,7 @@ fun AccountConfigurationItem(
                 .size(32.dp)
                 .background(
                     shape = RoundedCornerShape(8.dp),
-                    color = md_theme_light_primaryContainer
+                    color = primary95
                 )
         ) {
             AsyncImage(

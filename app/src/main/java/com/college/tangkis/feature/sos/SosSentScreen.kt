@@ -209,6 +209,7 @@ fun SosSentScreen(navController: NavController) {
         Column(
             modifier = Modifier
                 .fillMaxSize()
+                .background(Color.White)
                 .padding(bottom = bottomPadding)
         ) {
             // Top section

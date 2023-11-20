@@ -132,9 +132,6 @@ fun LoginScreen(navController: NavController) {
                     imeAction = ImeAction.Done
                 ),
                 shape = RoundedCornerShape(4.dp),
-                isError = viewModel.isValidPasswordState.value,
-                showWarningMessage = viewModel.isValidPasswordState.value,
-                warningMessage = "Minimal 8 karakter!",
                 modifier = Modifier.fillMaxWidth()
             )
 
@@ -157,11 +154,11 @@ fun LoginScreen(navController: NavController) {
                 )
 
             // Register
-            Row(modifier = Modifier.padding(top = 16.dp)) {
+            Row(verticalAlignment = Alignment.CenterVertically ,modifier = Modifier.padding(top = 16.dp)) {
                 AppText(text = "Belum punya akun? ", textStyle = Typography.bodyMedium())
                 AppText(
                     text = "Daftar",
-                    textStyle = Typography.titleSmall(),
+                    textStyle = Typography.labelLargeProminent(),
                     color = md_theme_light_primary,
                     modifier = Modifier.clickable {
                         navController.navigate(Screen.Register.route)

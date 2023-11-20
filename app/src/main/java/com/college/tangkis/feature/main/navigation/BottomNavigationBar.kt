@@ -14,7 +14,6 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
-import androidx.navigation.NavGraph.Companion.findStartDestination
 import androidx.navigation.compose.currentBackStackEntryAsState
 import com.college.tangkis.feature.main.components.AppText
 import com.college.tangkis.theme.Typography
@@ -70,8 +69,9 @@ fun BottomNavigationBar(navController: NavController) {
                 },
                 onClick = {
                     navController.navigate(item.route) {
-                        popUpTo(navController.graph.findStartDestination().id) {
+                        popUpTo(navController.graph.id) {
                             saveState = true
+                            inclusive = true
                         }
                         launchSingleTop = true
                         restoreState = true

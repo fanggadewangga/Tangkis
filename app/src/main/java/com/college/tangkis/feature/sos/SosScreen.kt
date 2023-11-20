@@ -249,6 +249,7 @@ fun SosScreen(navController: NavController) {
         Box(
             modifier = Modifier
                 .fillMaxSize()
+                .background(Color.White)
         ) {
 
             if (viewModel.isSending.value) {

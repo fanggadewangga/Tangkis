@@ -20,6 +20,7 @@ import androidx.compose.material.FabPosition
 import androidx.compose.material.Scaffold
 import androidx.compose.material3.BottomAppBar
 import androidx.compose.material3.Card
+import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.FloatingActionButton
 import androidx.compose.runtime.Composable
@@ -47,6 +48,7 @@ import com.college.tangkis.feature.main.route.Screen
 import com.college.tangkis.theme.Typography
 import com.college.tangkis.theme.md_theme_light_primary
 import com.college.tangkis.theme.md_theme_light_secondary
+import com.college.tangkis.theme.primary95
 import es.dmoral.toasty.Toasty
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
@@ -70,7 +72,7 @@ fun ProfileScreen(navController: NavController) {
                     delay(1500L)
                 }
                 navController.navigate(Screen.Login.route) {
-                    popUpTo(Screen.Home.route) {
+                    popUpTo(navController.graph.id) {
                         inclusive = true
                     }
                 }
@@ -150,7 +152,9 @@ fun ProfileScreen(navController: NavController) {
                         AsyncImage(
                             model = R.drawable.iv_profile,
                             contentDescription = "Profile Illustration",
-                            modifier = Modifier.align(CenterHorizontally).width((screenHeight * 0.4).dp)
+                            modifier = Modifier
+                                .align(CenterHorizontally)
+                                .width((screenHeight * 0.4).dp)
                         )
 
                         // User Info
@@ -162,6 +166,7 @@ fun ProfileScreen(navController: NavController) {
                         )
                         Spacer(modifier = Modifier.height(8.dp))
                         Card(
+                            colors = CardDefaults.cardColors(containerColor = primary95),
                             shape = RoundedCornerShape(8.dp),
                             modifier = Modifier.fillMaxWidth()
                         ) {
@@ -180,6 +185,7 @@ fun ProfileScreen(navController: NavController) {
                         )
                         Spacer(modifier = Modifier.height(8.dp))
                         Card(
+                            colors = CardDefaults.cardColors(containerColor = primary95),
                             shape = RoundedCornerShape(8.dp),
                             modifier = Modifier.fillMaxWidth()
                         ) {
@@ -198,6 +204,7 @@ fun ProfileScreen(navController: NavController) {
                         )
                         Spacer(modifier = Modifier.height(8.dp))
                         Card(
+                            colors = CardDefaults.cardColors(containerColor = primary95),
                             shape = RoundedCornerShape(8.dp),
                             modifier = Modifier
                                 .fillMaxWidth()

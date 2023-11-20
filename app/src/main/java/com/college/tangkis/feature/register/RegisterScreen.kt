@@ -27,6 +27,7 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.navigation.NavController
@@ -49,7 +50,12 @@ fun RegisterScreen(navController: NavController) {
 
     LaunchedEffect(registerState.value) {
         when (registerState.value) {
-            is Resource.Error -> Toasty.error(context, registerState.value.message.toString(), Toast.LENGTH_SHORT).show()
+            is Resource.Error -> Toasty.error(
+                context,
+                registerState.value.message.toString(),
+                Toast.LENGTH_SHORT
+            ).show()
+
             is Resource.Success -> {
                 Toasty.success(context, "Berhasil daftar!", Toast.LENGTH_SHORT).show()
                 navController.navigate(Screen.Login.route) {
@@ -58,6 +64,7 @@ fun RegisterScreen(navController: NavController) {
                     }
                 }
             }
+
             else -> {}
         }
     }
@@ -156,8 +163,8 @@ fun RegisterScreen(navController: NavController) {
                 leadingIcon = {
                     AppText(
                         text = "+62",
-                        textStyle = Typography.bodyLarge(),
-                        modifier = Modifier.padding(bottom = 4.dp, start = 4.dp)
+                        textStyle = Typography.bodyLarge().copy(lineHeight = 0.sp),
+                        modifier = Modifier.padding(bottom = 2.dp,start = 4.dp, end = 0.dp)
                     )
                 },
                 shape = RoundedCornerShape(4.dp),
@@ -243,20 +250,20 @@ fun RegisterScreen(navController: NavController) {
                 AppButton(
                     content = { AppText(text = "Daftar", color = Color.White) },
                     onClick = {
-                        viewModel.register()
+                       viewModel.register()
                     },
                     modifier = Modifier.fillMaxWidth()
                 )
 
 
-            Spacer(modifier = Modifier.height(16.dp))
             Row(
                 verticalAlignment = Alignment.CenterVertically,
+                modifier = Modifier.padding(vertical = 16.dp),
             ) {
                 AppText(text = "Sudah punya akun?", textStyle = Typography.bodyMedium())
                 AppText(
                     text = " Masuk",
-                    textStyle = Typography.labelLarge(),
+                    textStyle = Typography.labelLargeProminent(),
                     color = md_theme_light_primary,
                     modifier = Modifier.clickable {
                         navController.navigate(Screen.Login.route)
