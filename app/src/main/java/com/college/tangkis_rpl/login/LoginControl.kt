@@ -30,8 +30,5 @@ class LoginControl : ViewModel() {
             activity.startActivity(intent)
     }
 
-    fun showRegisterPage(activity: LoginPage) {
-        val intent = Intent(activity, RegisterPage::class.java)
-        activity.startActivity(intent)
-    }
+
 }

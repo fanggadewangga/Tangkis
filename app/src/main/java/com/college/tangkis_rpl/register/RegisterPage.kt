@@ -11,13 +11,13 @@ import com.college.tangkis_rpl.login.LoginPage
 class RegisterPage : AppCompatActivity() {
 
     private lateinit var binding: ActivityRegisterBinding
-    private lateinit var viewModel: RegisterControl
+    private lateinit var registerControl: RegisterControl
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityRegisterBinding.inflate(layoutInflater)
         setContentView(binding.root)
-        viewModel = ViewModelProvider(this)[RegisterControl::class.java]
+        registerControl = ViewModelProvider(this)[RegisterControl::class.java]
 
         binding.apply {
             tvLogin.setOnClickListener {
@@ -31,17 +31,18 @@ class RegisterPage : AppCompatActivity() {
     }
 
     private fun submit() {
-        val isValid = validate()
-        if (isValid)
-            viewModel.register(
+        val errorMessage = validate()
+        if (errorMessage == "")
+            registerControl.register(
                 binding.edtName.text.toString(),
                 binding.edtNim.text.toString(),
                 binding.edtPassword.text.toString(),
                 this
             )
+        else showAlert(errorMessage)
     }
 
-    private fun validate(): Boolean {
+    private fun validate(): String {
         val nama = binding.edtName.text.toString()
         val nim = binding.edtNim.text.toString()
         val password = binding.edtPassword.text.toString()
@@ -49,12 +50,11 @@ class RegisterPage : AppCompatActivity() {
 
         if (nama.isEmpty() || nim.isEmpty() || password.isEmpty()) {
             errorMessage = "Data tidak boleh kosong"
-            Toast.makeText(this, errorMessage, Toast.LENGTH_SHORT).show()
         }
-        return errorMessage == ""
+        return errorMessage
     }
 
-    fun showErrorMessage(errorMessage: String) {
+    fun showAlert(errorMessage: String) {
         Toast.makeText(this, errorMessage, Toast.LENGTH_SHORT).show()
     }
 

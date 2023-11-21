@@ -7,21 +7,24 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.ViewModelProvider
 import com.college.tangkis_rpl.MainActivity
 import com.college.tangkis_rpl.databinding.ActivityLoginBinding
+import com.college.tangkis_rpl.register.RegisterControl
 
 class LoginPage : AppCompatActivity() {
 
     private lateinit var binding: ActivityLoginBinding
-    private lateinit var viewModel: LoginControl
+    private lateinit var loginControl: LoginControl
+    private lateinit var registerControl: RegisterControl
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityLoginBinding.inflate(layoutInflater)
         setContentView(binding.root)
-        viewModel = ViewModelProvider(this)[LoginControl::class.java]
-        viewModel.checkLoginStatus(this)
+        loginControl = ViewModelProvider(this)[LoginControl::class.java]
+        registerControl = ViewModelProvider(this)[RegisterControl::class.java]
+        loginControl.checkLoginStatus(this)
         binding.apply {
             tvRegister.setOnClickListener {
-               viewModel.showRegisterPage(this@LoginPage)
+                showRegisterPage()
             }
             btnLogin.setOnClickListener {
                 submit()
@@ -29,10 +32,14 @@ class LoginPage : AppCompatActivity() {
         }
     }
 
+    private fun showRegisterPage() {
+        registerControl.showRegisterPage(this@LoginPage)
+    }
+
     private fun submit() {
         val errorMessage = validate()
         if (errorMessage == "")
-            viewModel.getUser(
+            loginControl.getUser(
                 nim = binding.edtNim.text.toString(),
                 password = binding.edtPassword.text.toString(),
                 activity = this
