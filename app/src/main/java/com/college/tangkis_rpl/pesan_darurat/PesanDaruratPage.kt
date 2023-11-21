@@ -22,6 +22,10 @@ class PesanDaruratPage : AppCompatActivity() {
         binding = ActivityPesanDaruratBinding.inflate(layoutInflater)
         setContentView(binding.root)
         viewModel = ViewModelProvider(this)[PesanDaruratControl::class.java]
+        showPage()
+    }
+
+    fun showPage() {
         val requestPermissionLauncher =
             registerForActivityResult(
                 ActivityResultContracts.RequestMultiplePermissions()

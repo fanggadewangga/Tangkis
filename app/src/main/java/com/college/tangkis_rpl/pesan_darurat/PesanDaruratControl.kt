@@ -98,4 +98,8 @@ class PesanDaruratControl : ViewModel() {
             permission
         ) == PackageManager.PERMISSION_GRANTED
     }
+
+    fun showPesanDarurat(activity: PesanDaruratPage? = null) {
+        activity?.showPage()
+    }
 }
