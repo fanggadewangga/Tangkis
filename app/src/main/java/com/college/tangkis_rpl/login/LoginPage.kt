@@ -30,25 +30,25 @@ class LoginPage : AppCompatActivity() {
     }
 
     private fun submit() {
-        val isValid = validate()
-        if (isValid)
+        val errorMessage = validate()
+        if (errorMessage == "")
             viewModel.getUser(
                 nim = binding.edtNim.text.toString(),
                 password = binding.edtPassword.text.toString(),
                 activity = this
             )
+        else showAlert(errorMessage)
     }
 
-    private fun validate(): Boolean {
+    private fun validate(): String {
         val nim = binding.edtNim.text.toString()
         val password = binding.edtPassword.text.toString()
         var errorMessage = ""
 
         if (nim.isEmpty() || password.isEmpty()) {
             errorMessage = "Data tidak boleh kosong"
-            Toast.makeText(this, errorMessage, Toast.LENGTH_SHORT).show()
         }
-        return errorMessage == ""
+        return errorMessage
     }
 
     fun showAlert(message: String) {
