@@ -6,7 +6,7 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.ui.setupWithNavController
 import com.college.tangkis_rpl.databinding.ActivityMainBinding
-import com.college.tangkis_rpl.pesan_darurat.PesanDaruratActivity
+import com.college.tangkis_rpl.pesan_darurat.PesanDaruratPage
 
 class MainActivity : AppCompatActivity() {
 
@@ -27,7 +27,7 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun sendPesanDarurat() {
-        val intent = Intent(this, PesanDaruratActivity::class.java)
+        val intent = Intent(this, PesanDaruratPage::class.java)
         startActivity(intent)
     }
 }

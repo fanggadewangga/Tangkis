@@ -4,28 +4,28 @@ import android.content.Intent
 import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.college.tangkis_rpl.login.LoginActivity
+import com.college.tangkis_rpl.login.LoginPage
 import com.college.tangkis_rpl.model.Mahasiswa
 import kotlinx.coroutines.launch
 
-class ProfileViewModel : ViewModel() {
-    fun getProfilData(profileFragment: ProfileFragment) {
+class ProfileControl : ViewModel() {
+    fun getProfilData(profilePage: ProfilePage) {
         viewModelScope.launch {
             var mahasiswa: Mahasiswa? = Mahasiswa()
             mahasiswa = mahasiswa?.getProfilData()
             Log.d("PROFILE VM", mahasiswa.toString())
             if (mahasiswa != null)
-                profileFragment.showProfil(mahasiswa)
+                profilePage.showProfil(mahasiswa)
             else
-                profileFragment.showAlert()
+                profilePage.showAlert()
         }
     }
 
-    fun logout(profileFragment: ProfileFragment) {
+    fun logout(profilePage: ProfilePage) {
         val mahasiswa = Mahasiswa()
-        val intent = Intent(profileFragment.requireActivity(), LoginActivity::class.java)
+        val intent = Intent(profilePage.requireActivity(), LoginPage::class.java)
         mahasiswa.logout()
-        profileFragment.requireActivity().startActivity(intent)
-        profileFragment.requireActivity().finish()
+        profilePage.requireActivity().startActivity(intent)
+        profilePage.requireActivity().finish()
     }
 }

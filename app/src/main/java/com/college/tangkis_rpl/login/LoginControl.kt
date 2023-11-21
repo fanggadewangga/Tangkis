@@ -5,12 +5,12 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.college.tangkis_rpl.MainActivity
 import com.college.tangkis_rpl.model.AuthHandler
-import com.college.tangkis_rpl.register.RegisterActivity
+import com.college.tangkis_rpl.register.RegisterPage
 import kotlinx.coroutines.launch
 
-class LoginViewModel : ViewModel() {
+class LoginControl : ViewModel() {
 
-    fun getUser(nim: String, password: String, activity: LoginActivity) {
+    fun getUser(nim: String, password: String, activity: LoginPage) {
         val authHandler = AuthHandler()
         viewModelScope.launch {
             val errorMessage = authHandler.getUser(nim, password)
@@ -22,7 +22,7 @@ class LoginViewModel : ViewModel() {
         }
     }
 
-    fun checkLoginStatus(activity: LoginActivity) {
+    fun checkLoginStatus(activity: LoginPage) {
         val authHandler = AuthHandler()
         val isLogin = authHandler.checkLoginStatus()
         val intent = Intent(activity, MainActivity::class.java)
@@ -30,8 +30,8 @@ class LoginViewModel : ViewModel() {
             activity.startActivity(intent)
     }
 
-    fun showRegisterPage(activity: LoginActivity) {
-        val intent = Intent(activity, RegisterActivity::class.java)
+    fun showRegisterPage(activity: LoginPage) {
+        val intent = Intent(activity, RegisterPage::class.java)
         activity.startActivity(intent)
     }
 }

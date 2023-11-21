@@ -9,18 +9,18 @@ import android.util.Log
 import androidx.core.content.ContextCompat
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.college.tangkis_rpl.informasi_pesan_darurat.InformasiPesanDaruratActivity
+import com.college.tangkis_rpl.informasi_pesan_darurat.InformasiPesanDaruratPage
 import com.college.tangkis_rpl.model.Mahasiswa
 import com.google.android.gms.location.FusedLocationProviderClient
 import com.google.android.gms.location.LocationServices
 import com.google.android.gms.maps.model.LatLng
 import kotlinx.coroutines.launch
 
-class PesanDaruratViewModel : ViewModel() {
+class PesanDaruratControl : ViewModel() {
     private var fusedLocationClient: FusedLocationProviderClient? = null
 
 
-    fun initiatePesanDaruratButton(activity: PesanDaruratActivity) {
+    fun initiatePesanDaruratButton(activity: PesanDaruratPage) {
         fusedLocationClient = LocationServices.getFusedLocationProviderClient(activity)
         if (checkPermission(Manifest.permission.ACCESS_FINE_LOCATION, activity) && checkPermission(
                 Manifest.permission.ACCESS_COARSE_LOCATION,
@@ -54,17 +54,17 @@ class PesanDaruratViewModel : ViewModel() {
         return isInLocation
     }
 
-    fun cancelPesanDarurat(activity: PesanDaruratActivity) {
+    fun cancelPesanDarurat(activity: PesanDaruratPage) {
         activity.show()
     }
 
-    fun initiatePesanDarurat(activity: PesanDaruratActivity) {
+    fun initiatePesanDarurat(activity: PesanDaruratPage) {
         viewModelScope.launch {
             val mahasiswa = Mahasiswa()
             var latitude = 0.0
             var longitude = 0.0
             val intentKontakDarurat = mutableListOf<String>()
-            val intent = Intent(activity, InformasiPesanDaruratActivity::class.java)
+            val intent = Intent(activity, InformasiPesanDaruratPage::class.java)
 
             fusedLocationClient = LocationServices.getFusedLocationProviderClient(activity)
             if (checkPermission(Manifest.permission.ACCESS_FINE_LOCATION, activity) && checkPermission(

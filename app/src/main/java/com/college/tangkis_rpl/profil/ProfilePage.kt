@@ -15,16 +15,16 @@ import com.college.tangkis_rpl.databinding.FragmentProfilBinding
 import com.college.tangkis_rpl.model.Mahasiswa
 import com.google.android.material.button.MaterialButton
 
-class ProfileFragment : Fragment() {
+class ProfilePage : Fragment() {
 
     private lateinit var binding: FragmentProfilBinding
-    private lateinit var viewModel: ProfileViewModel
+    private lateinit var viewModel: ProfileControl
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?,
     ): View {
-        viewModel = ViewModelProvider(this.requireActivity())[ProfileViewModel::class.java]
+        viewModel = ViewModelProvider(this.requireActivity())[ProfileControl::class.java]
         binding = FragmentProfilBinding.inflate(layoutInflater)
         viewModel.getProfilData(this)
 

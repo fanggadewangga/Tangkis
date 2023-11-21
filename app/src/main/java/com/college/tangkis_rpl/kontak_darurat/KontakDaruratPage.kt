@@ -23,12 +23,12 @@ import com.google.android.material.bottomsheet.BottomSheetDialog
 import com.google.android.material.button.MaterialButton
 
 @Suppress("DEPRECATION")
-class KontakDaruratActivity : AppCompatActivity() {
+class KontakDaruratPage : AppCompatActivity() {
 
     private lateinit var binding: ActivityKontakDaruratBinding
     private lateinit var daftarKontakDaruratAdapter: DaftarKontakDaruratAdapter
     private lateinit var daftarKontakPerangkatAdapter: DaftarKontakPerangkatAdapter
-    private lateinit var viewModel: KontakDaruratViewModel
+    private lateinit var viewModel: KontakDaruratControl
     private lateinit var sheetDialog: BottomSheetDialog
     private lateinit var hapusDialog: Dialog
 
@@ -36,7 +36,7 @@ class KontakDaruratActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityKontakDaruratBinding.inflate(layoutInflater)
-        viewModel = ViewModelProvider(this)[KontakDaruratViewModel::class.java]
+        viewModel = ViewModelProvider(this)[KontakDaruratControl::class.java]
         viewModel.getKontakDarurat(this)
         setContentView(binding.root)
 

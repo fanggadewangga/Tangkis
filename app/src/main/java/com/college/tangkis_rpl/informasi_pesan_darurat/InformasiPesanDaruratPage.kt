@@ -15,10 +15,10 @@ import com.google.android.gms.maps.model.LatLng
 import com.google.android.gms.maps.model.LatLngBounds
 import com.google.android.gms.maps.model.MarkerOptions
 
-class InformasiPesanDaruratActivity : AppCompatActivity() {
+class InformasiPesanDaruratPage : AppCompatActivity() {
 
     private lateinit var binding: ActivityPesanDaruratTerkirimBinding
-    private lateinit var viewModel: InformasiPesanDaruratViewModel
+    private lateinit var viewModel: InformasiPesanDaruratControl
     private lateinit var map: GoogleMap
     private lateinit var kontakDaruratAdapter: KontakDaruratTerkirimAdapter
     private var latitude: Double = 0.0
@@ -30,7 +30,7 @@ class InformasiPesanDaruratActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityPesanDaruratTerkirimBinding.inflate(layoutInflater)
-        viewModel = ViewModelProvider(this)[InformasiPesanDaruratViewModel::class.java]
+        viewModel = ViewModelProvider(this)[InformasiPesanDaruratControl::class.java]
         latitude = intent.getDoubleExtra("latitude", 0.0)
         longitude = intent.getDoubleExtra("longitude", 0.0)
         location = LatLng(latitude, longitude)
@@ -46,7 +46,7 @@ class InformasiPesanDaruratActivity : AppCompatActivity() {
             adapter = kontakDaruratAdapter
             layoutManager =
                 LinearLayoutManager(
-                    this@InformasiPesanDaruratActivity,
+                    this@InformasiPesanDaruratPage,
                     LinearLayoutManager.HORIZONTAL,
                     false
                 )

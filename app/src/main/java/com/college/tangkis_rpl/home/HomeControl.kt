@@ -7,9 +7,9 @@ import com.college.tangkis_rpl.model.KontakDarurat
 import com.college.tangkis_rpl.model.Mahasiswa
 import kotlinx.coroutines.launch
 
-class HomeViewModel : ViewModel() {
+class HomeControl : ViewModel() {
 
-    fun getDataMahasiswa(home: HomeFragment) {
+    fun getDataMahasiswa(home: HomePage) {
         var mahasiswa: Mahasiswa? = Mahasiswa()
         viewModelScope.launch {
             mahasiswa = mahasiswa!!.getProfilData()
@@ -17,7 +17,7 @@ class HomeViewModel : ViewModel() {
         }
     }
 
-    fun getKontakDarurat(home: HomeFragment) {
+    fun getKontakDarurat(home: HomePage) {
         var kontakDarurat: List<KontakDarurat>
         viewModelScope.launch {
             val mahasiswa = Mahasiswa()

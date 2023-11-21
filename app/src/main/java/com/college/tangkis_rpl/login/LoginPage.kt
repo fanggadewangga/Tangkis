@@ -8,20 +8,20 @@ import androidx.lifecycle.ViewModelProvider
 import com.college.tangkis_rpl.MainActivity
 import com.college.tangkis_rpl.databinding.ActivityLoginBinding
 
-class LoginActivity : AppCompatActivity() {
+class LoginPage : AppCompatActivity() {
 
     private lateinit var binding: ActivityLoginBinding
-    private lateinit var viewModel: LoginViewModel
+    private lateinit var viewModel: LoginControl
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityLoginBinding.inflate(layoutInflater)
         setContentView(binding.root)
-        viewModel = ViewModelProvider(this)[LoginViewModel::class.java]
+        viewModel = ViewModelProvider(this)[LoginControl::class.java]
         viewModel.checkLoginStatus(this)
         binding.apply {
             tvRegister.setOnClickListener {
-               viewModel.showRegisterPage(this@LoginActivity)
+               viewModel.showRegisterPage(this@LoginPage)
             }
             btnLogin.setOnClickListener {
                 submit()

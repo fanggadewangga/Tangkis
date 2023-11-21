@@ -4,7 +4,7 @@ import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import com.college.tangkis_rpl.databinding.ActivityArtikelInformasiBinding
 
-class ArtikelInformasiActivity : AppCompatActivity() {
+class ArtikelInformasiPage : AppCompatActivity() {
 
     private lateinit var binding: ActivityArtikelInformasiBinding
     private lateinit var judulArtikel: String

@@ -10,10 +10,10 @@ import androidx.lifecycle.ViewModelProvider
 import com.college.tangkis_rpl.R
 import com.college.tangkis_rpl.databinding.ActivityPesanDaruratBinding
 
-class PesanDaruratActivity : AppCompatActivity() {
+class PesanDaruratPage : AppCompatActivity() {
 
     private lateinit var binding: ActivityPesanDaruratBinding
-    private lateinit var viewModel: PesanDaruratViewModel
+    private lateinit var viewModel: PesanDaruratControl
     private lateinit var countDownTimer: CountDownTimer
 
 
@@ -21,7 +21,7 @@ class PesanDaruratActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         binding = ActivityPesanDaruratBinding.inflate(layoutInflater)
         setContentView(binding.root)
-        viewModel = ViewModelProvider(this)[PesanDaruratViewModel::class.java]
+        viewModel = ViewModelProvider(this)[PesanDaruratControl::class.java]
         val requestPermissionLauncher =
             registerForActivityResult(
                 ActivityResultContracts.RequestMultiplePermissions()
@@ -98,7 +98,7 @@ class PesanDaruratActivity : AppCompatActivity() {
             }
 
             override fun onFinish() {
-                viewModel.initiatePesanDarurat(this@PesanDaruratActivity)
+                viewModel.initiatePesanDarurat(this@PesanDaruratPage)
             }
         }
         countDownTimer.start()

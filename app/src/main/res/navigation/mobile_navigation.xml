@@ -7,7 +7,7 @@
 
     <fragment
         android:id="@+id/home"
-        android:name="com.college.tangkis_rpl.home.HomeFragment"
+        android:name="com.college.tangkis_rpl.home.HomePage"
         android:label="fragment_home"
         tools:layout="@layout/fragment_home">
     </fragment>
@@ -22,7 +22,7 @@
 
     <fragment
         android:id="@+id/profile"
-        android:name="com.college.tangkis_rpl.profil.ProfileFragment"
+        android:name="com.college.tangkis_rpl.profil.ProfilePage"
         android:label="fragment_profile"
         tools:layout="@layout/fragment_profil">
     </fragment>

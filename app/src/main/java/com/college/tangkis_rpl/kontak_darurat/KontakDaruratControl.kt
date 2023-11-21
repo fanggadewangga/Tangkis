@@ -6,8 +6,8 @@ import com.college.tangkis_rpl.model.KontakPerangkat
 import com.college.tangkis_rpl.model.Mahasiswa
 import kotlinx.coroutines.launch
 
-class KontakDaruratViewModel : ViewModel() {
-    fun getKontakDarurat(activity: KontakDaruratActivity? = null) {
+class KontakDaruratControl : ViewModel() {
+    fun getKontakDarurat(activity: KontakDaruratPage? = null) {
         viewModelScope.launch {
             val mahasiswa = Mahasiswa()
             val kontakDarurat = mahasiswa.getKontakDarurat()
@@ -18,7 +18,7 @@ class KontakDaruratViewModel : ViewModel() {
         }
     }
 
-    fun deleteKontak(nomorKontak: String, activity: KontakDaruratActivity) {
+    fun deleteKontak(nomorKontak: String, activity: KontakDaruratPage) {
         viewModelScope.launch {
             val mahasiswa = Mahasiswa()
             val error = mahasiswa.deleteKontak(nomorKontak)
@@ -29,13 +29,13 @@ class KontakDaruratViewModel : ViewModel() {
         }
     }
 
-    fun getDaftarKontakPerangkat(activity: KontakDaruratActivity) {
+    fun getDaftarKontakPerangkat(activity: KontakDaruratPage) {
         val kontakPerangkat = KontakPerangkat()
         val daftarKontakPerangkat = kontakPerangkat.getDaftarKontakPerangkat(activity)
         activity.showDaftarKontakPerangkat(daftarKontakPerangkat)
     }
 
-    fun pilihKontak(nama: String, nomor: String, activity: KontakDaruratActivity) {
+    fun pilihKontak(nama: String, nomor: String, activity: KontakDaruratPage) {
         val mahasiswa = Mahasiswa()
         var errorMessage: String
         viewModelScope.launch {

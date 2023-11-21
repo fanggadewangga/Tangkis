@@ -13,19 +13,19 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.college.tangkis_rpl.adapter.ArtikelInformasiAdapter
 import com.college.tangkis_rpl.adapter.HomeKontakDaruratAdapter
-import com.college.tangkis_rpl.artikel_informasi.ArtikelInformasiViewModel
+import com.college.tangkis_rpl.artikel_informasi.ArtikelInformasiControl
 import com.college.tangkis_rpl.databinding.FragmentHomeBinding
-import com.college.tangkis_rpl.kontak_darurat.KontakDaruratActivity
-import com.college.tangkis_rpl.kontak_darurat.KontakDaruratViewModel
+import com.college.tangkis_rpl.kontak_darurat.KontakDaruratControl
+import com.college.tangkis_rpl.kontak_darurat.KontakDaruratPage
 import com.college.tangkis_rpl.model.KontakDarurat
 import com.college.tangkis_rpl.model.Mahasiswa
 
-class HomeFragment : Fragment() {
+class HomePage : Fragment() {
 
     private lateinit var binding: FragmentHomeBinding
-    private lateinit var viewModel: HomeViewModel
-    private lateinit var kontakDaruratViewModel: KontakDaruratViewModel
-    private lateinit var artikelInformasiViewModel: ArtikelInformasiViewModel
+    private lateinit var viewModel: HomeControl
+    private lateinit var kontakDaruratControl: KontakDaruratControl
+    private lateinit var artikelInformasiControl: ArtikelInformasiControl
     private lateinit var contactAdapter: HomeKontakDaruratAdapter
     private lateinit var articleAdapter: ArtikelInformasiAdapter
 
@@ -61,9 +61,9 @@ class HomeFragment : Fragment() {
 
     private fun setupView() {
         binding = FragmentHomeBinding.inflate(layoutInflater)
-        viewModel = ViewModelProvider(this.requireActivity())[HomeViewModel::class.java]
-        kontakDaruratViewModel = ViewModelProvider(this.requireActivity())[KontakDaruratViewModel::class.java]
-        artikelInformasiViewModel = ViewModelProvider(this.requireActivity())[ArtikelInformasiViewModel::class.java]
+        viewModel = ViewModelProvider(this.requireActivity())[HomeControl::class.java]
+        kontakDaruratControl = ViewModelProvider(this.requireActivity())[KontakDaruratControl::class.java]
+        artikelInformasiControl = ViewModelProvider(this.requireActivity())[ArtikelInformasiControl::class.java]
         contactAdapter = HomeKontakDaruratAdapter()
         articleAdapter = ArtikelInformasiAdapter(onClick = { chooseArtikelInformasi(it) })
         viewModel.getDataMahasiswa(this)
@@ -104,12 +104,12 @@ class HomeFragment : Fragment() {
     }
 
     private fun showDaftarKontak() {
-        val intent = Intent(this.requireActivity(), KontakDaruratActivity::class.java)
+        val intent = Intent(this.requireActivity(), KontakDaruratPage::class.java)
         this.requireActivity().startActivity(intent)
-        kontakDaruratViewModel.getKontakDarurat()
+        kontakDaruratControl.getKontakDarurat()
     }
 
     private fun chooseArtikelInformasi(idArtikel: String) {
-        artikelInformasiViewModel.getArtikelInformasi(idArtikel, this)
+        artikelInformasiControl.getArtikelInformasi(idArtikel, this)
     }
 }

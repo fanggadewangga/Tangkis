@@ -25,22 +25,22 @@
         android:theme="@style/AppTheme"
         tools:targetApi="31">
         <activity
-            android:name=".informasi_pesan_darurat.InformasiPesanDaruratActivity"
+            android:name=".informasi_pesan_darurat.InformasiPesanDaruratPage"
             android:exported="false" />
         <activity
-            android:name=".pesan_darurat.PesanDaruratActivity"
+            android:name=".pesan_darurat.PesanDaruratPage"
             android:exported="false" />
         <activity
-            android:name=".artikel_informasi.ArtikelInformasiActivity"
+            android:name=".artikel_informasi.ArtikelInformasiPage"
             android:exported="false" />
         <activity
-            android:name=".kontak_darurat.KontakDaruratActivity"
+            android:name=".kontak_darurat.KontakDaruratPage"
             android:exported="false" />
         <activity
-            android:name=".register.RegisterActivity"
+            android:name=".register.RegisterPage"
             android:exported="false" />
         <activity
-            android:name=".login.LoginActivity"
+            android:name=".login.LoginPage"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />

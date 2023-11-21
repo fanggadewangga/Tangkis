@@ -6,22 +6,22 @@ import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.ViewModelProvider
 import com.college.tangkis_rpl.databinding.ActivityRegisterBinding
-import com.college.tangkis_rpl.login.LoginActivity
+import com.college.tangkis_rpl.login.LoginPage
 
-class RegisterActivity : AppCompatActivity() {
+class RegisterPage : AppCompatActivity() {
 
     private lateinit var binding: ActivityRegisterBinding
-    private lateinit var viewModel: RegisterViewModel
+    private lateinit var viewModel: RegisterControl
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityRegisterBinding.inflate(layoutInflater)
         setContentView(binding.root)
-        viewModel = ViewModelProvider(this)[RegisterViewModel::class.java]
+        viewModel = ViewModelProvider(this)[RegisterControl::class.java]
 
         binding.apply {
             tvLogin.setOnClickListener {
-                val intent = Intent(this@RegisterActivity, LoginActivity::class.java)
+                val intent = Intent(this@RegisterPage, LoginPage::class.java)
                 startActivity(intent)
             }
             btnRegister.setOnClickListener {
@@ -59,7 +59,7 @@ class RegisterActivity : AppCompatActivity() {
     }
 
     fun show() {
-        val intent = Intent(this, LoginActivity::class.java)
+        val intent = Intent(this, LoginPage::class.java)
         startActivity(intent)
     }
 }
