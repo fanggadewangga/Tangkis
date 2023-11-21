@@ -28,7 +28,7 @@ class KontakDaruratPage : AppCompatActivity() {
     private lateinit var binding: ActivityKontakDaruratBinding
     private lateinit var daftarKontakDaruratAdapter: DaftarKontakDaruratAdapter
     private lateinit var daftarKontakPerangkatAdapter: DaftarKontakPerangkatAdapter
-    private lateinit var viewModel: KontakDaruratControl
+    private lateinit var kontakDaruratControl: KontakDaruratControl
     private lateinit var sheetDialog: BottomSheetDialog
     private lateinit var hapusDialog: Dialog
 
@@ -36,12 +36,12 @@ class KontakDaruratPage : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityKontakDaruratBinding.inflate(layoutInflater)
-        viewModel = ViewModelProvider(this)[KontakDaruratControl::class.java]
-        viewModel.getKontakDarurat(this)
+        kontakDaruratControl = ViewModelProvider(this)[KontakDaruratControl::class.java]
+        kontakDaruratControl.getKontakDarurat(this)
         setContentView(binding.root)
 
         // deleteKontak()
-        daftarKontakDaruratAdapter = DaftarKontakDaruratAdapter { showConfirmationBox(it) }
+        daftarKontakDaruratAdapter = DaftarKontakDaruratAdapter { deleteKontak(it) }
         binding.rvContact.apply {
             adapter = daftarKontakDaruratAdapter
             layoutManager = LinearLayoutManager(context, LinearLayoutManager.VERTICAL, false)
@@ -57,6 +57,10 @@ class KontakDaruratPage : AppCompatActivity() {
     override fun onSupportNavigateUp(): Boolean {
         onBackPressed()
         return super.onSupportNavigateUp()
+    }
+
+    private fun deleteKontak(kontakDarurat: KontakDarurat) {
+        showConfirmationBox(kontakDarurat)
     }
 
     private fun showConfirmationBox(kontakDarurat: KontakDarurat) {
@@ -81,7 +85,7 @@ class KontakDaruratPage : AppCompatActivity() {
     private fun confirm(confirm: Boolean, kontakDarurat: KontakDarurat) {
         dismissConfirmationBox()
         if (confirm)
-            viewModel.deleteKontak(kontakDarurat.getNomor(), this)
+            kontakDaruratControl.deleteKontak(kontakDarurat.getNomor(), this)
     }
 
     fun showDaftarKontak(daftarKontak: List<KontakDarurat>) {
@@ -95,7 +99,7 @@ class KontakDaruratPage : AppCompatActivity() {
     }
 
     private fun showDaftarKontakPerangkat() {
-        viewModel.getDaftarKontakPerangkat(this)
+        kontakDaruratControl.getDaftarKontakPerangkat(this)
     }
 
     fun showDaftarKontakPerangkat(daftarKontakPerangkat: List<KontakPerangkat>) {
@@ -128,12 +132,12 @@ class KontakDaruratPage : AppCompatActivity() {
     }
 
     fun showUpdate() {
-        viewModel.getKontakDarurat(this)
+        kontakDaruratControl.getKontakDarurat(this)
         daftarKontakDaruratAdapter.notifyDataSetChanged()
     }
 
     private fun pilihKontak(kontakPerangkat: KontakPerangkat) {
-        viewModel.pilihKontak(kontakPerangkat.getNama(), kontakPerangkat.getNomor(), this)
+        kontakDaruratControl.pilihKontak(kontakPerangkat.getNama(), kontakPerangkat.getNomor(), this)
         sheetDialog.dismiss()
     }
 
