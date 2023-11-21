@@ -219,10 +219,14 @@ fun ReportForm(viewModel: ReportViewModel) {
             color = Color.Gray
         )
         AppTextField(
-            placeHolder = "Nomor Whatsapp *",
+            placeHolder = "",
+            label = "Nomor Whatsapp",
             value = if (userState.value is Resource.Success) userState.value.data!!.whatsapp else "",
             onValueChange = {},
             enabled = false,
+            readOnly = true,
+            focusedLabelColor = md_theme_light_primary,
+            unfocusedLabelColor = md_theme_light_primary,
             disabledIndicatorColor = md_theme_light_primary,
             focusedIndicatorColor = md_theme_light_primary,
             unfocusedIndicatorColor = md_theme_light_primary,
@@ -233,7 +237,8 @@ fun ReportForm(viewModel: ReportViewModel) {
                 .padding(top = 24.dp)
         )
         AppTextField(
-            placeHolder = "Tolong ceritakan apa yang terjadi padamu! *",
+            placeHolder = "Tolong ceritakan apa yang terjadi padamu!",
+            label = "Cerita Kejadian",
             value = viewModel.story.value,
             onValueChange = {
                 viewModel.story.value = it
@@ -323,9 +328,11 @@ fun AccompanimentLayout(viewModel: ReportViewModel) {
         Spacer(modifier = Modifier.height(24.dp))
         AppTextField(
             placeHolder = "Tanggal",
+            label = "",
             value = if (viewModel.dateState.value.isEmpty()) "Pilih Tanggal" else viewModel.formattedDate.value,
             onValueChange = {},
             enabled = false,
+            readOnly = true,
             shape = RoundedCornerShape(8.dp),
             disabledIndicatorColor = md_theme_light_primary,
             focusedIndicatorColor = md_theme_light_primary,

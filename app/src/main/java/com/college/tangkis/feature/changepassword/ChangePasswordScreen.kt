@@ -71,7 +71,7 @@ fun ChangePasswordScreen(navController: NavController) {
                     delay(1500L)
                 }
                 navController.navigate(Screen.Login.route) {
-                    popUpTo(Screen.Profile.route) {
+                    popUpTo(navController.graph.id) {
                         inclusive = true
                     }
                 }
@@ -132,7 +132,8 @@ fun ChangePasswordScreen(navController: NavController) {
 
                 AppTextField(
                     isPassword = true,
-                    placeHolder = "Password Lama",
+                    placeHolder = "Masukkan Password Lama",
+                    label = "Password Lama",
                     value = viewModel.currentPasswordState.value,
                     onValueChange = {
                         viewModel.currentPasswordState.value = it
@@ -142,15 +143,15 @@ fun ChangePasswordScreen(navController: NavController) {
                         imeAction = ImeAction.Next
                     ),
                     shape = RoundedCornerShape(4.dp),
-                    isError = viewModel.isValidCurrentPasswordState.value,
-                    showWarningMessage = viewModel.isValidCurrentPasswordState.value,
-                    warningMessage = "Password Tidak Sesuai!",
+                    isError = false,
+                    showWarningMessage = false,
                     modifier = Modifier.fillMaxWidth()
                 )
 
                 AppTextField(
                     isPassword = true,
-                    placeHolder = "Password Baru",
+                    placeHolder = "Masukkan Password Baru",
+                    label = "Password Baru",
                     value = viewModel.newPasswordState.value,
                     onValueChange = {
                         viewModel.newPasswordState.value = it
@@ -168,7 +169,8 @@ fun ChangePasswordScreen(navController: NavController) {
 
                 AppTextField(
                     isPassword = true,
-                    placeHolder = "Konfirmasi Password",
+                    placeHolder = "Masukkan Konfirmasi Password",
+                    label = "Konfirmasi Password Baru",
                     value = viewModel.passwordConfirmState.value,
                     onValueChange = {
                         viewModel.passwordConfirmState.value = it

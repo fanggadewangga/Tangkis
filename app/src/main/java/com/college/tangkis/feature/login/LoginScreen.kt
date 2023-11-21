@@ -103,7 +103,8 @@ fun LoginScreen(navController: NavController) {
             Spacer(modifier = Modifier.height(16.dp))
 
             AppTextField(
-                placeHolder = "Nomor Induk Mahasiswa",
+                placeHolder = "Masukkan NIM",
+                label = "Nomor Induk Mahasiswa",
                 value = viewModel.studentNumberState.value,
                 onValueChange = {
                     viewModel.apply {
@@ -123,7 +124,8 @@ fun LoginScreen(navController: NavController) {
             Spacer(modifier = Modifier.height(4.dp))
             AppTextField(
                 isPassword = true,
-                placeHolder = "Password",
+                placeHolder = "Masukkan Password",
+                label = "Password",
                 value = viewModel.passwordState.value,
                 onValueChange = {
                     viewModel.passwordState.value = it
@@ -139,7 +141,7 @@ fun LoginScreen(navController: NavController) {
             Spacer(modifier = Modifier.height(48.dp))
             if (loginState.value is Resource.Loading)
                 Column(
-                    horizontalAlignment = Alignment.CenterHorizontally,
+                    horizontalAlignment = CenterHorizontally,
                     modifier = Modifier.fillMaxWidth()
                 ) {
                     CircularProgressIndicator(color = md_theme_light_primary)

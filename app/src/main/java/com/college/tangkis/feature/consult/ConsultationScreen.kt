@@ -208,9 +208,11 @@ fun ConsultationForm(viewModel: ConsultationViewModel) {
         )
         AppTextField(
             placeHolder = "Nomor Whatsapp *",
+            label = "Nomor Whatsapp",
             value = if (userState.value is Resource.Success) userState.value.data!!.whatsapp else "",
             onValueChange = {},
             enabled = false,
+            readOnly = true,
             disabledIndicatorColor = md_theme_light_primary,
             focusedIndicatorColor = md_theme_light_primary,
             unfocusedIndicatorColor = md_theme_light_primary,
@@ -221,7 +223,8 @@ fun ConsultationForm(viewModel: ConsultationViewModel) {
                 .padding(top = 24.dp)
         )
         AppTextField(
-            placeHolder = "Tolong ceritakan apa yang terjadi padamu! *",
+            placeHolder = "Tolong ceritakan apa yang terjadi padamu!",
+            label = "Cerita Kejadian",
             value = viewModel.story.value,
             onValueChange = {
                 viewModel.story.value = it
@@ -312,9 +315,11 @@ fun ConsultationLayout(viewModel: ConsultationViewModel) {
         Spacer(modifier = Modifier.height(24.dp))
         AppTextField(
             placeHolder = "Tanggal",
+            label = "",
             value = if (viewModel.dateState.value.isEmpty()) "Pilih Tanggal" else viewModel.formattedDate.value,
             onValueChange = {},
             enabled = false,
+            readOnly = true,
             shape = RoundedCornerShape(8.dp),
             disabledIndicatorColor = md_theme_light_primary,
             focusedIndicatorColor = md_theme_light_primary,
@@ -322,10 +327,11 @@ fun ConsultationLayout(viewModel: ConsultationViewModel) {
             placeHolderColor = md_theme_light_primary,
             trailingIcon = {
                 AsyncImage(
-                    model = R.drawable.ic_date,
+                    model = R.drawable.ic_today,
                     contentDescription = "Date icon",
+                    colorFilter = ColorFilter.tint(md_theme_light_primary),
                     modifier = Modifier
-                        .size(40.dp)
+                        .size(24.dp)
                         .clickable {
                             calendarState.show()
                         })

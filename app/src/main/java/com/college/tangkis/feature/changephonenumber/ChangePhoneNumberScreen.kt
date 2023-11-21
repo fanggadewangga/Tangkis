@@ -135,14 +135,20 @@ fun ChangeNumberScreen(navController: NavController) {
                     color = Color.Gray
                 )
                 AppTextField(
-                    placeHolder = "Nomor Whatsapp Lama",
+                    placeHolder = "",
+                    label = "Nomor Whatsapp Lama",
                     value = if (userState.value is Resource.Success) userState.value.data!!.whatsapp else "",
                     onValueChange = {},
                     keyboardOptions = KeyboardOptions(
                         keyboardType = KeyboardType.Phone,
                         imeAction = ImeAction.Next
                     ),
+                    disabledIndicatorColor = md_theme_light_primary,
+                    focusedIndicatorColor = md_theme_light_primary,
+                    unfocusedIndicatorColor = md_theme_light_primary,
+                    placeHolderColor = md_theme_light_primary,
                     enabled = false,
+                    readOnly = true,
                     shape = RoundedCornerShape(4.dp),
                     isError = false,
                     showWarningMessage = false,
@@ -150,7 +156,8 @@ fun ChangeNumberScreen(navController: NavController) {
                 )
 
                 AppTextField(
-                    placeHolder = "Nomor Whatsapp Baru",
+                    placeHolder = "Masukkan Nomor Whatsapp Baru",
+                    label = "Nomor Whatsapp Baru",
                     value = viewModel.newNumberState.value,
                     onValueChange = {
                         viewModel.apply {

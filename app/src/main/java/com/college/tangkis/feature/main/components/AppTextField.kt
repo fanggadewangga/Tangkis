@@ -15,12 +15,14 @@ import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.BasicTextField
 import androidx.compose.foundation.text.KeyboardActions
 import androidx.compose.foundation.text.KeyboardOptions
-import androidx.compose.material.Icon
-import androidx.compose.material.IconButton
-import androidx.compose.material.OutlinedTextField
-import androidx.compose.material.TextFieldDefaults
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Warning
+import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.Icon
+import androidx.compose.material3.IconButton
+import androidx.compose.material3.OutlinedTextField
+import androidx.compose.material3.Text
+import androidx.compose.material3.TextFieldDefaults
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -42,6 +44,7 @@ import com.college.tangkis.R
 import com.college.tangkis.theme.Typography
 import com.college.tangkis.theme.md_theme_light_primary
 
+@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun AppTextField(
     modifier: Modifier = Modifier,
@@ -49,6 +52,7 @@ fun AppTextField(
     showWarningMessage: Boolean = false,
     warningMessage: String = "Field tidak boleh kosong!",
     placeHolder: String,
+    label: String,
     textStyle: TextStyle = Typography.bodyLarge(),
     value: String,
     onValueChange: (String) -> Unit,
@@ -67,6 +71,8 @@ fun AppTextField(
     textColor: Color = Color.Black,
     placeHolderColor: Color = Gray,
     disablePlaceHolderColor: Color = Gray,
+    unfocusedLabelColor: Color = Gray,
+    focusedLabelColor: Color = md_theme_light_primary,
     disabledTextColor: Color = Gray,
     backgroundColor: Color = Color.White,
     cursorColor: Color = Color.Black,
@@ -86,6 +92,8 @@ fun AppTextField(
 
             OutlinedTextField(
                 modifier = modifier,
+                value = value,
+                onValueChange = onValueChange,
                 shape = shape,
                 readOnly = readOnly,
                 leadingIcon = leadingIcon,
@@ -104,30 +112,38 @@ fun AppTextField(
                 keyboardActions = keyboardActions,
                 singleLine = singleLine,
                 maxLines = maxLines,
-                value = value,
-                onValueChange = onValueChange,
                 colors = TextFieldDefaults.textFieldColors(
                     textColor = textColor,
                     disabledTextColor = disabledTextColor,
-                    backgroundColor = backgroundColor,
+                    containerColor = backgroundColor,
                     cursorColor = cursorColor,
                     errorCursorColor = errorCursorColor,
                     focusedIndicatorColor = focusedIndicatorColor,
                     unfocusedIndicatorColor = unfocusedIndicatorColor,
                     disabledIndicatorColor = disabledIndicatorColor,
+                    focusedLabelColor = focusedLabelColor,
+                    unfocusedLabelColor = unfocusedLabelColor,
+                    placeholderColor = placeHolderColor,
                     errorIndicatorColor = errorIndicatorColor
                 ),
+                enabled = enabled,
+                textStyle = textStyle,
                 label = {
-                    AppText(
-                        text = placeHolder,
-                        color = if (isError) errorIndicatorColor else placeHolderColor
+                    Text(
+                        text = label,
                     )
                 },
-                textStyle = textStyle
+                placeholder = {
+                    Text(
+                        text = placeHolder,
+                    )
+                }
             )
         } else {
             OutlinedTextField(
                 modifier = modifier,
+                value = value,
+                onValueChange = onValueChange,
                 shape = shape,
                 readOnly = readOnly,
                 leadingIcon = leadingIcon,
@@ -138,28 +154,32 @@ fun AppTextField(
                 keyboardActions = keyboardActions,
                 singleLine = singleLine,
                 maxLines = maxLines,
-                value = value,
-                onValueChange = onValueChange,
                 colors = TextFieldDefaults.textFieldColors(
                     textColor = textColor,
                     disabledTextColor = disabledTextColor,
-                    backgroundColor = backgroundColor,
+                    containerColor = backgroundColor,
                     cursorColor = cursorColor,
                     errorCursorColor = errorCursorColor,
                     focusedIndicatorColor = focusedIndicatorColor,
                     unfocusedIndicatorColor = unfocusedIndicatorColor,
                     disabledIndicatorColor = disabledIndicatorColor,
-                    errorIndicatorColor = errorIndicatorColor,
+                    focusedLabelColor = focusedLabelColor,
+                    unfocusedLabelColor = unfocusedLabelColor,
                     placeholderColor = placeHolderColor,
-                    disabledPlaceholderColor = disablePlaceHolderColor
+                    errorIndicatorColor = errorIndicatorColor
                 ),
+                enabled = enabled,
+                textStyle = textStyle,
                 label = {
-                    AppText(
-                        text = placeHolder,
-                        color = if (isError) errorIndicatorColor else placeHolderColor
+                    Text(
+                        text = label,
                     )
                 },
-                textStyle = textStyle
+                placeholder = {
+                    Text(
+                        text = placeHolder,
+                    )
+                }
             )
         }
 

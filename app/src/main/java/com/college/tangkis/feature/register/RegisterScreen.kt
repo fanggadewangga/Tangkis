@@ -110,7 +110,8 @@ fun RegisterScreen(navController: NavController) {
             Spacer(modifier = Modifier.height(16.dp))
 
             AppTextField(
-                placeHolder = "Nama Lengkap",
+                placeHolder = "Masukkan Nama Lengkap",
+                label = "Nama Lengkap",
                 value = viewModel.nameState.value,
                 onValueChange = {
                     viewModel.apply {
@@ -129,7 +130,8 @@ fun RegisterScreen(navController: NavController) {
             )
 
             AppTextField(
-                placeHolder = "Nomor Induk Mahasiswa",
+                placeHolder = "Masukkan NIM",
+                label = "Nomor Induk Mahasiswa",
                 value = viewModel.studentNumberState.value,
                 onValueChange = {
                     viewModel.apply {
@@ -148,7 +150,8 @@ fun RegisterScreen(navController: NavController) {
             )
 
             AppTextField(
-                placeHolder = "Nomor Whatsapp",
+                placeHolder = "Masukkan Nomor Whatsapp",
+                label = "Nomor Whatsapp",
                 value = viewModel.phoneNumber.value,
                 onValueChange = {
                     viewModel.apply {
@@ -175,7 +178,8 @@ fun RegisterScreen(navController: NavController) {
 
             AppTextField(
                 isPassword = true,
-                placeHolder = "Password",
+                placeHolder = "Masukkan Password",
+                label = "Password",
                 value = viewModel.passwordState.value,
                 onValueChange = {
                     viewModel.passwordState.value = it
@@ -193,7 +197,8 @@ fun RegisterScreen(navController: NavController) {
 
             AppTextField(
                 isPassword = true,
-                placeHolder = "Konfirmasi Password",
+                placeHolder = "Masukkan Konfirmasi Password",
+                label = "Konfirmasi Password",
                 value = viewModel.passwordConfirmState.value,
                 onValueChange = {
                     viewModel.passwordConfirmState.value = it
