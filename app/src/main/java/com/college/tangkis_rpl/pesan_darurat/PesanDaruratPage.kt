@@ -13,7 +13,7 @@ import com.college.tangkis_rpl.databinding.ActivityPesanDaruratBinding
 class PesanDaruratPage : AppCompatActivity() {
 
     private lateinit var binding: ActivityPesanDaruratBinding
-    private lateinit var viewModel: PesanDaruratControl
+    private lateinit var pesanDaruratControl: PesanDaruratControl
     private lateinit var countDownTimer: CountDownTimer
 
 
@@ -21,7 +21,7 @@ class PesanDaruratPage : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         binding = ActivityPesanDaruratBinding.inflate(layoutInflater)
         setContentView(binding.root)
-        viewModel = ViewModelProvider(this)[PesanDaruratControl::class.java]
+        pesanDaruratControl = ViewModelProvider(this)[PesanDaruratControl::class.java]
         showPage()
     }
 
@@ -32,10 +32,10 @@ class PesanDaruratPage : AppCompatActivity() {
             ) { permissions ->
                 when {
                     permissions[Manifest.permission.ACCESS_FINE_LOCATION] ?: false -> {
-                        viewModel.initiatePesanDaruratButton(this)
+                        pesanDaruratControl.initiatePesanDaruratButton(this)
                     }
                     permissions[Manifest.permission.ACCESS_COARSE_LOCATION] ?: false -> {
-                        viewModel.initiatePesanDaruratButton(this)
+                        pesanDaruratControl.initiatePesanDaruratButton(this)
                     }
                 }
             }
@@ -102,14 +102,14 @@ class PesanDaruratPage : AppCompatActivity() {
             }
 
             override fun onFinish() {
-                viewModel.initiatePesanDarurat(this@PesanDaruratPage)
+                pesanDaruratControl.initiatePesanDarurat(this@PesanDaruratPage)
             }
         }
         countDownTimer.start()
     }
 
     private fun cancelPesanDarurat() {
-        viewModel.cancelPesanDarurat(this)
+        pesanDaruratControl.cancelPesanDarurat(this)
     }
 
     fun show() {
