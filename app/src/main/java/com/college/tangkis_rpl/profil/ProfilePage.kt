@@ -18,15 +18,15 @@ import com.google.android.material.button.MaterialButton
 class ProfilePage : Fragment() {
 
     private lateinit var binding: FragmentProfilBinding
-    private lateinit var viewModel: ProfileControl
+    private lateinit var profileControl: ProfileControl
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?,
     ): View {
-        viewModel = ViewModelProvider(this.requireActivity())[ProfileControl::class.java]
+        profileControl = ViewModelProvider(this.requireActivity())[ProfileControl::class.java]
         binding = FragmentProfilBinding.inflate(layoutInflater)
-        viewModel.getProfilData(this)
+        profileControl.getProfilData(this)
 
         // Logout
         binding.tvLogout.setOnClickListener {
@@ -79,7 +79,7 @@ class ProfilePage : Fragment() {
     private fun confirm(confirm: Boolean, dialog: Dialog) {
         dismissConfirmationBox(dialog)
         if (confirm)
-            viewModel.logout(this)
+            profileControl.logout(this)
     }
 
     private fun dismissConfirmationBox(dialog: Dialog) {

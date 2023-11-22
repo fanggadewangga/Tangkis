@@ -57,9 +57,4 @@ class RegisterPage : AppCompatActivity() {
     fun showAlert(errorMessage: String) {
         Toast.makeText(this, errorMessage, Toast.LENGTH_SHORT).show()
     }
-
-    fun show() {
-        val intent = Intent(this, LoginPage::class.java)
-        startActivity(intent)
-    }
 }

@@ -23,7 +23,7 @@ import com.college.tangkis_rpl.model.Mahasiswa
 class HomePage : Fragment() {
 
     private lateinit var binding: FragmentHomeBinding
-    private lateinit var viewModel: HomeControl
+    private lateinit var homeControl: HomeControl
     private lateinit var kontakDaruratControl: KontakDaruratControl
     private lateinit var artikelInformasiControl: ArtikelInformasiControl
     private lateinit var contactAdapter: HomeKontakDaruratAdapter
@@ -39,12 +39,12 @@ class HomePage : Fragment() {
     }
 
     override fun onResume() {
-        viewModel.getKontakDarurat(this)
+        homeControl.getKontakDarurat(this)
         super.onResume()
     }
 
     private fun getDaftarArtikelInformasi() {
-       articleAdapter.artikelInformasis = viewModel.getDaftarArtikelInformasi()
+       articleAdapter.artikelInformasis = homeControl.getDaftarArtikelInformasi()
     }
 
     @SuppressLint("NotifyDataSetChanged")
@@ -61,13 +61,13 @@ class HomePage : Fragment() {
 
     private fun setupView() {
         binding = FragmentHomeBinding.inflate(layoutInflater)
-        viewModel = ViewModelProvider(this.requireActivity())[HomeControl::class.java]
+        homeControl = ViewModelProvider(this.requireActivity())[HomeControl::class.java]
         kontakDaruratControl = ViewModelProvider(this.requireActivity())[KontakDaruratControl::class.java]
         artikelInformasiControl = ViewModelProvider(this.requireActivity())[ArtikelInformasiControl::class.java]
         contactAdapter = HomeKontakDaruratAdapter()
         articleAdapter = ArtikelInformasiAdapter(onClick = { chooseArtikelInformasi(it) })
-        viewModel.getDataMahasiswa(this)
-        viewModel.getKontakDarurat(this)
+        homeControl.getDataMahasiswa(this)
+        homeControl.getKontakDarurat(this)
 
         val requestPermissionLauncher =
             registerForActivityResult(

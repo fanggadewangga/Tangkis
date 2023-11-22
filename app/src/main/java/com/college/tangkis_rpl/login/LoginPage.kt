@@ -1,11 +1,9 @@
 package com.college.tangkis_rpl.login
 
-import android.content.Intent
 import android.os.Bundle
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.ViewModelProvider
-import com.college.tangkis_rpl.MainActivity
 import com.college.tangkis_rpl.databinding.ActivityLoginBinding
 import com.college.tangkis_rpl.register.RegisterControl
 
@@ -60,11 +58,5 @@ class LoginPage : AppCompatActivity() {
 
     fun showAlert(message: String) {
         Toast.makeText(this, message, Toast.LENGTH_SHORT).show()
-    }
-
-    fun showHomepage() {
-        val intent = Intent(this, MainActivity::class.java)
-        startActivity(intent)
-        finish()
     }
 }

@@ -21,11 +21,11 @@ class ProfileControl : ViewModel() {
         }
     }
 
-    fun logout(profilePage: ProfilePage) {
+    fun logout(activity: ProfilePage) {
         val mahasiswa = Mahasiswa()
-        val intent = Intent(profilePage.requireActivity(), LoginPage::class.java)
+        val intent = Intent(activity.requireActivity(), LoginPage::class.java)
         mahasiswa.logout()
-        profilePage.requireActivity().startActivity(intent)
-        profilePage.requireActivity().finish()
+        activity.requireActivity().startActivity(intent)
+        activity.requireActivity().finish()
     }
 }
