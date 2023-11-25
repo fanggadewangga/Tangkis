@@ -102,23 +102,21 @@ class Mahasiswa(
 
         try {
             val nim = firebaseAuthentication.currentUser!!.email!!.substringBefore("@")
-            val querySnapshot = kontakCollection
+            val query = kontakCollection
                 .whereEqualTo("nim", nim)
                 .whereEqualTo("nomor", nomor)
                 .get()
                 .await()
 
-            if (!querySnapshot.isEmpty) {
-                for (document in querySnapshot) {
+            if (!query.isEmpty) {
+                for (document in query) {
                     document.reference.delete().await()
                 }
             } else {
                 isError = true
-                return isError
             }
         } catch (exception: Exception) {
             isError = true
-            return isError
         }
 
         return isError
@@ -131,8 +129,8 @@ class Mahasiswa(
         val kontakDarurat = mutableListOf<KontakDarurat>()
         val nim = firebaseAuthentication.currentUser!!.email!!.substringBefore("@")
 
-        val querySnapshot = kontakCollection.whereEqualTo("nim", nim).get().await()
-        for (document in querySnapshot) {
+        val query = kontakCollection.whereEqualTo("nim", nim).get().await()
+        for (document in query) {
             val nomor = document.getString("nomor")
             val nama = document.getString("nama")
             if (nomor != null && nama != null) {
