@@ -3,7 +3,7 @@ package com.college.tangkis.data.repository.user
 import com.college.tangkis.core.base.NetworkBoundRequest
 import com.college.tangkis.core.base.NetworkOnlyResource
 import com.college.tangkis.data.Resource
-import com.college.tangkis.data.source.local.TangkisDatastore
+import com.college.tangkis.data.source.local.datastore.TangkisDatastore
 import com.college.tangkis.data.source.remote.RemoteDataSource
 import com.college.tangkis.data.source.remote.RemoteResponse
 import com.college.tangkis.data.source.remote.api.model.request.user.UserLoginRequest

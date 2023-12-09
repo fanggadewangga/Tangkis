@@ -27,10 +27,15 @@ android {
     buildTypes {
         release {
             isMinifyEnabled = false
+            isDebuggable = false
             proguardFiles(
                 getDefaultProguardFile("proguard-android-optimize.txt"),
                 "proguard-rules.pro"
             )
+            signingConfig = signingConfigs.getByName("debug")
+        }
+        debug {
+            isDebuggable = true
         }
     }
     compileOptions {
@@ -150,4 +155,9 @@ dependencies {
 
     // network response adapter
     implementation("com.github.haroldadmin:NetworkResponseAdapter:5.0.0")
+
+    // Room
+    implementation("androidx.room:room-runtime:2.4.3")
+    ksp("androidx.room:room-compiler:2.4.3")
+    implementation("androidx.room:room-ktx:2.4.3")
 }

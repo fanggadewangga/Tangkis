@@ -1,4 +1,4 @@
-package com.college.tangkis.data.source.local
+package com.college.tangkis.data.source.local.datastore
 
 import android.content.Context
 import androidx.datastore.core.DataStore

@@ -33,7 +33,6 @@ import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.SideEffect
-import androidx.compose.runtime.toMutableStateList
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -72,24 +71,22 @@ fun ContactScreen(navController: NavController) {
         rememberLauncherForActivityResult(ActivityResultContracts.RequestPermission()) { isGranted: Boolean ->
             viewModel.isPermissionGranted.value = isGranted
         }
-    when (PackageManager.PERMISSION_GRANTED) {
-        ContextCompat.checkSelfPermission(
+    if (ContextCompat.checkSelfPermission(
             context,
             Manifest.permission.READ_CONTACTS
-        ),
-        -> {
-            viewModel.isPermissionGranted.value = true
+        ) == PackageManager.PERMISSION_GRANTED
+    ) {
+        viewModel.apply {
+            isPermissionGranted.value = true
         }
-
-        else -> {
-            SideEffect {
-                permissionLauncher.launch(Manifest.permission.READ_CONTACTS)
-            }
+    } else {
+        SideEffect {
+            permissionLauncher.launch(Manifest.permission.READ_CONTACTS)
         }
     }
     val modalBottomSheetState = rememberModalBottomSheetState(
         initialValue = viewModel.sheetState.value,
-        confirmValueChange = { it != ModalBottomSheetValue.HalfExpanded },
+        confirmValueChange = { false },
         skipHalfExpanded = true
     )
 
@@ -115,6 +112,11 @@ fun ContactScreen(navController: NavController) {
             else -> {}
         }
         viewModel.getContacts()
+    }
+
+    LaunchedEffect(viewModel.isPermissionGranted.value) {
+        if (viewModel.isPermissionGranted.value)
+            viewModel.loadDeviceContacts(context)
     }
 
     LaunchedEffect(addContactState.value) {
@@ -158,10 +160,7 @@ fun ContactScreen(navController: NavController) {
                         onValueChange = {
                             viewModel.apply {
                                 query.value = it
-                                if (it.length < query.value.length) resetDeviceContacts()
-                                copyOfDeviceContact = viewModel.copyOfDeviceContact.filter {
-                                    it.name.contains(it.name, ignoreCase = true)
-                                }.toMutableStateList()
+                                getSavedContacts(viewModel.query.value)
                             }
                         },
                         trailingIcon = {
@@ -178,7 +177,7 @@ fun ContactScreen(navController: NavController) {
                             .height((screenHeight * 0.75).dp)
                             .padding(start = 8.dp, top = 24.dp, end = 8.dp)
                     ) {
-                        items(viewModel.copyOfDeviceContact) {
+                        items(viewModel.savedDeviceContacts) {
                             LocalContactItem(
                                 contact = it,
                                 onSelected = { contact ->
@@ -246,11 +245,10 @@ fun ContactScreen(navController: NavController) {
                 AppButton(
                     onClick = {
                         if (viewModel.isPermissionGranted.value) {
-                            viewModel.loadDeviceContacts(
-                                context
-                            )
                             viewModel.sheetState.value = ModalBottomSheetValue.Expanded
-                        } else permissionLauncher.launch(Manifest.permission.READ_CONTACTS)
+                            viewModel.getSavedContacts()
+                        }
+                        else permissionLauncher.launch(Manifest.permission.READ_CONTACTS)
                     },
                     modifier = Modifier
                         .fillMaxWidth()
@@ -307,7 +305,9 @@ fun ContactScreen(navController: NavController) {
                                     .background(Color.White)
                             ) {
                                 if (contactState.value is Resource.Success)
-                                    items(contactState.value.data!!) { contact ->
+                                    items(contactState.value.data!!, key = { contact ->
+                                        contact.number
+                                    }) { contact ->
                                         EmergencyContactItem(
                                             contact = contact,
                                             isDeletable = true,

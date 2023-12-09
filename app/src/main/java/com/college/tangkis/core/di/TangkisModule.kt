@@ -6,7 +6,7 @@ import dagger.hilt.components.SingletonComponent
 
 @Module(
     includes = [
-        DatastoreModule::class,
+        LocalModule::class,
         RepositoryModule::class,
         RemoteModule::class
     ]

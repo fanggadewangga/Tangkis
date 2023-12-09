@@ -32,8 +32,8 @@ class ContactViewModel @Inject constructor(private val contactRepository: Contac
 
     @OptIn(ExperimentalMaterialApi::class)
     val sheetState = mutableStateOf(ModalBottomSheetValue.Hidden)
-    var copyOfDeviceContact = mutableStateListOf<DeviceContact>()
-    var originalDeviceContacts = mutableStateListOf<DeviceContact>()
+    private var unsavedDeviceContact = mutableStateListOf<DeviceContact>()
+    var savedDeviceContacts = mutableStateListOf<DeviceContact>()
     val listOfSelectedContact = mutableStateListOf<DeviceContact>()
     val query = mutableStateOf("")
 
@@ -98,19 +98,35 @@ class ContactViewModel @Inject constructor(private val contactRepository: Contac
                 val contactNumber =
                     cursor.getString(cursor.getColumnIndex(ContactsContract.CommonDataKinds.Phone.NUMBER))
                 val contact = DeviceContact(contactName, contactNumber)
-                originalDeviceContacts.add(contact)
+                unsavedDeviceContact.add(contact)
             }
-            copyOfDeviceContact.addAll(originalDeviceContacts)
+            val existingNumber = savedDeviceContacts.map { it.number }
+            unsavedDeviceContact.filter { it.number !in existingNumber }
+            saveContactToRoom(unsavedDeviceContact)
         } catch (e: Exception) {
             e.printStackTrace()
         }
     }
 
-    fun resetDeviceContacts() {
-        copyOfDeviceContact.addAll(originalDeviceContacts)
+    private fun saveContactToRoom(contacts: List<DeviceContact>) {
+        viewModelScope.launch {
+            contactRepository.saveDeviceContactToRoom(contacts)
+        }
+    }
+
+    fun getSavedContacts(query: String = "") {
+        viewModelScope.launch {
+            contactRepository.getSavedContacts(query).collect {
+                if (it is Resource.Success) {
+                    savedDeviceContacts.clear()
+                    savedDeviceContacts.addAll(it.data!!)
+                }
+            }
+        }
     }
 
     init {
         getContacts()
+        getSavedContacts()
     }
 }
