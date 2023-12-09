@@ -6,8 +6,9 @@ Tangkis: Tangani Kekerasan Seksual is a mental health mobile application that fo
 
  -  Kotlin
 -   Jetpack Compose
--   Ktor (Api Service)
--   Room (Local Database)
+-   Retrofit
+-   Room
+-   Datastore
 -   Dagger Hilt (Dependency Injection)
--   Firebase (Cloud Messaging, Realtime Database, Auth)
 -   Google Map
+-   SMS Manager
