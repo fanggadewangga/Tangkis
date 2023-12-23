@@ -64,7 +64,7 @@ class PesanDaruratControl : ViewModel() {
             var latitude = 0.0
             var longitude = 0.0
             val intentKontakDarurat = mutableListOf<String>()
-            val intent = Intent(activity, InformasiPesanDaruratPage::class.java)
+            val intent = makeIntent(activity, InformasiPesanDaruratPage::class.java)
 
             fusedLocationClient = LocationServices.getFusedLocationProviderClient(activity)
             if (checkPermission(Manifest.permission.ACCESS_FINE_LOCATION, activity) && checkPermission(
@@ -101,5 +101,9 @@ class PesanDaruratControl : ViewModel() {
 
     fun showPesanDarurat(activity: PesanDaruratPage? = null) {
         activity?.showPage()
+    }
+
+    private fun makeIntent(context: Context, target: Class<InformasiPesanDaruratPage>): Intent {
+        return Intent(context, target)
     }
 }

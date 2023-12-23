@@ -23,9 +23,13 @@ class ProfileControl : ViewModel() {
 
     fun logout(activity: ProfilePage) {
         val mahasiswa = Mahasiswa()
-        val intent = Intent(activity.requireActivity(), LoginPage::class.java)
+        val intent = makeIntent(activity.requireActivity(), LoginPage::class.java)
         mahasiswa.logout()
         activity.requireActivity().startActivity(intent)
         activity.requireActivity().finish()
+    }
+
+    private fun makeIntent(context: android.content.Context, target: Class<LoginPage>): Intent {
+        return Intent(context, target)
     }
 }

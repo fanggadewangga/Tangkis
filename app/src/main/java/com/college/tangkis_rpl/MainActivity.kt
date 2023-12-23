@@ -1,5 +1,6 @@
 package com.college.tangkis_rpl
 
+import android.content.Context
 import android.content.Intent
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
@@ -30,8 +31,12 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun sendPesanDarurat() {
-        val intent = Intent(this, PesanDaruratPage::class.java)
+        val intent = makeIntent(this, PesanDaruratPage::class.java)
         startActivity(intent)
         pesanDaruratControl.showPesanDarurat()
+    }
+
+    private fun makeIntent(context: android.content.Context, target: Class<PesanDaruratPage>): Intent {
+        return Intent(context, target)
     }
 }

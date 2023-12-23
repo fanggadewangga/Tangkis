@@ -14,7 +14,7 @@ class LoginControl : ViewModel() {
         val authHandler = AuthHandler()
         viewModelScope.launch {
             val errorMessage = authHandler.getUser(nim, password)
-            val intent = Intent(activity, MainActivity::class.java)
+            val intent = makeIntent(activity, MainActivity::class.java)
             if (errorMessage != "")
                 activity.showAlert(errorMessage)
             else
@@ -25,10 +25,12 @@ class LoginControl : ViewModel() {
     fun checkLoginStatus(activity: LoginPage) {
         val authHandler = AuthHandler()
         val isLogin = authHandler.checkLoginStatus()
-        val intent = Intent(activity, MainActivity::class.java)
+        val intent = makeIntent(activity, MainActivity::class.java)
         if (isLogin)
             activity.startActivity(intent)
     }
 
-
+    private fun makeIntent(context: android.content.Context, target: Class<MainActivity>): Intent {
+        return Intent(context, target)
+    }
 }

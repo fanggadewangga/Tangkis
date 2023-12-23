@@ -104,12 +104,16 @@ class HomePage : Fragment() {
     }
 
     private fun showDaftarKontak() {
-        val intent = Intent(this.requireActivity(), KontakDaruratPage::class.java)
+        val intent = makeIntent(this.requireActivity(), KontakDaruratPage::class.java)
         this.requireActivity().startActivity(intent)
         kontakDaruratControl.getKontakDarurat()
     }
 
     private fun chooseArtikelInformasi(idArtikel: String) {
         artikelInformasiControl.getArtikelInformasi(idArtikel, this)
+    }
+
+    private fun makeIntent(context: android.content.Context, target: Class<KontakDaruratPage>): Intent {
+        return Intent(context, target)
     }
 }
