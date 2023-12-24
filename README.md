@@ -14,4 +14,4 @@ Tangkis: Tangani Kekerasan Seksual is a mental health mobile application that fo
 -   SMS Manager
 
 ### Note
-The `rpl-xml` branch differs from `psi`, especially the features developed and the technologies used. The `rpl-xml` provides less features (no reporting & consultation), developed with XML for the UI, and Firebase for the data storing. The `rpl-xml` branch contains the software documentation links on the `README` file.
+The `rpl-xml` branch differs from `psi`, especially the features developed and the technologies used. The `rpl-xml` provides less features (no reporting & consultation), developed with XML for the UI, and Firebase for the data storing. The `rpl-xml` branch contains the **software documentations** link on the `README` file.
